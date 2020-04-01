@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Helper Options</title>
+  <style type="text/css">
+    *{
+      box-sizing: border-box;
+    }
+    .fixedToast{
+      display: none;
+      border: 2px solid green;
+      padding: 10px;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      background-color: #48b348;
+      color: white;
+      font-size: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    #scripts-list-container
+    {
+      background-color: #d6d6d6;
+      padding: 5px 20px 5px 20px;
+    }
+  </style>
+  <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+  <script type="text/javascript" src="commonFunction.js"></script>
+</head>
+<body>
+  <div style="width: 100%; padding: 30px 10% 30px 10%;">
+    <h1>
+      <span style="font-family: monospace;">Website-scripting</span>
+    </h1>
+    <div id="scripts-list-container">
+
+    </div>
+    <div>
+      <button onclick="saveData()">Save</button>
+    </div>
+  </div>
+
+  <div id="fixedToastDiv" class="fixedToast">
+    <div id="fixedToastContent">
+      Updated Successfully
+    </div>
+  </div>
+
+  <script src="options_page_script.js"></script>
+</body>
+</html>

@@ -1,22 +1,23 @@
 /* Started to set video quality HIGH when page opens */
 
 var defaultQuality = "High";
-var repeatCounter = 1;
-var maxCounter = 10;
+var incrementCounter = 1;
+var maxCounter = 5;
+var timeoutGap = 3000;
 
 var videoQualitDefaultInterval = setInterval(function(){
     var result = setVideoQuality(defaultQuality);
-    if(result === true || repeatCounter > maxCounter)
+    if(result === true || incrementCounter > maxCounter)
     {
-        console.log("Finished after: " + repeatCounter);
+        console.log("Finished after: " + incrementCounter);
         clearInterval(videoQualitDefaultInterval);
     }
     else
     {
-        console.log("Repeating quality set: " + repeatCounter)
-        repeatCounter++;
+        console.log("Repeating quality set: " + incrementCounter)
+        incrementCounter++;
     }
-}, 1000);
+}, timeoutGap);
 
 
 function setVideoQuality(quality)
