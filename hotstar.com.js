@@ -2,7 +2,7 @@
 
 var defaultQuality = "High";
 var repeatCounter = 1;
-var maxCounter = 5;
+var maxCounter = 10;
 
 var videoQualitDefaultInterval = setInterval(function(){
     var result = setVideoQuality(defaultQuality);
