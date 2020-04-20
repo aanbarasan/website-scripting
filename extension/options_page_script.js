@@ -2,7 +2,7 @@ var websiteConfigurationString = "websiteConfigurations";
 
 function init()
 {
-    document.getElementById("scripts-list-container").innerHTML == "";
+    document.getElementById("scripts-list-container").innerHTML = "";
     helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
         console.log(websiteConfiguration)
@@ -44,10 +44,9 @@ function saveData()
             for(var i=0;i<innerContainerList.length;i++)
             {
                 var innerContainer = innerContainerList[i];
-                            console.log(innerContainer)
-                var inputTag = innerContainer.getElementsByTagName("input");
+                var inputTag = innerContainer.getElementsByTagName("input")[0];
                 var configId = innerContainer.getAttribute("configuration-id");
-                console.log(configId)
+                                    console.log(inputTag.checked)
                 if(inputTag.checked)
                 {
                     updateFeatureState(websiteConfiguration, configId, true);
@@ -61,18 +60,19 @@ function saveData()
             data[websiteConfigurationString] = websiteConfiguration;
             saveStorage(data, function(){
                 console.log("finished");
+                init();
             })
         }
     });
 }
 
-function updateFeatureState(websiteConfiguration, name, booleanValue)
+function updateFeatureState(websiteConfiguration, configId, booleanValue)
 {
-    for(var i=0;i<websiteConfiguration.length;i++)
+    for(var i=0;i<websiteConfiguration.webList.length;i++)
     {
-        if(websiteConfiguration[i].name == name)
+        if(websiteConfiguration.webList[i].id == configId)
         {
-            websiteConfiguration[i].enabled = booleanValue;
+            websiteConfiguration.webList[i].enabled = booleanValue;
         }
     }
 }
@@ -84,11 +84,11 @@ function updateDataFromCloud()
     xHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
            // Typical action to be performed when the document is ready:
-            var myObj = JSON.parse(this.responseText);
+            var couldData = JSON.parse(this.responseText);
             helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
                var websiteConfiguration = result[websiteConfigurationString];
-               console.log(myObj, websiteConfiguration);
-               for(var i=0;i<myObj.length;i++)
+               var couldDataWebList = couldData.webList;
+               for(var i=0;i<couldDataWebList.length;i++)
                {
                    if(websiteConfiguration && websiteConfiguration.webList)
                    {
@@ -96,16 +96,21 @@ function updateDataFromCloud()
                        for(var j=0;j<websiteConfiguration.webList.length;j++)
                        {
                            var thisConfiguration = websiteConfiguration.webList[j];
-                           if(thisConfiguration.name == myObj[i].name)
+                           if(thisConfiguration.id == couldDataWebList[i].id)
                            {
-                               myObj[i].enabled = thisConfiguration.enabled;
+                               couldDataWebList[i].enabled = thisConfiguration.enabled;
                            }
                        }
                    }
+                   console.log(typeof couldDataWebList[i].enabled)
+                   if(typeof couldDataWebList[i].enabled != "boolean")
+                   {
+                        couldDataWebList[i].enabled = couldDataWebList[i].defaultEnabled;
+                   }
                }
-               console.log(myObj);
+               console.log(couldData);
                var data = {};
-               data[websiteConfigurationString] = myObj;
+               data[websiteConfigurationString] = couldData;
                saveStorage(data, function(){
                    console.log("finished");
                    init();
