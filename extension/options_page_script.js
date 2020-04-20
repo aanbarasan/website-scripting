@@ -2,14 +2,16 @@ var websiteConfigurationString = "websiteConfigurations";
 
 function init()
 {
+    document.getElementById("scripts-list-container").innerHTML == "";
     helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
-        if(websiteConfiguration)
+        console.log(websiteConfiguration)
+        if(websiteConfiguration && websiteConfiguration.webList)
         {
             var container = document.getElementById("scripts-list-container");
-            for(var i=0;i<websiteConfiguration.length;i++)
+            for(var i=0;i<websiteConfiguration.webList.length;i++)
             {
-                var thisConfiguration = websiteConfiguration[i];
+                var thisConfiguration = websiteConfiguration.webList[i];
                 var nameTag = document.createElement("span");
                 nameTag.innerHTML = thisConfiguration.name;
                 var checkBoxOption = document.createElement("input");
@@ -18,10 +20,13 @@ function init()
                 {
                     checkBoxOption.checked = true;
                 }
+                var purposeTag = document.createElement("span");
+                purposeTag.innerHTML = "(" + thisConfiguration.purpose + ")";
                 var innerContainer = document.createElement("div");
                 innerContainer.append(checkBoxOption);
                 innerContainer.append(nameTag);
-                innerContainer.name = thisConfiguration.id;
+                innerContainer.append(purposeTag);
+                innerContainer.setAttribute("configuration-id", thisConfiguration.id);
                 container.append(innerContainer);
             }
         }
@@ -39,19 +44,21 @@ function saveData()
             for(var i=0;i<innerContainerList.length;i++)
             {
                 var innerContainer = innerContainerList[i];
+                            console.log(innerContainer)
                 var inputTag = innerContainer.getElementsByTagName("input");
+                var configId = innerContainer.getAttribute("configuration-id");
+                console.log(configId)
                 if(inputTag.checked)
                 {
-                    updateFeatureState(websiteConfiguration, innerContainer.name, true);
+                    updateFeatureState(websiteConfiguration, configId, true);
                 }
                 else
-                if(inputTag.checked)
                 {
-                    updateFeatureState(websiteConfiguration, innerContainer.name, false);
+                    updateFeatureState(websiteConfiguration, configId, false);
                 }
             }
             var data = {};
-            data[websiteConfiguration] = websiteConfiguration;
+            data[websiteConfigurationString] = websiteConfiguration;
             saveStorage(data, function(){
                 console.log("finished");
             })
@@ -70,78 +77,58 @@ function updateFeatureState(websiteConfiguration, name, booleanValue)
     }
 }
 
-init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var enableYoutubeCheckBox = document.getElementById("enableYoutubeCheckBox");
-var floatYoutubeViewOption = document.getElementById("floatYoutubeViewOption");
-var enableYoutubeMiddleAddClose = document.getElementById("enableYoutubeMiddleAddClose");
-var floatYoutubeViewBannerSize = document.getElementById("floatYoutubeViewBannerSize");
-var youtubeArray = [floatYoutubeViewOption, enableYoutubeMiddleAddClose, floatYoutubeViewBannerSize];
-
-helper_startupfunction("", function(){
-    helper_getStorageVariablesFromSync([helper_obj.enableyoutube], function(result){
-      if(result[helper_obj.enableyoutube] == true){
-          enableYoutubeCheckBox.checked = true;
-      }
-      else{
-          enableYoutubeCheckBox.checked = false;
-      }
-      enableDisableInputs(youtubeArray, enableYoutubeCheckBox.checked);
-    });
-    enableYoutubeCheckBox.onchange = function(){
-      var data = {};
-      data[helper_obj.enableyoutube] = enableYoutubeCheckBox.checked;
-      saveStorage(data, function(){
-          enableDisableInputs(youtubeArray, enableYoutubeCheckBox.checked);
-          showToast("Saved Successfully");
-      });
-    }
-    updateCheckBox(floatYoutubeViewOption, helper_obj.floatyoutube);
-    updateCheckBox(enableYoutubeMiddleAddClose, helper_obj.middleaddclose);
-    helper_getStorageVariablesFromSync([helper_obj.floatyoutube_bannersize], function(result){
-        floatYoutubeViewBannerSize.value = result[helper_obj.floatyoutube_bannersize];
-    });
-
-    commonCheckBoxChangeFunction(floatYoutubeViewOption, helper_obj.floatyoutube);
-    commonCheckBoxChangeFunction(enableYoutubeMiddleAddClose, helper_obj.middleaddclose);
-    floatYoutubeViewBannerSize.onchange = function(){
-        var data = {};
-        data[helper_obj.floatyoutube_bannersize] = floatYoutubeViewBannerSize.value;
-        saveStorage(data, function(){
-            showToast("Saved Successfully");
-        });
-    }
-});
-
-
-function updateCheckBox(checkbox, storagetext){
-  helper_getStorageVariablesFromSync([storagetext], function(result){
-      if(result[storagetext] == true){
-          checkbox.checked = true;
-      }
-      else{
-          checkbox.checked = false;
-      }
-  });
+function updateDataFromCloud()
+{
+    var entryJsonURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master/entry.json";
+    var xHttp = new XMLHttpRequest();
+    xHttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           // Typical action to be performed when the document is ready:
+            var myObj = JSON.parse(this.responseText);
+            helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
+               var websiteConfiguration = result[websiteConfigurationString];
+               console.log(myObj, websiteConfiguration);
+               for(var i=0;i<myObj.length;i++)
+               {
+                   if(websiteConfiguration && websiteConfiguration.webList)
+                   {
+                       var container = document.getElementById("scripts-list-container");
+                       for(var j=0;j<websiteConfiguration.webList.length;j++)
+                       {
+                           var thisConfiguration = websiteConfiguration.webList[j];
+                           if(thisConfiguration.name == myObj[i].name)
+                           {
+                               myObj[i].enabled = thisConfiguration.enabled;
+                           }
+                       }
+                   }
+               }
+               console.log(myObj);
+               var data = {};
+               data[websiteConfigurationString] = myObj;
+               saveStorage(data, function(){
+                   console.log("finished");
+                   init();
+               });
+           });
+        }
+    };
+    xHttp.open("GET", entryJsonURL, true);
+    xHttp.send();
 }
+
+function clearLocal()
+{
+    var data = {};
+    data[websiteConfigurationString] = [];
+    saveStorage(data, function(){
+        console.log("finished");
+    });
+    init();
+}
+
+document.getElementById("saveDataButton").onclick = saveData;
+document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloud;
+document.getElementById("clearLocalButton").onclick = clearLocal;
+
+init();

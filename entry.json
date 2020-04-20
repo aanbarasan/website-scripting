@@ -1,6 +1,7 @@
 {
   "webList": [
     {
+      "id": "hotstar-website-quality-change",
       "name": "Hotstar",
       "purpose": "Automatically change quality to high instead of auto",
       "defaultEnabled": false,
@@ -8,6 +9,7 @@
       "urlRegEx": "https://www.hotstar.com"
     },
     {
+      "id": "watchcartoononline-remove-outline",
       "name": "Watchcartoononline",
       "purpose": "Disable default popups and remove outline of video",
       "defaultEnabled": false,
