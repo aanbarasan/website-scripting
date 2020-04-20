@@ -1,0 +1,18 @@
+{
+  "webList": [
+    {
+      "name": "Hotstar",
+      "purpose": "Automatically change quality to high instead of auto",
+      "defaultEnabled": false,
+      "fileName": "hotstar.com.js",
+      "urlRegEx": "https://www.hotstar.com"
+    },
+    {
+      "name": "Watchcartoononline",
+      "purpose": "Disable default popups and remove outline of video",
+      "defaultEnabled": false,
+      "fileName": "thewatchcartoononline-tv.js",
+      "urlRegEx": "https://www.thewatchcartoononline.tv"
+    }
+  ]
+}
