@@ -31,7 +31,7 @@ function init()
         }
     });
     document.getElementById("saveDataButton").onclick = saveData;
-    document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloud;
+    document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloudFiles;
     document.getElementById("clearLocalButton").onclick = clearLocal;
 }
 
@@ -78,77 +78,12 @@ function updateFeatureState(websiteConfiguration, configId, booleanValue)
     }
 }
 
-function updateDataFromCloud()
+function updateDataFromCloudFiles()
 {
-    var entryJsonURL = siteURL + "/entry.json";
-    var xHttp = new XMLHttpRequest();
-    xHttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-           // Typical action to be performed when the document is ready:
-            var couldData = JSON.parse(this.responseText);
-            getStorageVariablesFromSync([websiteConfigurationString], function(result){
-               var websiteConfiguration = result[websiteConfigurationString];
-               var couldDataWebList = couldData.webList;
-               for(var i=0;i<couldDataWebList.length;i++)
-               {
-                   if(websiteConfiguration && websiteConfiguration.webList)
-                   {
-                       var container = document.getElementById("scripts-list-container");
-                       for(var j=0;j<websiteConfiguration.webList.length;j++)
-                       {
-                           var thisConfiguration = websiteConfiguration.webList[j];
-                           if(thisConfiguration.id == couldDataWebList[i].id &&
-                                    thisConfiguration.customizedByOwn != true)
-                           {
-                               couldDataWebList[i].enabled = thisConfiguration.enabled;
-                               updateScriptDataFromCloud(couldDataWebList[i].fileName, couldDataWebList[i].id);
-                           }
-                       }
-                   }
-                   if(typeof couldDataWebList[i].enabled != "boolean")
-                   {
-                        couldDataWebList[i].enabled = couldDataWebList[i].defaultEnabled;
-                   }
-               }
-               if(websiteConfiguration && websiteConfiguration.webList)
-               {
-                  var container = document.getElementById("scripts-list-container");
-                  for(var j=0;j<websiteConfiguration.webList.length;j++)
-                  {
-                      var thisConfiguration = websiteConfiguration.webList[j];
-                      if(thisConfiguration.customizedByOwn == true)
-                      {
-                          couldDataWebList.push(thisConfiguration);
-                      }
-                  }
-               }
-               var data = {};
-               data[websiteConfigurationString] = couldData;
-               saveStorage(data, function(){
-                   showToast("Saved successfully")
-                   init();
-               });
-           });
-        }
-    };
-    xHttp.open("GET", entryJsonURL, true);
-    xHttp.send();
-}
-
-function updateScriptDataFromCloud(fileName, scriptDataID)
-{
-   var scriptDownloadURL = siteURL + "/scripts/" + fileName;
-   var xHttpScriptDownload = new XMLHttpRequest();
-   xHttpScriptDownload.onreadystatechange = function() {
-       if (this.readyState == 4 && this.status == 200) {
-           var scriptData = this.responseText;
-           var scriptDataToStore = {};
-           scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
-           saveStorage(scriptDataToStore, function(){});
-        }
-   };
-   xHttpScriptDownload.open("GET", scriptDownloadURL, true);
-   xHttpScriptDownload.send();
+    updateDataFromCloud(function(){
+        showToast("Saved successfully")
+        init();
+    });
 }
 
 function clearLocal()

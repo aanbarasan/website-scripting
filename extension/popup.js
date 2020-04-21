@@ -100,12 +100,13 @@ function init()
             }
             else
             {
+                console.log(thisTab)
                 let title = thisTab.title;
                 var regexURL = getRegexForURL(url);
                 document.getElementById("page-url-show").value = regexURL;
                 document.getElementById("web-script-name-input").value = title;
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
-                document.getElementById("web-script-purpose-text").value = "Scripting";
+                document.getElementById("web-script-purpose-text").value = "Newly added script";
             }
         });
     });
@@ -115,7 +116,10 @@ function init()
 
 function getRegexForURL(url){
     var regexUrl = url;
-
+    regexUrl = regexUrl.replace("https://www", "https:(.*)").replace("http://www", "http:(.*)");
+    regexUrl = regexUrl.replace("https://", "https:(.*)").replace("http://", "http:(.*)");
+    regexUrl = regexUrl.split("/")[0];
+    regexUrl = regexUrl + "(.*)";
     return regexUrl;
 }
 
