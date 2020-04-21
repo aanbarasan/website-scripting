@@ -6,23 +6,23 @@ var scriptDataID = "";
 function openOrFocusOptionsPage() {
     var optionsUrl = chrome.extension.getURL('options_page.html');
     chrome.tabs.query({}, function(extensionTabs) {
-       var found = false;
-       for (var i=0; i < extensionTabs.length; i++) {
-          if (optionsUrl == extensionTabs[i].url) {
-             found = true;
-             console.log("tab id: " + extensionTabs[i].id);
-             chrome.tabs.update(extensionTabs[i].id, {"selected": true});
-          }
-       }
-       if (found == false) {
-           chrome.tabs.create({url: "options_page.html"});
-       }
+        var found = false;
+        for (var i=0; i < extensionTabs.length; i++) {
+            if (optionsUrl == extensionTabs[i].url) {
+                found = true;
+                console.log("tab id: " + extensionTabs[i].id);
+                chrome.tabs.update(extensionTabs[i].id, {"selected": true});
+            }
+        }
+        if (found == false) {
+            chrome.tabs.create({url: "options_page.html"});
+        }
     });
  }
 
 function saveConfigurationButton()
 {
-    helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
        var websiteConfiguration = result[websiteConfigurationString];
        if(!websiteConfiguration)
        {
@@ -66,7 +66,7 @@ function saveConfigurationButton()
        scriptDataToStore[websiteConfigurationString] = websiteConfiguration;
        console.log(scriptDataToStore)
        saveStorage(scriptDataToStore, function(){
-            console.log("Script updated");
+            showToast("Saved successfully");
        });
 
    });
@@ -78,8 +78,8 @@ function init()
         let url = tabs[0].url;
         document.getElementById("page-url-show").value = url;
     });
+    document.getElementById("ConfigurationButton").onclick = openOrFocusOptionsPage;
+    document.getElementById("saveConfigurationButton").onclick = saveConfigurationButton;
 }
 
- document.getElementById("ConfigurationButton").onclick = openOrFocusOptionsPage;
- document.getElementById("saveConfigurationButton").onclick = saveConfigurationButton;
- init();
+init();

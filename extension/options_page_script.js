@@ -1,10 +1,11 @@
 var websiteConfigurationString = "websiteConfigurations";
 var siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
 var scriptPreText = "CustomScript_";
+
 function init()
 {
     document.getElementById("scripts-list-container").innerHTML = "";
-    helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
         console.log(websiteConfiguration)
         if(websiteConfiguration && websiteConfiguration.webList)
@@ -31,12 +32,15 @@ function init()
                 container.append(innerContainer);
             }
         }
-    })
+    });
+    document.getElementById("saveDataButton").onclick = saveData;
+    document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloud;
+    document.getElementById("clearLocalButton").onclick = clearLocal;
 }
 
 function saveData()
 {
-    helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
         if(websiteConfiguration)
         {
@@ -59,7 +63,7 @@ function saveData()
             var data = {};
             data[websiteConfigurationString] = websiteConfiguration;
             saveStorage(data, function(){
-                console.log("finished");
+                showToast("Saved successfully");
                 init();
             })
         }
@@ -85,7 +89,7 @@ function updateDataFromCloud()
         if (this.readyState == 4 && this.status == 200) {
            // Typical action to be performed when the document is ready:
             var couldData = JSON.parse(this.responseText);
-            helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
+            getStorageVariablesFromSync([websiteConfigurationString], function(result){
                var websiteConfiguration = result[websiteConfigurationString];
                var couldDataWebList = couldData.webList;
                for(var i=0;i<couldDataWebList.length;i++)
@@ -124,7 +128,7 @@ function updateDataFromCloud()
                var data = {};
                data[websiteConfigurationString] = couldData;
                saveStorage(data, function(){
-                   console.log("finished");
+                   showToast("Saved successfully")
                    init();
                });
            });
@@ -143,9 +147,7 @@ function updateScriptDataFromCloud(fileName, scriptDataID)
            var scriptData = this.responseText;
            var scriptDataToStore = {};
            scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
-           saveStorage(scriptDataToStore, function(){
-              console.log("Script updated");
-           });
+           saveStorage(scriptDataToStore, function(){});
         }
    };
    xHttpScriptDownload.open("GET", scriptDownloadURL, true);
@@ -157,13 +159,9 @@ function clearLocal()
     var data = {};
     data[websiteConfigurationString] = [];
     saveStorage(data, function(){
-        console.log("finished");
+        showToast("Cleared successfully");
     });
     init();
 }
-
-document.getElementById("saveDataButton").onclick = saveData;
-document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloud;
-document.getElementById("clearLocalButton").onclick = clearLocal;
 
 init();

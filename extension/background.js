@@ -1,11 +1,4 @@
 
-console.log("chrome ex")
-
-
-
-
-
-
 function openOrFocusOptionsPage() {
     var optionsUrl = chrome.extension.getURL('options_page.html'); 
     chrome.tabs.query({}, function(extensionTabs) {
