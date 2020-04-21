@@ -1,52 +1,89 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Helper Options</title>
-  <style type="text/css">
-    *{
-      box-sizing: border-box;
-    }
-    .fixedToast{
-      display: none;
-      border: 2px solid green;
-      padding: 10px;
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      background-color: #48b348;
-      color: white;
-      font-size: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    #scripts-list-container
-    {
-      background-color: #d6d6d6;
-      padding: 5px 20px 5px 20px;
-    }
-  </style>
-  <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-  <script type="text/javascript" src="commonFunction.js"></script>
-</head>
-<body>
-  <div style="width: 100%; padding: 30px 10% 30px 10%;">
-    <h1>
-      <image src="image/text_logo.png" style="width: 250px"></image>
-    </h1>
-    <button id="updateDataFromCloudButton">Update from cloud</button>
-    <button id="clearLocalButton">Clear local</button>
-    <div id="scripts-list-container"></div>
-    <div>
-      <button id="saveDataButton">Save</button>
-    </div>
-  </div>
+  <head>
+    <title>Helper Options</title>
+    <style type="text/css">
+      *{
+        box-sizing: border-box;
+      }
+      .fixedToast{
+        display: none;
+        border: 2px solid green;
+        padding: 10px;
+        position: fixed;
+        top: 10px;
+        left: 50%;
+        background-color: #48b348;
+        color: white;
+        font-size: 15px;
+        border-radius: 8px;
+        font-weight: bold;
+      }
+      #scripts-list-container
+      {
+        background-color: #ededed;
+        padding: 10px 5px;
+        border-radius: 3px;
+      }
+      .innerContainer
+      {
+        padding: 10px;
+        background-color: #f1f1f1;
+        margin-bottom: 5px;
+        border-bottom: 2px #fcfcfc solid;
+      }
+      .innerContainer .nameTag
+      {
+        font-size: 15px;
+        margin-right: 5px;
+      }
+      .innerContainer .checkBoxOption
+      {
+        vertical-align: middle;
+      }
+      .innerContainer button
+      {
+        float: right;
+        margin: 0px 5px;
+      }
+      #saveDataButton
+      {
 
-  <div id="fixedToastDiv" class="fixedToast">
-    <div id="fixedToastContent">
-      Updated Successfully
+      }
+    </style>
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="commonFunction.js"></script>
+  </head>
+  <body>
+    <div style="width: 100%; padding: 30px 10% 30px 10%;">
+      <h1>
+        <image src="image/text_logo.png" style="width: 250px"></image>
+      </h1>
+      <div style="display:none;">
+        <button id="updateDataFromCloudButton">Update from cloud</button>
+        <button id="clearLocalButton">Clear local</button>
+      </div>
+      <div id="scripts-list-container"></div>
+      <div style="padding: 10px;">
+        <button id="saveDataButton">Save</button>
+      </div>
     </div>
-  </div>
-
-  <script src="options_page_script.js"></script>
-</body>
+    <div id="fixedToastDiv" class="fixedToast">
+      <div id="fixedToastContent">
+        Updated Successfully
+      </div>
+    </div>
+    <div id="popupViewModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">
+      <div style="padding: 100px 200px;background-color: #ffffffd9;">
+        <div>
+          <span id="popupViewModalTitle">Header</span>
+          <button id="popupViewModalClose" style="float:right;">Close</button>
+        </div>
+        <div style="width:100%;">
+          <textarea id="popupViewModalContent" style="width:100%;height:400px;"></textarea>
+        </div>
+      </div>
+    </div>
+    <script src="options_page_script.js"></script>
+  </body>
 </html>

@@ -13,8 +13,10 @@ function init()
                 var thisConfiguration = websiteConfiguration.webList[i];
                 var nameTag = document.createElement("span");
                 nameTag.innerHTML = thisConfiguration.name;
+                nameTag.className = "nameTag";
                 var checkBoxOption = document.createElement("input");
                 checkBoxOption.type = "checkbox";
+                checkBoxOption.className = "checkBoxOption";
                 if(thisConfiguration.enabled == true)
                 {
                     checkBoxOption.checked = true;
@@ -26,6 +28,15 @@ function init()
                 innerContainer.append(nameTag);
                 innerContainer.append(purposeTag);
                 innerContainer.setAttribute("configuration-id", thisConfiguration.id);
+                innerContainer.className = "innerContainer";
+                var previewButton = document.createElement("button");
+                previewButton.innerText = "Preview";
+                previewButton.onclick = previewScript;
+                var deleteButton = document.createElement("button");
+                deleteButton.innerText = "Delete";
+                deleteButton.onclick = deleteConfiguration;
+                innerContainer.append(deleteButton);
+                innerContainer.append(previewButton);
                 container.append(innerContainer);
             }
         }
@@ -33,6 +44,50 @@ function init()
     document.getElementById("saveDataButton").onclick = saveData;
     document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloudFiles;
     document.getElementById("clearLocalButton").onclick = clearLocal;
+    document.getElementById("popupViewModalClose").onclick = function(){
+        document.getElementById("popupViewModal").style.display = "none";
+    }
+}
+
+function previewScript()
+{
+    var _this = this;
+    var configurationId = this.parentElement.getAttribute("configuration-id");
+    var scriptId = scriptPreText + configurationId;
+    getStorageVariablesFromSync([scriptId], function(result){
+        var scriptData = result[scriptId];
+        console.log(scriptData);
+        document.getElementById("popupViewModal").style.display = "block";
+        document.getElementById("popupViewModalContent").value = scriptData;
+        document.getElementById("popupViewModalTitle").innerHTML = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
+    });
+}
+
+function deleteConfiguration()
+{
+    var _this = this;
+    var configurationId = this.parentElement.getAttribute("configuration-id");
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
+        var websiteConfiguration = result[websiteConfigurationString];
+        if(websiteConfiguration)
+        {
+            var webList = websiteConfiguration.webList;
+            for(var i=0;i<webList.length;i++)
+            {
+                if(webList[i].id == configurationId)
+                {
+                    webList.splice(i, 1);
+                    var data = {};
+                    data[websiteConfigurationString] = websiteConfiguration;
+                    saveStorage(data, function(){
+                        _this.parentElement.remove();
+                        showToast("Saved successfully");
+                    })
+                    break;
+                }
+            }
+        }
+    });
 }
 
 function saveData()
@@ -81,7 +136,7 @@ function updateFeatureState(websiteConfiguration, configId, booleanValue)
 function updateDataFromCloudFiles()
 {
     updateDataFromCloud(function(){
-        showToast("Saved successfully")
+        showToast("Saved successfully");
         init();
     });
 }
