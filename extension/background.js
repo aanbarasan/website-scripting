@@ -47,14 +47,19 @@ function init()
                 console.log(newVersionText, currentVersion);
                 if(versionCompare(newVersionText, currentVersion) > 0)
                 {
-                    updateDataFromCloud(function(){});
+                    updateDataFromCloud(function(){
+                        var saveVersionData = {};
+                        saveVersionData[versionText] = newVersionText;
+                        saveStorage(saveVersionData, function(){
+                            console.log("Version updated successfully");
+                       });
+                    });
                 }
             });
         }
     };
     xHttpScriptDownload.open("GET", versionTextUrl, true);
     xHttpScriptDownload.send();
-
 }
 
 init();

@@ -24,16 +24,36 @@
       background-color: #d6d6d6;
       padding: 5px 20px 5px 20px;
     }
+    #saveConfigurationButton
+    {
+     color: white;
+     border: none;
+     padding: 5px 10px;
+     font-size: 18px;
+     border-radius: 3px;
+     background-color: #39c839;
+     cursor: pointer;
+    }
+    #ConfigurationButton
+    {
+     color: white;
+     border: none;
+     padding: 5px 10px;
+     font-size: 18px;
+     border-radius: 3px;
+     background-color: orange;
+     cursor: pointer;
+    }
   </style>
     <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="commonFunction.js"></script>
 </head>
-<body style="width:500px;">
+<body style="width:600px;">
    <div>
        <div>
             <div>
                 <div style="padding: 3px;">
-                    <span>URL regex: <input type="text" id="page-url-show" style="max-width: 150px"/></span>
+                    <span>URL regex: <input type="text" id="page-url-show" style="max-width: 150px"/> <span style="color:red;">*</span></span>
                     <span>Name: <input type="text" placeholder="name" id="web-script-name-input"/></span>
                 </div>
                 <div style="padding: 3px;">
@@ -42,7 +62,7 @@
                 </div>
             </div>
            <div>
-                <textarea style="width:100%;height:200px;" id="script-data-text-area"></textarea>
+                <textarea style="width:100%;height:200px;color:brown;" id="script-data-text-area"></textarea>
            </div>
            <div>
                <button id="saveConfigurationButton">Save script to execute in this page</button>

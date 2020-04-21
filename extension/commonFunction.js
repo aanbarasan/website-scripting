@@ -132,6 +132,14 @@ function showToast(text){
 
 
 function versionCompare(v1, v2, options) {
+    if(typeof v1 != "string")
+    {
+        return -1;
+    }
+    if(typeof v2 != "string")
+    {
+        return 1;
+    }
     var lexicographical = options && options.lexicographical,
         zeroExtend = options && options.zeroExtend,
         v1parts = v1.split('.'),
