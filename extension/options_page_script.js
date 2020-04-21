@@ -1,6 +1,3 @@
-var websiteConfigurationString = "websiteConfigurations";
-var siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
-var scriptPreText = "CustomScript_";
 
 function init()
 {
@@ -140,7 +137,7 @@ function updateDataFromCloud()
 
 function updateScriptDataFromCloud(fileName, scriptDataID)
 {
-    var scriptDownloadURL = siteURL + "/scripts/" + fileName;
+   var scriptDownloadURL = siteURL + "/scripts/" + fileName;
    var xHttpScriptDownload = new XMLHttpRequest();
    xHttpScriptDownload.onreadystatechange = function() {
        if (this.readyState == 4 && this.status == 200) {

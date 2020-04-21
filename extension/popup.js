@@ -1,6 +1,4 @@
-var websiteConfigurationString = "websiteConfigurations";
-var siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
-var scriptPreText = "CustomScript_";
+
 var scriptDataID = "";
 
 function openOrFocusOptionsPage() {
@@ -48,6 +46,7 @@ function saveConfigurationButton()
             {
                 thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
                 thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
+                thisWebConfiguration.purpose = document.getElementById("web-script-purpose-text").value;
                 thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
                 thisWebConfiguration.id = scriptDataID;
                 scriptFound = true;
@@ -59,6 +58,7 @@ function saveConfigurationButton()
             var thisWebConfiguration = {};
             thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
             thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
+            thisWebConfiguration.purpose = document.getElementById("web-script-purpose-text").value;
             thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
             thisWebConfiguration.id = scriptDataID;
             webList.push(thisWebConfiguration);
@@ -74,9 +74,37 @@ function saveConfigurationButton()
 
 function init()
 {
+
     chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
-        let url = tabs[0].url;
-        document.getElementById("page-url-show").value = url;
+        var thisTab = tabs[0];
+        let url = thisTab.url;
+        urlMatchCallbackScript(url, function(thisConfiguration){
+            console.log(thisConfiguration);
+            if(thisConfiguration)
+            {
+                scriptDataID = thisConfiguration.id;
+                document.getElementById("web-script-name-input").value = thisConfiguration.name;
+                document.getElementById("page-url-show").value = thisConfiguration.urlRegEx;
+                document.getElementById("web-script-purpose-text").value = thisConfiguration.purpose;
+                document.getElementById("web-script-enabled-checkbox-input").checked = (thisConfiguration.enabled == true) ? true : false;
+                var scriptIdUrl = scriptPreText + scriptDataID;
+                getStorageVariablesFromSync([scriptIdUrl], function(result){
+                    var scriptData = result[scriptIdUrl];
+                    if(typeof scriptData == "string")
+                    {
+                        document.getElementById("script-data-text-area").value = scriptData;
+                    }
+                });
+            }
+            else
+            {
+                let title = thisTab.title;
+                document.getElementById("page-url-show").value = url;
+                document.getElementById("web-script-name-input").value = title;
+                document.getElementById("web-script-enabled-checkbox-input").checked  = false;
+                document.getElementById("web-script-purpose-text").value = "Script added";
+            }
+        });
     });
     document.getElementById("ConfigurationButton").onclick = openOrFocusOptionsPage;
     document.getElementById("saveConfigurationButton").onclick = saveConfigurationButton;
