@@ -4,10 +4,9 @@ function init()
     document.getElementById("scripts-list-container").innerHTML = "";
     getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
-        console.log(websiteConfiguration)
-        if(websiteConfiguration && websiteConfiguration.webList)
+        var container = document.getElementById("scripts-list-container");
+        if(websiteConfiguration && websiteConfiguration.webList && websiteConfiguration.webList.length > 0)
         {
-            var container = document.getElementById("scripts-list-container");
             for(var i=0;i<websiteConfiguration.webList.length;i++)
             {
                 var thisConfiguration = websiteConfiguration.webList[i];
@@ -40,6 +39,10 @@ function init()
                 container.append(innerContainer);
             }
         }
+        else
+        {
+            container.innerHTML = "<div>No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here</div>";
+        }
     });
     document.getElementById("saveDataButton").onclick = saveData;
     document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloudFiles;
@@ -67,27 +70,33 @@ function deleteConfiguration()
 {
     var _this = this;
     var configurationId = this.parentElement.getAttribute("configuration-id");
-    getStorageVariablesFromSync([websiteConfigurationString], function(result){
-        var websiteConfiguration = result[websiteConfigurationString];
-        if(websiteConfiguration)
-        {
-            var webList = websiteConfiguration.webList;
-            for(var i=0;i<webList.length;i++)
+    var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
+    var r = confirm("Confirm to delete the script '" + configurationName +"'");
+    if (r == true) {
+        getStorageVariablesFromSync([websiteConfigurationString], function(result){
+            var websiteConfiguration = result[websiteConfigurationString];
+            if(websiteConfiguration)
             {
-                if(webList[i].id == configurationId)
+                var webList = websiteConfiguration.webList;
+                for(var i=0;i<webList.length;i++)
                 {
-                    webList.splice(i, 1);
-                    var data = {};
-                    data[websiteConfigurationString] = websiteConfiguration;
-                    saveStorage(data, function(){
-                        _this.parentElement.remove();
-                        showToast("Saved successfully");
-                    })
-                    break;
+                    if(webList[i].id == configurationId)
+                    {
+                        webList.splice(i, 1);
+                        var data = {};
+                        data[websiteConfigurationString] = websiteConfiguration;
+                        saveStorage(data, function(){
+                            _this.parentElement.remove();
+                            showToast("Saved successfully");
+                        })
+                        break;
+                    }
                 }
             }
-        }
-    });
+        });
+    } else {
+      txt = "You pressed Cancel!";
+    }
 }
 
 function saveData()

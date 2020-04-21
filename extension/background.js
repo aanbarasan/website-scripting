@@ -33,3 +33,28 @@ function openOrFocusOptionsPage() {
     // openOrFocusOptionsPage();
     chrome.tabs.create({url : "popup.html"});
  });
+
+
+function init()
+{
+    var versionTextUrl = siteURL + "/version.txt";
+    var xHttpScriptDownload = new XMLHttpRequest();
+    xHttpScriptDownload.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var newVersionText = this.responseText;
+            getStorageVariablesFromSync([versionText], function(result){
+                var currentVersion = result[versionText];
+                console.log(newVersionText, currentVersion);
+                if(versionCompare(newVersionText, currentVersion) > 0)
+                {
+                    updateDataFromCloud(function(){});
+                }
+            });
+        }
+    };
+    xHttpScriptDownload.open("GET", versionTextUrl, true);
+    xHttpScriptDownload.send();
+
+}
+
+init();
