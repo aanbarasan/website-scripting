@@ -118,7 +118,7 @@ function updateDataFromCloud()
                       var thisConfiguration = websiteConfiguration.webList[j];
                       if(thisConfiguration.customizedByOwn == true)
                       {
-                          couldData.push(thisConfiguration);
+                          couldDataWebList.push(thisConfiguration);
                       }
                   }
                }
@@ -154,7 +154,7 @@ function updateScriptDataFromCloud(fileName, scriptDataID)
 function clearLocal()
 {
     var data = {};
-    data[websiteConfigurationString] = [];
+    data[websiteConfigurationString] = {};
     saveStorage(data, function(){
         showToast("Cleared successfully");
     });

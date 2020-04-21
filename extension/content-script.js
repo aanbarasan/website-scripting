@@ -2,7 +2,7 @@
 function init()
 {
     urlMatchCallbackScript(window.location.href, function(thisConfiguration){
-        console.log("Matched location: ", thisConfiguration);
+        // console.log("Matched location: ", thisConfiguration);
         if(thisConfiguration && thisConfiguration.enabled == true)
         {
             var scriptDataId = scriptPreText + thisConfiguration.id;

@@ -24,12 +24,13 @@ function saveConfigurationButton()
        var websiteConfiguration = result[websiteConfigurationString];
        if(!websiteConfiguration)
        {
-            websiteConfiguration = {};
+            websiteConfiguration = {"webList":[]};
        }
        if(!websiteConfiguration.webList)
        {
-            websiteConfiguration["webList"] = [];
+            websiteConfiguration.webList = [];
        }
+       console.log(websiteConfiguration)
        var webList = websiteConfiguration.webList;
        var scriptData = document.getElementById("script-data-text-area").value;
        var scriptDataToStore = {};
@@ -49,6 +50,7 @@ function saveConfigurationButton()
                 thisWebConfiguration.purpose = document.getElementById("web-script-purpose-text").value;
                 thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
                 thisWebConfiguration.id = scriptDataID;
+                thisWebConfiguration.customizedByOwn = true;
                 scriptFound = true;
                 break;
             }
@@ -61,10 +63,11 @@ function saveConfigurationButton()
             thisWebConfiguration.purpose = document.getElementById("web-script-purpose-text").value;
             thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
             thisWebConfiguration.id = scriptDataID;
+            thisWebConfiguration.customizedByOwn = true;
             webList.push(thisWebConfiguration);
        }
        scriptDataToStore[websiteConfigurationString] = websiteConfiguration;
-       console.log(scriptDataToStore)
+       console.log(scriptDataToStore);
        saveStorage(scriptDataToStore, function(){
             showToast("Saved successfully");
        });
@@ -79,7 +82,6 @@ function init()
         var thisTab = tabs[0];
         let url = thisTab.url;
         urlMatchCallbackScript(url, function(thisConfiguration){
-            console.log(thisConfiguration);
             if(thisConfiguration)
             {
                 scriptDataID = thisConfiguration.id;
@@ -99,15 +101,22 @@ function init()
             else
             {
                 let title = thisTab.title;
-                document.getElementById("page-url-show").value = url;
+                var regexURL = getRegexForURL(url);
+                document.getElementById("page-url-show").value = regexURL;
                 document.getElementById("web-script-name-input").value = title;
-                document.getElementById("web-script-enabled-checkbox-input").checked  = false;
-                document.getElementById("web-script-purpose-text").value = "Script added";
+                document.getElementById("web-script-enabled-checkbox-input").checked  = true;
+                document.getElementById("web-script-purpose-text").value = "Scripting";
             }
         });
     });
     document.getElementById("ConfigurationButton").onclick = openOrFocusOptionsPage;
     document.getElementById("saveConfigurationButton").onclick = saveConfigurationButton;
+}
+
+function getRegexForURL(url){
+    var regexUrl = url;
+
+    return regexUrl;
 }
 
 init();
