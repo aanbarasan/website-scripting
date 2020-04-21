@@ -1,1 +1,54 @@
-checking
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Helper Options</title>
+    <style type="text/css">
+    *{
+      box-sizing: border-box;
+    }
+    .fixedToast{
+      display: none;
+      border: 2px solid green;
+      padding: 10px;
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      background-color: #48b348;
+      color: white;
+      font-size: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    #scripts-list-container
+    {
+      background-color: #d6d6d6;
+      padding: 5px 20px 5px 20px;
+    }
+  </style>
+    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="commonFunction.js"></script>
+</head>
+<body style="width:500px;">
+   <div>
+       <div>
+            <div>
+                <input type="text" id="page-url-show" style="max-width: 150px"/>
+                <input type="text" placeholder="name" id="web-script-name-input"/>
+                enabled
+                <input type="checkbox" id="web-script-enabled-checkbox-input"/>
+            </div>
+           <div>
+                <textarea style="width:100%;height:100px;" id="script-data-text-area"></textarea>
+           </div>
+           <div>
+               <button id="saveConfigurationButton">save</button>
+           </div>
+       </div>
+       <div style="text-align:right;">
+           <button id="ConfigurationButton">Configure</button>
+       </div>
+   </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

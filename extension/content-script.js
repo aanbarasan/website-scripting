@@ -1,3 +1,64 @@
+var websiteConfigurationString = "websiteConfigurations";
+var siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
+var scriptPreText = "CustomScript_";
+
+function init()
+{
+
+    helper_getStorageVariablesFromSync([websiteConfigurationString], function(result){
+       var websiteConfiguration = result[websiteConfigurationString];
+       if(websiteConfiguration && websiteConfiguration.webList)
+       {
+            var webList = websiteConfiguration.webList;
+            var currentURLLocation = window.location.href;
+            for(var i=0;i<webList.length;i++)
+            {
+                var thisConfiguration = webList[i];
+                // console.log(thisConfiguration);
+                if(matchURL(currentURLLocation, thisConfiguration.urlRegEx))
+                {
+                    console.log("Matched location: ", thisConfiguration);
+                    var scriptDataId = scriptPreText + thisConfiguration.id;
+                    helper_getStorageVariablesFromSync([scriptDataId], function(result){
+                        var scriptData = result[scriptDataId];
+                        if(typeof scriptData == "string")
+                        {
+                            eval(scriptData);
+                        }
+                    });
+                }
+            }
+       }
+   });
+}
+
+function matchURL(urlLocation, regex)
+{
+    if(urlLocation == regex)
+    {
+        return true;
+    }
+    return false;
+}
+
+
+init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var storageVariables = [helper_obj.enableyoutube, helper_obj.floatyoutube, helper_obj.middleaddclose,
 					helper_obj.floatyoutube_bannersize];

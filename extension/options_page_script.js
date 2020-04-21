@@ -1,5 +1,6 @@
 var websiteConfigurationString = "websiteConfigurations";
-
+var siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
+var scriptPreText = "CustomScript_";
 function init()
 {
     document.getElementById("scripts-list-container").innerHTML = "";
@@ -46,7 +47,6 @@ function saveData()
                 var innerContainer = innerContainerList[i];
                 var inputTag = innerContainer.getElementsByTagName("input")[0];
                 var configId = innerContainer.getAttribute("configuration-id");
-                                    console.log(inputTag.checked)
                 if(inputTag.checked)
                 {
                     updateFeatureState(websiteConfiguration, configId, true);
@@ -79,7 +79,7 @@ function updateFeatureState(websiteConfiguration, configId, booleanValue)
 
 function updateDataFromCloud()
 {
-    var entryJsonURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master/entry.json";
+    var entryJsonURL = siteURL + "/entry.json";
     var xHttp = new XMLHttpRequest();
     xHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -96,19 +96,31 @@ function updateDataFromCloud()
                        for(var j=0;j<websiteConfiguration.webList.length;j++)
                        {
                            var thisConfiguration = websiteConfiguration.webList[j];
-                           if(thisConfiguration.id == couldDataWebList[i].id)
+                           if(thisConfiguration.id == couldDataWebList[i].id &&
+                                    thisConfiguration.customizedByOwn != true)
                            {
                                couldDataWebList[i].enabled = thisConfiguration.enabled;
+                               updateScriptDataFromCloud(couldDataWebList[i].fileName, couldDataWebList[i].id);
                            }
                        }
                    }
-                   console.log(typeof couldDataWebList[i].enabled)
                    if(typeof couldDataWebList[i].enabled != "boolean")
                    {
                         couldDataWebList[i].enabled = couldDataWebList[i].defaultEnabled;
                    }
                }
-               console.log(couldData);
+               if(websiteConfiguration && websiteConfiguration.webList)
+               {
+                  var container = document.getElementById("scripts-list-container");
+                  for(var j=0;j<websiteConfiguration.webList.length;j++)
+                  {
+                      var thisConfiguration = websiteConfiguration.webList[j];
+                      if(thisConfiguration.customizedByOwn == true)
+                      {
+                          couldData.push(thisConfiguration);
+                      }
+                  }
+               }
                var data = {};
                data[websiteConfigurationString] = couldData;
                saveStorage(data, function(){
@@ -120,6 +132,24 @@ function updateDataFromCloud()
     };
     xHttp.open("GET", entryJsonURL, true);
     xHttp.send();
+}
+
+function updateScriptDataFromCloud(fileName, scriptDataID)
+{
+    var scriptDownloadURL = siteURL + "/scripts/" + fileName;
+   var xHttpScriptDownload = new XMLHttpRequest();
+   xHttpScriptDownload.onreadystatechange = function() {
+       if (this.readyState == 4 && this.status == 200) {
+           var scriptData = this.responseText;
+           var scriptDataToStore = {};
+           scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
+           saveStorage(scriptDataToStore, function(){
+              console.log("Script updated");
+           });
+        }
+   };
+   xHttpScriptDownload.open("GET", scriptDownloadURL, true);
+   xHttpScriptDownload.send();
 }
 
 function clearLocal()

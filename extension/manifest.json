@@ -1,13 +1,13 @@
 {
-  "name": "Youtube float video",
-  "short_name": "Helper",
-  "description": "Youtube extra functionality. Float video",
+  "name": "Website scripting",
+  "short_name": "Web script",
+  "description": "Custom scripting in websites",
   "version": "1.2.1",
   "icons": { "16": "image/16_icon.png",
            "48": "image/48_icon.png",
           "128": "image/128_icon.png" },
   "permissions": [
-    "activeTab", "storage"
+    "activeTab", "storage", "tabs"
   ],
   "content_scripts": [
     {
@@ -17,7 +17,8 @@
   ],
   "options_page": "options_page.html",
   "browser_action": {
-    "default_title": "Youtube float video"
+    "default_title": "Youtube float video",
+    "default_popup": "popup.html"
   },
   "background": {
     "scripts": ["background.js"]

@@ -1,3 +1,11 @@
+
+console.log("chrome ex")
+
+
+
+
+
+
 function openOrFocusOptionsPage() {
     var optionsUrl = chrome.extension.getURL('options_page.html'); 
     chrome.tabs.query({}, function(extensionTabs) {
@@ -14,6 +22,7 @@ function openOrFocusOptionsPage() {
        }
     });
  }
+
  chrome.extension.onConnect.addListener(function(port) {
    var tab = port.sender.tab;
    // This will get called by the content script we execute in
@@ -28,5 +37,6 @@ function openOrFocusOptionsPage() {
  
  // Called when the user clicks on the browser action icon.
  chrome.browserAction.onClicked.addListener(function(tab) {
-    openOrFocusOptionsPage();
+    // openOrFocusOptionsPage();
+    chrome.tabs.create({url : "popup.html"});
  });
