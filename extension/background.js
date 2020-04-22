@@ -37,29 +37,7 @@ function openOrFocusOptionsPage() {
 
 function init()
 {
-    var versionTextUrl = siteURL + "/version.txt";
-    var xHttpScriptDownload = new XMLHttpRequest();
-    xHttpScriptDownload.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var newVersionText = this.responseText;
-            getStorageVariablesFromSync([versionText], function(result){
-                var currentVersion = result[versionText];
-                console.log(newVersionText, currentVersion);
-                if(versionCompare(newVersionText, currentVersion) > 0)
-                {
-                    updateDataFromCloud(function(){
-                        var saveVersionData = {};
-                        saveVersionData[versionText] = newVersionText;
-                        saveStorage(saveVersionData, function(){
-                            console.log("Version updated successfully");
-                       });
-                    });
-                }
-            });
-        }
-    };
-    xHttpScriptDownload.open("GET", versionTextUrl, true);
-    xHttpScriptDownload.send();
+    updateDataFromCloud(function(){});
 }
 
 init();

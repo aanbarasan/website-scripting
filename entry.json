@@ -7,7 +7,8 @@
       "defaultEnabled": false,
       "fromCommonSite": true,
       "fileName": "hotstar.com.js",
-      "urlRegEx": "https:(.*).hotstar.com(.*)*"
+      "urlRegEx": "https:(.*).hotstar.com(.*)*",
+      "version": "1.0.1"
     },
     {
       "id": "watchcartoononline-remove-outline",
@@ -16,7 +17,8 @@
       "defaultEnabled": false,
       "fromCommonSite": true,
       "fileName": "thewatchcartoononline-tv.js",
-      "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)"
+      "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)",
+      "version": "1.0.1"
     }
   ]
 }

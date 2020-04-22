@@ -1,7 +1,6 @@
 window.websiteConfigurationString = "websiteConfigurations";
 window.siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
 window.scriptPreText = "CustomScript_";
-window.versionText = "versionMaintainedToUpdate"
 
 function urlMatchCallbackScript(currentURLLocation, callback)
 {
@@ -38,32 +37,44 @@ function updateDataFromCloud(callback)
 {
     var entryJsonURL = siteURL + "/entry.json";
     var xHttp = new XMLHttpRequest();
+    console.log("udpate from cloud");
     xHttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
            // Typical action to be performed when the document is ready:
             var couldData = JSON.parse(this.responseText);
+            console.log(couldData);
             getStorageVariablesFromSync([websiteConfigurationString], function(result){
                var websiteConfiguration = result[websiteConfigurationString];
                var couldDataWebList = couldData.webList;
                for(var i=0;i<couldDataWebList.length;i++)
                {
+                   var existingConfiguration = {};
                    if(websiteConfiguration && websiteConfiguration.webList)
                    {
-                       var container = document.getElementById("scripts-list-container");
                        for(var j=0;j<websiteConfiguration.webList.length;j++)
                        {
-                           var thisConfiguration = websiteConfiguration.webList[j];
-                           if(thisConfiguration.id == couldDataWebList[i].id &&
-                                    thisConfiguration.customizedByOwn != true)
+                           if(websiteConfiguration.webList[j].id == couldDataWebList[i].id)
                            {
-                               couldDataWebList[i].enabled = thisConfiguration.enabled;
-                               updateScriptDataFromCloud(couldDataWebList[i].fileName, couldDataWebList[i].id);
+                                existingConfiguration = websiteConfiguration.webList[j];
                            }
                        }
                    }
                    if(typeof couldDataWebList[i].enabled != "boolean")
                    {
                         couldDataWebList[i].enabled = couldDataWebList[i].defaultEnabled;
+                   }
+                   if(existingConfiguration.customizedByOwn != true)
+                   {
+                        couldDataWebList[i].enabled = existingConfiguration.enabled;
+                   }
+                   if(versionCompare(couldDataWebList[i].version, existingConfiguration.version))
+                   {
+                        updateScriptDataFromCloud(couldDataWebList[i].fileName, couldDataWebList[i].id, function(result){
+                            if(result == "success")
+                            {
+                                couldDataWebList[i].version = undefined;
+                            }
+                        });
                    }
                }
                if(websiteConfiguration && websiteConfiguration.webList)
@@ -88,20 +99,30 @@ function updateDataFromCloud(callback)
     xHttp.send();
 }
 
-function updateScriptDataFromCloud(fileName, scriptDataID)
+function updateScriptDataFromCloud(fileName, scriptDataID, callback)
 {
-   var scriptDownloadURL = siteURL + "/scripts/" + fileName;
-   var xHttpScriptDownload = new XMLHttpRequest();
-   xHttpScriptDownload.onreadystatechange = function() {
-       if (this.readyState == 4 && this.status == 200) {
-           var scriptData = this.responseText;
-           var scriptDataToStore = {};
-           scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
-           saveStorage(scriptDataToStore, function(){});
+    var scriptDownloadURL = siteURL + "/scripts/" + fileName;
+    var xHttpScriptDownload = new XMLHttpRequest();
+    xHttpScriptDownload.onreadystatechange = function() {
+        if (this.readyState == 4)
+        {
+            if(this.status == 200)
+            {
+                var scriptData = this.responseText;
+                var scriptDataToStore = {};
+                scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
+                saveStorage(scriptDataToStore, function(){
+                    callback("success");
+                });
+            }
+            else
+            {
+                callback("failed");
+            }
         }
-   };
-   xHttpScriptDownload.open("GET", scriptDownloadURL, true);
-   xHttpScriptDownload.send();
+    };
+    xHttpScriptDownload.open("GET", scriptDownloadURL, true);
+    xHttpScriptDownload.send();
 }
 
 function getStorageVariablesFromSync(storageVariables, callback){
