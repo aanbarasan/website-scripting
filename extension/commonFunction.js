@@ -42,39 +42,48 @@ function updateDataFromCloud(callback)
         if (this.readyState == 4 && this.status == 200) {
            // Typical action to be performed when the document is ready:
             var couldData = JSON.parse(this.responseText);
-            console.log(couldData);
             getStorageVariablesFromSync([websiteConfigurationString], function(result){
                var websiteConfiguration = result[websiteConfigurationString];
                var couldDataWebList = couldData.webList;
                for(var i=0;i<couldDataWebList.length;i++)
                {
+                   var thisConfiguration = couldDataWebList[i];
                    var existingConfiguration = {};
                    if(websiteConfiguration && websiteConfiguration.webList)
                    {
                        for(var j=0;j<websiteConfiguration.webList.length;j++)
                        {
-                           if(websiteConfiguration.webList[j].id == couldDataWebList[i].id)
+                           if(websiteConfiguration.webList[j].id == thisConfiguration.id)
                            {
                                 existingConfiguration = websiteConfiguration.webList[j];
                            }
                        }
                    }
-                   if(typeof couldDataWebList[i].enabled != "boolean")
+                   if(typeof thisConfiguration.enabled != "boolean")
                    {
-                        couldDataWebList[i].enabled = couldDataWebList[i].defaultEnabled;
+                        thisConfiguration.enabled = thisConfiguration.defaultEnabled;
                    }
                    if(existingConfiguration.customizedByOwn != true)
                    {
-                        couldDataWebList[i].enabled = existingConfiguration.enabled;
+                        thisConfiguration.enabled = existingConfiguration.enabled;
                    }
-                   if(versionCompare(couldDataWebList[i].version, existingConfiguration.version))
+                   if(versionCompare(thisConfiguration.version, existingConfiguration.version))
                    {
-                        updateScriptDataFromCloud(couldDataWebList[i].fileName, couldDataWebList[i].id, function(result){
-                            if(result == "success")
+                        updateScriptDataFromCloud(thisConfiguration.fileName, thisConfiguration.id, function(result){
+                            if(result != "success")
                             {
-                                couldDataWebList[i].version = undefined;
+                                thisConfiguration.version = undefined;
+                                console.log("script update failed")
+                            }
+                            else
+                            {
+                                console.log("script update success")
                             }
                         });
+                   }
+                   else
+                   {
+                        console.log("Version mismatch");
                    }
                }
                if(websiteConfiguration && websiteConfiguration.webList)

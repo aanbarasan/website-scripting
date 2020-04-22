@@ -8,7 +8,7 @@
       "fromCommonSite": true,
       "fileName": "hotstar.com.js",
       "urlRegEx": "https:(.*).hotstar.com(.*)*",
-      "version": "1.0.1"
+      "version": "1.0.2"
     },
     {
       "id": "watchcartoononline-remove-outline",
