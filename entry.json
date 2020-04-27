@@ -18,7 +18,7 @@
       "fromCommonSite": true,
       "fileName": "thewatchcartoononline-tv.js",
       "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)",
-      "version": "1.0.1"
+      "version": "1.0.2"
     }
   ]
 }
