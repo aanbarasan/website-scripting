@@ -1,16 +1,21 @@
 /* Started to add css for removing one pop-up ad and remove outline of the video player in the page */
+// Version updated test
 
-var styles = '#aniBox { display: none; }'; 
-styles += 'video.vjs-tech { outline: none; }'; 
+setTimeout(function(){
+    var iframes = document.getElementsByTagName("iframe");
+    for(var i=0;i<iframes.length;i++)
+    {
+       var stylesTag= `<style type="text/css">
+             video { 
+                outline: 0 !important; 
+             }
+          </style>`;
 
-var css = document.createElement('style'); 
-css.type = 'text/css'; 
-  
-if (css.styleSheet)  
-    css.styleSheet.cssText = styles; 
-else  
-    css.appendChild(document.createTextNode(styles)); 
-              
-document.getElementsByTagName("head")[0].appendChild(css); 
-
+       var styleSheetDiv = document.createElement("div")
+       styleSheetDiv.innerHTML = stylesTag;
+       if(iframes[i].contentDocument && iframes[i].contentDocument.body) {
+          iframes[i].contentDocument.body.appendChild(styleSheetDiv);
+       }
+    }
+}, 5000);
 /* Ended to add css */
