@@ -2,7 +2,7 @@
   "name": "Website scripting",
   "short_name": "Web script",
   "description": "Custom scripting in websites",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "icons": { "16": "image/16_icon.png",
            "48": "image/48_icon.png",
           "128": "image/128_icon.png" },
@@ -17,7 +17,7 @@
   ],
   "options_page": "options_page.html",
   "browser_action": {
-    "default_title": "Youtube float video",
+    "default_title": "Website-scripting",
     "default_popup": "popup.html"
   },
   "background": {

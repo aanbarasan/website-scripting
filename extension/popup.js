@@ -107,7 +107,7 @@ function init()
                 document.getElementById("web-script-name-input").value = title;
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
                 document.getElementById("web-script-purpose-text").value = "Newly added script";
-                document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nConsole.log(\"Testing javascript\");";
+                document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
             }
         });
     });

@@ -4,6 +4,7 @@ function init()
     document.getElementById("scripts-list-container").innerHTML = "";
     getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
+        console.log(websiteConfiguration);
         var container = document.getElementById("scripts-list-container");
         if(websiteConfiguration && websiteConfiguration.webList && websiteConfiguration.webList.length > 0)
         {
@@ -20,6 +21,7 @@ function init()
                 {
                     checkBoxOption.checked = true;
                 }
+                checkBoxOption.onclick = updateActiveStatusFromCheckBox;
                 var purposeTag = document.createElement("span");
                 purposeTag.innerHTML = "(" + thisConfiguration.purpose + ")";
                 var innerContainer = document.createElement("div");
@@ -28,6 +30,10 @@ function init()
                 innerContainer.append(purposeTag);
                 innerContainer.setAttribute("configuration-id", thisConfiguration.id);
                 innerContainer.className = "innerContainer";
+                if(thisConfiguration.customizedByOwn == true)
+                {
+                    innerContainer.className = innerContainer.className + " ownCustomizationScriptBlock"
+                }
                 var previewButton = document.createElement("button");
                 previewButton.innerText = "Preview";
                 previewButton.onclick = previewScript;
@@ -44,7 +50,6 @@ function init()
             container.innerHTML = "<div>No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here</div>";
         }
     });
-    document.getElementById("saveDataButton").onclick = saveData;
     document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloudFiles;
     document.getElementById("clearLocalButton").onclick = clearLocal;
     document.getElementById("popupViewModalClose").onclick = function(){
@@ -99,34 +104,25 @@ function deleteConfiguration()
     }
 }
 
-function saveData()
+function updateActiveStatusFromCheckBox()
 {
+    var _this = this;
+    window.aaa = this;
+    var checkBoxCheckedStatus = this.checked
+    var configurationId = this.parentElement.getAttribute("configuration-id");
+    var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
     getStorageVariablesFromSync([websiteConfigurationString], function(result){
         var websiteConfiguration = result[websiteConfigurationString];
         if(websiteConfiguration)
         {
-            var container = document.getElementById("scripts-list-container");
-            var innerContainerList = container.children;
-            for(var i=0;i<innerContainerList.length;i++)
-            {
-                var innerContainer = innerContainerList[i];
-                var inputTag = innerContainer.getElementsByTagName("input")[0];
-                var configId = innerContainer.getAttribute("configuration-id");
-                if(inputTag.checked)
-                {
-                    updateFeatureState(websiteConfiguration, configId, true);
-                }
-                else
-                {
-                    updateFeatureState(websiteConfiguration, configId, false);
-                }
-            }
+            updateFeatureState(websiteConfiguration, configurationId, checkBoxCheckedStatus);
             var data = {};
             data[websiteConfigurationString] = websiteConfiguration;
             saveStorage(data, function(){
-                showToast("Saved successfully");
-                init();
-            })
+                var message = "";
+                message = "'" + configurationName + "' script " + (checkBoxCheckedStatus ? "enabled" : "disabled")
+                showToast(message);
+            });
         }
     });
 }

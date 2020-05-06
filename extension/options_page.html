@@ -28,7 +28,7 @@
       .innerContainer
       {
         padding: 10px;
-        background-color: #f1f1f1;
+        background-color: #e0e2e9;
         margin-bottom: 5px;
         border-bottom: 2px #fcfcfc solid;
       }
@@ -46,6 +46,10 @@
         float: right;
         margin: 0px 5px;
       }
+      .ownCustomizationScriptBlock
+      {
+        background-color: #e7e2e2;
+      }
       #saveDataButton
       {
         color: white;
@@ -59,18 +63,17 @@
     <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="commonFunction.js"></script>
   </head>
-  <body>
-    <div style="width: 100%; padding: 30px 10% 30px 10%;">
-      <h1>
-        <image src="image/text_logo.png" style="width: 250px"></image>
-      </h1>
-      <div style="display:none;">
-        <button id="updateDataFromCloudButton">Update from cloud</button>
-        <button id="clearLocalButton">Clear local</button>
-      </div>
-      <div id="scripts-list-container"></div>
-      <div style="padding: 10px;">
-        <button id="saveDataButton">Save</button>
+  <body style="margin: 0px">
+    <div style="width: 100%;padding: 0px 10% 0px 10%;">
+      <div style="width: 100%;padding: 10px 10px 300px 10px;background-color: #f1f2f3;">
+        <h1 style="margin: 0px;">
+          <image src="image/text_logo.png" style="width: 250px"></image>
+        </h1>
+        <div style="display:none;">
+          <button id="updateDataFromCloudButton">Update from cloud</button>
+          <button id="clearLocalButton">Clear local</button>
+        </div>
+        <div id="scripts-list-container"></div>
       </div>
     </div>
     <div id="fixedToastDiv" class="fixedToast">
@@ -89,6 +92,28 @@
         </div>
       </div>
     </div>
+    <footer>
+      <div style="padding: 20px 10% 20px 10%;float:left;width:100%;">
+        <div style="float: left;">
+          <a href="https://forms.gle/dqhCtm4sk1jW83UZ6" target="_blank"
+             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
+            Send feedback
+          </a>
+        </div>
+        <div style="float: left;margin-left:10px;">
+          <a href="https://github.com/aanbarasan/website-scripting" target="_blank"
+             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
+            Contribute to development
+          </a>
+        </div>
+        <div style="float: right;">
+          <a href="https://forms.gle/pnp9gd2JiNntZtzw6" target="_blank"
+             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
+            Push your script to public
+          </a>
+        </div>
+      </div>
+    </footer>
     <script src="options_page_script.js"></script>
   </body>
 </html>
