@@ -16,6 +16,24 @@ function openOrFocusOptionsPage() {
     });
  }
 
+ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+     if(changeInfo.status == "complete") {
+        // console.log(tabId, changeInfo, tab);
+        urlMatchCallbackScript(tab.url, function(configurationList){
+            if(configurationList && configurationList.length > 0)
+            {
+                chrome.tabs.executeScript(tabId, {file: "scripts/hotstar.com.js"}, function() {
+                    console.log("Script injected")
+                });
+                /*chrome.tabs.executeScript(tabId, {code: "alert(\"Test\");"}, function() {
+                    console.log("Script injected")
+                });*/
+            }
+        });
+     }
+ });
+
+
  chrome.extension.onConnect.addListener(function(port) {
    var tab = port.sender.tab;
    // This will get called by the content script we execute in
@@ -37,7 +55,7 @@ function openOrFocusOptionsPage() {
 
 function init()
 {
-    updateDataFromCloud(function(){});
+    updateDataOneTime(function(){});
 }
 
 init();

@@ -47,10 +47,9 @@ function saveConfigurationButton()
             {
                 thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
                 thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
-                thisWebConfiguration.purpose = document.getElementById("web-script-purpose-text").value;
                 thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
                 thisWebConfiguration.id = scriptDataID;
-                thisWebConfiguration.customizedByOwn = true;
+                thisWebConfiguration.customizedByOwn = checkScriptChanges(scriptDataID, scriptData);
                 scriptFound = true;
                 break;
             }
@@ -60,7 +59,6 @@ function saveConfigurationButton()
             var thisWebConfiguration = {};
             thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
             thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
-            thisWebConfiguration.purpose = document.getElementById("web-script-purpose-text").value;
             thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
             thisWebConfiguration.id = scriptDataID;
             thisWebConfiguration.customizedByOwn = true;
@@ -75,9 +73,15 @@ function saveConfigurationButton()
    });
 }
 
+function checkScriptChanges(scriptDataID, scriptData)
+{
+    var ownCustomisedBoolean = true;
+
+    return ownCustomisedBoolean;
+}
+
 function init()
 {
-
     chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
         var thisTab = tabs[0];
         let url = thisTab.url;
@@ -87,7 +91,6 @@ function init()
                 scriptDataID = thisConfiguration.id;
                 document.getElementById("web-script-name-input").value = thisConfiguration.name;
                 document.getElementById("page-url-show").value = thisConfiguration.urlRegEx;
-                document.getElementById("web-script-purpose-text").value = thisConfiguration.purpose;
                 document.getElementById("web-script-enabled-checkbox-input").checked = (thisConfiguration.enabled == true) ? true : false;
                 var scriptIdUrl = scriptPreText + scriptDataID;
                 getStorageVariablesFromSync([scriptIdUrl], function(result){
@@ -106,7 +109,6 @@ function init()
                 document.getElementById("page-url-show").value = regexURL;
                 document.getElementById("web-script-name-input").value = title;
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
-                document.getElementById("web-script-purpose-text").value = "Newly added script";
                 document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
             }
         });

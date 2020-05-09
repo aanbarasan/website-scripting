@@ -1,0 +1,26 @@
+{
+  "webList": [
+    {
+      "id": "hotstar-website-quality-change",
+      "name": "Hotstar",
+      "purpose": "Automatically change quality to high instead of auto",
+      "nature": true,
+      "enable": false,
+      "customizedByOwn": false,
+      "fileName": "hotstar.com.js",
+      "urlRegEx": "https:(.*).hotstar.com(.*)*",
+      "version": "1.0.2"
+    },
+    {
+      "id": "watchcartoononline-remove-outline",
+      "name": "Watchcartoononline",
+      "purpose": "Disable default popups and remove outline of video",
+      "nature": true,
+      "enable": false,
+      "customizedByOwn": false,
+      "fileName": "thewatchcartoononline-tv.js",
+      "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)",
+      "version": "1.0.2"
+    }
+  ]
+}

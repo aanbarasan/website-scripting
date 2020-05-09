@@ -2,15 +2,13 @@
 function init()
 {
     document.getElementById("scripts-list-container").innerHTML = "";
-    getStorageVariablesFromSync([websiteConfigurationString], function(result){
-        var websiteConfiguration = result[websiteConfigurationString];
-        console.log(websiteConfiguration);
+    getSortedScript(function(configurationWebList){
         var container = document.getElementById("scripts-list-container");
-        if(websiteConfiguration && websiteConfiguration.webList && websiteConfiguration.webList.length > 0)
+        if(configurationWebList)
         {
-            for(var i=0;i<websiteConfiguration.webList.length;i++)
+            for(var i=0;i<configurationWebList.length;i++)
             {
-                var thisConfiguration = websiteConfiguration.webList[i];
+                var thisConfiguration = configurationWebList[i];
                 var nameTag = document.createElement("span");
                 nameTag.innerHTML = thisConfiguration.name;
                 nameTag.className = "nameTag";
@@ -22,17 +20,28 @@ function init()
                     checkBoxOption.checked = true;
                 }
                 checkBoxOption.onclick = updateActiveStatusFromCheckBox;
-                var purposeTag = document.createElement("span");
-                purposeTag.innerHTML = "(" + thisConfiguration.purpose + ")";
+
                 var innerContainer = document.createElement("div");
                 innerContainer.append(checkBoxOption);
                 innerContainer.append(nameTag);
-                innerContainer.append(purposeTag);
+                if(thisConfiguration.purpose)
+                {
+                    var purposeTag = document.createElement("span");
+                    purposeTag.innerHTML = "(" + thisConfiguration.purpose + ")";
+                    innerContainer.append(purposeTag);
+                }
                 innerContainer.setAttribute("configuration-id", thisConfiguration.id);
                 innerContainer.className = "innerContainer";
                 if(thisConfiguration.customizedByOwn == true)
                 {
-                    innerContainer.className = innerContainer.className + " ownCustomizationScriptBlock"
+                    if(thisConfiguration.nature == true)
+                    {
+                        innerContainer.className = innerContainer.className + " natureCustomisedScriptBlock"
+                    }
+                    else
+                    {
+                        innerContainer.className = innerContainer.className + " ownCustomizationScriptBlock"
+                    }
                 }
                 var previewButton = document.createElement("button");
                 previewButton.innerText = "Preview";
@@ -50,11 +59,49 @@ function init()
             container.innerHTML = "<div>No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here</div>";
         }
     });
-    document.getElementById("updateDataFromCloudButton").onclick = updateDataFromCloudFiles;
-    document.getElementById("clearLocalButton").onclick = clearLocal;
     document.getElementById("popupViewModalClose").onclick = function(){
         document.getElementById("popupViewModal").style.display = "none";
     }
+}
+
+function getSortedScript(callback){
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
+        var websiteConfiguration = result[websiteConfigurationString];
+        if(websiteConfiguration && websiteConfiguration.webList && websiteConfiguration.webList.length > 0)
+        {
+            var configurationWebList = [];
+            var webList = websiteConfiguration.webList;
+            for(var i=0;i<webList.length;i++)
+            {
+                if(webList[i].customizedByOwn == true && webList[i].nature != true)
+                {
+                    configurationWebList.push(webList[i]);
+                    webList.splice(i, 1);
+                    i--;
+                }
+            }
+            for(var i=0;i<webList.length;i++)
+            {
+                if(webList[i].customizedByOwn == true && webList[i].nature == true)
+                {
+                    configurationWebList.push(webList[i]);
+                    webList.splice(i, 1);
+                    i--;
+                }
+            }
+
+            for(var i=0;i<webList.length;i++)
+            {
+                configurationWebList.push(webList[i]);
+            }
+            console.log(websiteConfiguration, configurationWebList);
+            callback(configurationWebList);
+        }
+        else
+        {
+            callback();
+        }
+    })
 }
 
 function previewScript()

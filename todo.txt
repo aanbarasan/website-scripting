@@ -1,0 +1,1 @@
+May/09/2020 -- remove scripts directory and entry.json file in root directory after there is no user less than 2.1.0 version of extension

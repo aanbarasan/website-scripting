@@ -1,5 +1,4 @@
 window.websiteConfigurationString = "websiteConfigurations";
-window.siteURL = "https://raw.githubusercontent.com/aanbarasan/website-scripting/master";
 window.scriptPreText = "CustomScript_";
 
 function urlMatchCallbackScript(currentURLLocation, callback)
@@ -33,105 +32,90 @@ function matchURL(urlLocation, regex)
     return pattern.test(urlLocation);
 }
 
-function updateDataFromCloud(callback)
+function updateDataOneTime(callback)
 {
-    var entryJsonURL = siteURL + "/entry.json";
-    var xHttp = new XMLHttpRequest();
-    console.log("udpate from cloud");
-    xHttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-           // Typical action to be performed when the document is ready:
-            var couldData = JSON.parse(this.responseText);
-            getStorageVariablesFromSync([websiteConfigurationString], function(result){
-               var websiteConfiguration = result[websiteConfigurationString];
-               var couldDataWebList = couldData.webList;
-               for(var i=0;i<couldDataWebList.length;i++)
-               {
-                   var thisConfiguration = couldDataWebList[i];
-                   var existingConfiguration = {};
-                   if(websiteConfiguration && websiteConfiguration.webList)
+    var entryJsonURL = "entry.json";
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', entryJsonURL, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+      if (this.status == 200) {
+          var file = new File([this.response], 'temp');
+          var fileReader = new FileReader();
+          fileReader.addEventListener('load', function(){
+               var localFileData = JSON.parse(fileReader.result);
+               console.log(localFileData);
+               getStorageVariablesFromSync([websiteConfigurationString], function(result){
+                   var websiteConfiguration = result[websiteConfigurationString];
+                   var localFileDataList = localFileData.webList;
+                   for(var i=0;i<localFileDataList.length;i++)
                    {
-                       for(var j=0;j<websiteConfiguration.webList.length;j++)
+                       var thisConfiguration = localFileDataList[i];
+                       if(websiteConfiguration && websiteConfiguration.webList)
                        {
-                           if(websiteConfiguration.webList[j].id == thisConfiguration.id)
+                           for(var j=0;j<websiteConfiguration.webList.length;j++)
                            {
-                                existingConfiguration = websiteConfiguration.webList[j];
+                               var thisWebConfig = websiteConfiguration.webList[j];
+                               if(thisWebConfig.id == thisConfiguration.id)
+                               {
+                                    if(thisWebConfig.customizedByOwn == true)
+                                    {
+                                       thisConfiguration.enabled = thisWebConfig.enabled;
+                                       thisConfiguration.customizedByOwn = true;
+                                    }
+                               }
                            }
                        }
+                       if(thisConfiguration.customizedByOwn != true)
+                       {
+                            updateScriptDataFromLocalFile(thisConfiguration.fileName, thisConfiguration.id, callback);
+                       }
                    }
-                   if(typeof thisConfiguration.enabled != "boolean")
+                   if(websiteConfiguration && websiteConfiguration.webList)
                    {
-                        thisConfiguration.enabled = thisConfiguration.defaultEnabled;
-                   }
-                   if(existingConfiguration.customizedByOwn != true)
-                   {
-                        thisConfiguration.enabled = existingConfiguration.enabled;
-                   }
-                   if(versionCompare(thisConfiguration.version, existingConfiguration.version))
-                   {
-                        updateScriptDataFromCloud(thisConfiguration.fileName, thisConfiguration.id, function(result){
-                            if(result != "success")
-                            {
-                                thisConfiguration.version = undefined;
-                                console.log("script update failed")
-                            }
-                            else
-                            {
-                                console.log("script update success")
-                            }
-                        });
-                   }
-                   else
-                   {
-                        console.log("Version mismatch");
-                   }
-               }
-               if(websiteConfiguration && websiteConfiguration.webList)
-               {
-                  var container = document.getElementById("scripts-list-container");
-                  for(var j=0;j<websiteConfiguration.webList.length;j++)
-                  {
-                      var thisConfiguration = websiteConfiguration.webList[j];
-                      if(thisConfiguration.customizedByOwn == true)
+                      for(var j=0;j<websiteConfiguration.webList.length;j++)
                       {
-                          couldDataWebList.push(thisConfiguration);
+                          var thisConfiguration = websiteConfiguration.webList[j];
+                          if(thisConfiguration.nature != true)
+                          {
+                              localFileDataList.push(thisConfiguration);
+                          }
                       }
-                  }
-               }
-               var data = {};
-               data[websiteConfigurationString] = couldData;
-               saveStorage(data, callback);
-           });
-        }
-    };
-    xHttp.open("GET", entryJsonURL, true);
-    xHttp.send();
+                   }
+                   var data = {};
+                   data[websiteConfigurationString] = localFileData;
+                   saveStorage(data, callback);
+               });
+          });
+          fileReader.readAsText(file);
+      }
+    }
+    xhr.send();
 }
 
-function updateScriptDataFromCloud(fileName, scriptDataID, callback)
+function updateScriptDataFromLocalFile(fileName, scriptDataID, callback)
 {
-    var scriptDownloadURL = siteURL + "/scripts/" + fileName;
-    var xHttpScriptDownload = new XMLHttpRequest();
-    xHttpScriptDownload.onreadystatechange = function() {
-        if (this.readyState == 4)
-        {
-            if(this.status == 200)
-            {
-                var scriptData = this.responseText;
-                var scriptDataToStore = {};
-                scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
-                saveStorage(scriptDataToStore, function(){
-                    callback("success");
-                });
-            }
-            else
-            {
-                callback("failed");
-            }
-        }
-    };
-    xHttpScriptDownload.open("GET", scriptDownloadURL, true);
-    xHttpScriptDownload.send();
+    var entryJsonURL = "scripts/" + fileName;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', entryJsonURL, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+      if (this.status == 200) {
+          var file = new File([this.response], 'temp');
+          var fileReader = new FileReader();
+          fileReader.addEventListener('load', function(){
+               var scriptData = fileReader.result;
+               console.log(scriptData);
+               var scriptDataToStore = {};
+               scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
+               saveStorage(scriptDataToStore, function(){
+                   callback("success");
+               });
+           });
+           fileReader.readAsText(file);
+       }
+   }
+   xhr.send();
 }
 
 function getStorageVariablesFromSync(storageVariables, callback){

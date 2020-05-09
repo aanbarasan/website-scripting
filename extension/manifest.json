@@ -2,18 +2,17 @@
   "name": "Website scripting",
   "short_name": "Web script",
   "description": "Custom scripting in websites",
-  "version": "2.0.4",
-  "icons": { "16": "image/16_icon.png",
-           "48": "image/48_icon.png",
-          "128": "image/128_icon.png" },
+  "version": "2.1.0",
+  "icons": {
+    "16": "image/16_icon.png",
+    "48": "image/48_icon.png",
+    "128": "image/128_icon.png"
+  },
   "permissions": [
-    "storage", "tabs"
-  ] ,
-  "content_scripts": [
-    {
-      "matches": ["https://*/*"],
-      "js": ["commonFunction.js","content-script.js"]
-    }
+    "storage",
+    "tabs",
+    "http://*/",
+    "https://*/"
   ],
   "options_page": "options_page.html",
   "browser_action": {
@@ -21,7 +20,10 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["commonFunction.js", "background.js"]
+    "scripts": [
+      "commonFunction.js",
+      "background.js"
+    ]
   },
   "manifest_version": 2
 }
