@@ -32,6 +32,30 @@ function matchURL(urlLocation, regex)
     return pattern.test(urlLocation);
 }
 
+function getConfigurationForConfigurationId(configurationId, callback){
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
+        var foundConfiguration = false;
+        var websiteConfiguration = result[websiteConfigurationString];
+        if(websiteConfiguration && websiteConfiguration.webList)
+        {
+            var webList = websiteConfiguration.webList;
+            for(var i=0;i<webList.length;i++)
+            {
+                var thisConfiguration = webList[i];
+                if(thisConfiguration.id == configurationId)
+                {
+                    callback(thisConfiguration);
+                    foundConfiguration = true;
+                }
+            }
+        }
+        if(foundConfiguration == false)
+        {
+            callback();
+        }
+    });
+}
+
 function updateDataOneTime(callback)
 {
     var entryJsonURL = "entry.json";

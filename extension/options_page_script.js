@@ -43,14 +43,11 @@ function init()
                         innerContainer.className = innerContainer.className + " ownCustomizationScriptBlock"
                     }
                 }
-                var previewButton = document.createElement("button");
-                previewButton.innerText = "Preview";
-                previewButton.onclick = previewScript;
                 var deleteButton = document.createElement("button");
                 deleteButton.innerText = "Delete";
                 deleteButton.onclick = deleteConfiguration;
                 innerContainer.append(deleteButton);
-                innerContainer.append(previewButton);
+                innerContainer.onclick = previewScript;
                 container.append(innerContainer);
             }
         }
@@ -107,19 +104,28 @@ function getSortedScript(callback){
 function previewScript()
 {
     var _this = this;
-    var configurationId = this.parentElement.getAttribute("configuration-id");
-    var scriptId = scriptPreText + configurationId;
-    getStorageVariablesFromSync([scriptId], function(result){
-        var scriptData = result[scriptId];
-        console.log(scriptData);
-        document.getElementById("popupViewModal").style.display = "block";
-        document.getElementById("popupViewModalContent").value = scriptData;
-        document.getElementById("popupViewModalTitle").innerHTML = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
+    var configurationId = this.getAttribute("configuration-id");
+    getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
+        var scriptId = scriptPreText + configurationId;
+        getStorageVariablesFromSync([scriptId], function(result){
+            var scriptData = result[scriptId];
+            console.log(scriptData);
+            document.getElementById("popupViewModal").style.display = "block";
+            document.getElementById("popupViewModalContent").value = scriptData;
+            var modelName = thisConfiguration.name;
+            if(thisConfiguration.purpose)
+            {
+                modelName = modelName + " (" + thisConfiguration.purpose + ")";
+            }
+            document.getElementById("popupViewModalName").innerHTML = modelName;
+            document.getElementById("popupViewModalURL").innerHTML = thisConfiguration.urlRegEx;
+        });
     });
 }
 
-function deleteConfiguration()
+function deleteConfiguration(event)
 {
+    event.stopPropagation();
     var _this = this;
     var configurationId = this.parentElement.getAttribute("configuration-id");
     var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
@@ -139,8 +145,8 @@ function deleteConfiguration()
                         data[websiteConfigurationString] = websiteConfiguration;
                         saveStorage(data, function(){
                             _this.parentElement.remove();
-                            showToast("Saved successfully");
-                        })
+                            showToast("Successfully deleted");
+                        });
                         break;
                     }
                 }
@@ -151,10 +157,10 @@ function deleteConfiguration()
     }
 }
 
-function updateActiveStatusFromCheckBox()
+function updateActiveStatusFromCheckBox(event)
 {
+    event.stopPropagation();
     var _this = this;
-    window.aaa = this;
     var checkBoxCheckedStatus = this.checked
     var configurationId = this.parentElement.getAttribute("configuration-id");
     var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;

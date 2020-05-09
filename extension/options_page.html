@@ -31,6 +31,7 @@
         background-color: #e0e2e9;
         margin-bottom: 5px;
         border-bottom: 2px #fcfcfc solid;
+        cursor: pointer;
       }
       .innerContainer .nameTag
       {
@@ -40,6 +41,8 @@
       .innerContainer .checkBoxOption
       {
         vertical-align: middle;
+        height: 20px;
+        width: 20px;
       }
       .innerContainer button
       {
@@ -68,7 +71,7 @@
     <script type="text/javascript" src="commonFunction.js"></script>
   </head>
   <body style="margin: 0px">
-    <div style="width: 100%;padding: 0px 10% 0px 10%;">
+    <div style="width: 100%;padding: 0px 6% 0px 6%;">
       <div id="script-list-content-manager" style="width: 100%;padding: 10px 10px 300px 10px;background-color: #f1f2f3;">
         <h1 style="margin: 0px;">
           <image src="image/text_logo.png" style="width: 250px"></image>
@@ -82,13 +85,24 @@
       </div>
     </div>
     <div id="popupViewModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">
-      <div style="padding: 100px 200px;background-color: #ffffffd9;">
-        <div>
-          <span id="popupViewModalTitle">Header</span>
-          <button id="popupViewModalClose" style="float:right;">Close</button>
+      <div style="padding: 100px 200px;background-color: #ffffffd9;" id="popupViewModalBody">
+        <div style="float: left;width: 100%;background: #dde5dd;padding: 8px;">
+          <div style="float:left;">
+            <div>
+              <div style="display: inline-block;width: 80px;font-size: 14px;">URL regex:</div>
+              <span id="popupViewModalURL" style="font-size: 15px;">URL</span>
+            </div>
+            <div>
+              <div style="display: inline-block;width: 80px;font-size: 14px;">Name:</div>
+              <span id="popupViewModalName" style="font-size: 20px;">Header</span>
+            </div>
+          </div>
+          <div style="float:right;">
+            <button id="popupViewModalClose" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">X</button>
+          </div>
         </div>
         <div style="width:100%;">
-          <textarea id="popupViewModalContent" style="width:100%;height:400px;"></textarea>
+          <textarea id="popupViewModalContent" style="width:100%;height:400px;outline: none;color: brown;" disabled></textarea>
         </div>
       </div>
     </div>
