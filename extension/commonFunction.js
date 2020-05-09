@@ -95,6 +95,17 @@ function updateDataOneTime(callback)
 
 function updateScriptDataFromLocalFile(fileName, scriptDataID, callback)
 {
+    getScriptDataFromLocalFile(fileName, function(scriptData){
+       var scriptDataToStore = {};
+       scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
+       saveStorage(scriptDataToStore, function(){
+           callback("success");
+       });
+    });
+}
+
+function getScriptDataFromLocalFile(fileName, callback)
+{
     var entryJsonURL = "scripts/" + fileName;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', entryJsonURL, true);
@@ -105,18 +116,14 @@ function updateScriptDataFromLocalFile(fileName, scriptDataID, callback)
           var fileReader = new FileReader();
           fileReader.addEventListener('load', function(){
                var scriptData = fileReader.result;
-               console.log(scriptData);
-               var scriptDataToStore = {};
-               scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
-               saveStorage(scriptDataToStore, function(){
-                   callback("success");
-               });
+               callback(scriptData);
            });
            fileReader.readAsText(file);
        }
    }
    xhr.send();
 }
+
 
 function getStorageVariablesFromSync(storageVariables, callback){
 	chrome.storage.sync.get(storageVariables, function(result) {

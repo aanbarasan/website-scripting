@@ -12,15 +12,15 @@
       "version": "1.0.2"
     },
     {
-      "id": "watchcartoononline-remove-outline",
-      "name": "Watchcartoononline",
+      "id": "thewatchcartoononline-remove-outline",
+      "name": "TheWatchCartoonOnline",
       "purpose": "Disable default popups and remove outline of video",
       "nature": true,
       "enable": false,
       "customizedByOwn": false,
       "fileName": "thewatchcartoononline-tv.js",
       "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)",
-      "version": "1.0.2"
+      "version": "1.0.3"
     }
   ]
 }

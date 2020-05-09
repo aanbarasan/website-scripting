@@ -1,5 +1,4 @@
 /* Started to add css for removing one pop-up ad and remove outline of the video player in the page */
-// Version updated test
 
 setTimeout(function(){
     var iframes = document.getElementsByTagName("iframe");

@@ -38,45 +38,114 @@ function saveConfigurationButton()
        {
             scriptDataID = Math.random() + "";
        }
-       scriptDataToStore[scriptPreText + scriptDataID] = scriptData;
-       var scriptFound = false;
-       for(var i=0;i<webList.length;i++)
-       {
-            var thisWebConfiguration = webList[i];
-            if(scriptDataID == thisWebConfiguration.id)
-            {
+       scriptIdUrl = scriptPreText + scriptDataID;
+       scriptDataToStore[scriptIdUrl] = scriptData;
+
+       scriptDataFromFile(scriptDataID, function(existingScriptDataForScriptId){
+           var scriptFound = false;
+           for(var i=0;i<webList.length;i++)
+           {
+                var thisWebConfiguration = webList[i];
+                if(scriptDataID == thisWebConfiguration.id)
+                {
+                    thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
+                    thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
+                    thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
+                    thisWebConfiguration.id = scriptDataID;
+                    if(typeof existingScriptDataForScriptId == "string")
+                    {
+                        var differentValue = compareText(scriptData, existingScriptDataForScriptId);
+                        console.log(differentValue)
+                        if(differentValue)
+                        {
+                            thisWebConfiguration.customizedByOwn = false;
+                        }
+                        else
+                        {
+                            thisWebConfiguration.customizedByOwn = true;
+                        }
+                    }
+                    else
+                    {
+                        thisWebConfiguration.customizedByOwn = true;
+                    }
+                    scriptFound = true;
+                    break;
+                }
+           }
+           if(scriptFound == false)
+           {
+                var thisWebConfiguration = {};
                 thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
                 thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
                 thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
                 thisWebConfiguration.id = scriptDataID;
-                thisWebConfiguration.customizedByOwn = checkScriptChanges(scriptDataID, scriptData);
-                scriptFound = true;
-                break;
-            }
-       }
-       if(scriptFound == false)
-       {
-            var thisWebConfiguration = {};
-            thisWebConfiguration.name = document.getElementById("web-script-name-input").value;
-            thisWebConfiguration.urlRegEx = document.getElementById("page-url-show").value;
-            thisWebConfiguration.enabled = document.getElementById("web-script-enabled-checkbox-input").checked;
-            thisWebConfiguration.id = scriptDataID;
-            thisWebConfiguration.customizedByOwn = true;
-            webList.push(thisWebConfiguration);
-       }
-       scriptDataToStore[websiteConfigurationString] = websiteConfiguration;
-       console.log(scriptDataToStore);
-       saveStorage(scriptDataToStore, function(){
-            showToast("Saved successfully");
+                thisWebConfiguration.customizedByOwn = true;
+                webList.push(thisWebConfiguration);
+           }
+           scriptDataToStore[websiteConfigurationString] = websiteConfiguration;
+           console.log(scriptDataToStore);
+           saveStorage(scriptDataToStore, function(){
+                showToast("Saved successfully");
+           });
        });
-
    });
+}
+
+function compareText(oldText, newText)
+{
+    console.log(oldText);
+    console.log(newText);
+    var oldTextArray = oldText.split("\n");
+    var newTextArray = newText.split("\n");
+    if(oldTextArray.length != newTextArray.length)
+    {
+        return false;
+    }
+    for(var i=0;i<oldTextArray.length,i<newTextArray.length;i++)
+    {
+        if(oldTextArray[i].valueOf().trim() != newTextArray[i].valueOf().trim())
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+function scriptDataFromFile(scriptId, callback)
+{
+    getStorageVariablesFromSync([websiteConfigurationString], function(result){
+       var websiteConfiguration = result[websiteConfigurationString];
+       var webList = websiteConfiguration.webList;
+       if(websiteConfiguration && websiteConfiguration.webList)
+       {
+          for(var i=0;i<webList.length;i++)
+          {
+               var thisWebConfiguration = webList[i];
+               if(scriptId == thisWebConfiguration.id)
+               {
+                    getScriptDataFromLocalFile(thisWebConfiguration.fileName, function(scriptData){
+                        callback(scriptData);
+                    })
+                    return;
+               }
+           }
+       }
+       callback();
+    })
 }
 
 function checkScriptChanges(scriptDataID, scriptData)
 {
     var ownCustomisedBoolean = true;
-
+    var scriptIdUrl = scriptPreText + scriptDataID;
+    getStorageVariablesFromSync([scriptIdUrl], function(result){
+        var scriptData = result[scriptIdUrl];
+        if(typeof scriptData == "string")
+        {
+            document.getElementById("script-data-text-area").value = scriptData;
+        }
+    });
     return ownCustomisedBoolean;
 }
 
