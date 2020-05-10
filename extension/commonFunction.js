@@ -298,22 +298,29 @@ function scriptDataFromFile(scriptId, callback)
 
 function getScriptDataFromLocalFile(fileName, callback)
 {
-    var entryJsonURL = "scripts/" + fileName;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', entryJsonURL, true);
-    xhr.responseType = 'blob';
-    xhr.onload = function(e) {
-      if (this.status == 200) {
-          var file = new File([this.response], 'temp');
-          var fileReader = new FileReader();
-          fileReader.addEventListener('load', function(){
-               var scriptData = fileReader.result;
-               callback(scriptData);
-           });
-           fileReader.readAsText(file);
+    if(fileName)
+    {
+        var entryJsonURL = "scripts/" + fileName;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', entryJsonURL, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function(e) {
+          if (this.status == 200) {
+              var file = new File([this.response], 'temp');
+              var fileReader = new FileReader();
+              fileReader.addEventListener('load', function(){
+                   var scriptData = fileReader.result;
+                   callback(scriptData);
+               });
+               fileReader.readAsText(file);
+           }
        }
-   }
-   xhr.send();
+       xhr.send();
+    }
+    else
+    {
+        callback();
+    }
 }
 
 
