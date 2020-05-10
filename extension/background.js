@@ -6,7 +6,7 @@ function openOrFocusOptionsPage() {
        for (var i=0; i < extensionTabs.length; i++) {
           if (optionsUrl == extensionTabs[i].url) {
              found = true;
-             console.log("tab id: " + extensionTabs[i].id);
+             // console.log("tab id: " + extensionTabs[i].id);
              chrome.tabs.update(extensionTabs[i].id, {"selected": true});
           }
        }
@@ -20,44 +20,44 @@ function openOrFocusOptionsPage() {
      if(changeInfo.status == "complete") {
         // console.log(tabId, changeInfo, tab);
         getActiveUrlMatchCallbackScript(tab.url, function(configurationList){
-            console.log(configurationList);
+            // console.log(configurationList);
+            var isJqueryEnabled = false;
             for(var i=0;i<configurationList.length;i++)
             {
-                var thisConfiguration = configurationList[i];
-                if(thisConfiguration.jqueryEnabled == true)
+                if(configurationList[i].jqueryEnabled == true)
                 {
-                    executeScriptWithJquery(thisConfiguration.id, tabId, tab.url);
+                    isJqueryEnabled = true;
                 }
-                else
-                {
-                    executeScriptNormal(thisConfiguration.id, tabId, tab.url);
-                }
+            }
+            if(isJqueryEnabled == true)
+            {
+                chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.js"}, function() {
+                    executeConfigurationOfList(configurationList, tabId, tab.url);
+                });
+            }
+            else
+            {
+                executeConfigurationOfList(configurationList, tabId, tab.url);
             }
         });
      }
  });
 
-function executeScriptWithJquery(configurationId, tabId, tabURL)
-{
-    chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.js"}, function() {
-        console.log("Jquery executed");
-        var scriptId = scriptPreText + configurationId;
-        getStorageVariablesFromSync([scriptId], function(result){
-            var scriptData = result[scriptId];
-            chrome.tabs.executeScript(tabId, {code: scriptData}, function() {
-                console.log("Script injected", configurationId, tabURL);
-            });
-        });
-    });
+ function executeConfigurationOfList(configurationList, tabId, tabURL)
+ {
+    for(var i=0;i<configurationList.length;i++)
+    {
+        executeScript(configurationList[i].id, tabId, tabURL);
+    }
  }
 
- function executeScriptNormal(configurationId, tabId, tabURL)
+ function executeScript(configurationId, tabId, tabURL)
  {
     var scriptId = scriptPreText + configurationId;
     getStorageVariablesFromSync([scriptId], function(result){
         var scriptData = result[scriptId];
         chrome.tabs.executeScript(tabId, {code: scriptData}, function() {
-            console.log("Script injected", configurationId, tabURL);
+            // console.log("Script injected", configurationId, tabURL);
         });
     });
  }

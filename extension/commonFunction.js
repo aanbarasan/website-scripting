@@ -84,7 +84,7 @@ function getConfigurationForConfigurationId(configurationId, callback){
 function updateDataOneTime(callback)
 {
     getLocalDataJsonFromFile(function(localFileData){
-       console.log(localFileData);
+       // console.log(localFileData);
        getStorageVariablesFromSync([websiteConfigurationString], function(result){
            var websiteConfiguration = result[websiteConfigurationString];
            var localFileDataList = localFileData.webList;
@@ -192,7 +192,7 @@ function saveConfigurationForOneData(scriptData, scriptDataID, configurationName
        {
             websiteConfiguration.webList = [];
        }
-       console.log(websiteConfiguration)
+       // console.log(websiteConfiguration)
        var webList = websiteConfiguration.webList;
        var scriptDataToStore = {};
 
@@ -218,7 +218,7 @@ function saveConfigurationForOneData(scriptData, scriptDataID, configurationName
                     if(typeof existingScriptDataForScriptId == "string")
                     {
                         var differentValue = compareText(scriptData, existingScriptDataForScriptId);
-                        console.log(differentValue)
+                        // console.log(differentValue)
                         if(differentValue)
                         {
                             thisWebConfiguration.customizedByOwn = false;
@@ -248,7 +248,7 @@ function saveConfigurationForOneData(scriptData, scriptDataID, configurationName
                 webList.push(thisWebConfiguration);
            }
            scriptDataToStore[websiteConfigurationString] = websiteConfiguration;
-           console.log(scriptDataToStore);
+           // console.log(scriptDataToStore);
            saveStorage(scriptDataToStore, callback);
        });
    });
@@ -256,8 +256,6 @@ function saveConfigurationForOneData(scriptData, scriptDataID, configurationName
 
 function compareText(oldText, newText)
 {
-    console.log(oldText);
-    console.log(newText);
     var oldTextArray = oldText.split("\n");
     var newTextArray = newText.split("\n");
     if(oldTextArray.length != newTextArray.length)

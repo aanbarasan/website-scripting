@@ -8,7 +8,7 @@ function openOrFocusOptionsPage() {
         for (var i=0; i < extensionTabs.length; i++) {
             if (optionsUrl == extensionTabs[i].url) {
                 found = true;
-                console.log("tab id: " + extensionTabs[i].id);
+                // console.log("tab id: " + extensionTabs[i].id);
                 chrome.tabs.update(extensionTabs[i].id, {"selected": true});
             }
         }
@@ -54,7 +54,7 @@ function init()
             var thisTab = tabs[0];
             let url = thisTab.url;
             urlMatchCallbackScript(url, function(configurationResultList){
-                console.log(configurationResultList);
+                // console.log(configurationResultList);
                 if(configurationResultList.length > 0)
                 {
                     var optionList = "";
@@ -75,7 +75,7 @@ function init()
                 }
                 else
                 {
-                    console.log(thisTab);
+                    // console.log(thisTab);
                     if(scriptDataID == "")
                     {
                         scriptDataID = Math.random() + "";
@@ -104,7 +104,7 @@ function addNewScriptButton(){
        if(tabs)
        {
             var thisTab = tabs[0];
-            console.log(thisTab);
+            // console.log(thisTab);
             let url = thisTab.url;
             let title = thisTab.title;
             scriptDataID = Math.random() + "";
@@ -154,7 +154,7 @@ function loadContainer(thisConfiguration, configurationId)
            if(tabs)
            {
                 var thisTab = tabs[0];
-                console.log(thisTab);
+                // console.log(thisTab);
                 let url = thisTab.url;
                 let title = thisTab.title;
                 scriptDataID = configurationId;
