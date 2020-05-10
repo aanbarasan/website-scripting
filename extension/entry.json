@@ -2,14 +2,25 @@
   "webList": [
     {
       "id": "hotstar-website-quality-change",
-      "name": "Hotstar",
+      "name": "Hotstar auto high quality",
       "purpose": "Automatically change quality to high instead of auto",
       "nature": true,
       "enable": false,
       "customizedByOwn": false,
-      "fileName": "hotstar.com.js",
+      "fileName": "hotstar.com-auto-high.js",
       "urlRegEx": "https:(.*).hotstar.com(.*)*",
       "version": "1.0.2"
+    },
+    {
+      "id": "hotstar-website-video-fullscreen-automatically",
+      "name": "Hotstar video auto fullscreen ",
+      "purpose": "Automatically full screen while playing video",
+      "nature": true,
+      "enable": false,
+      "customizedByOwn": false,
+      "fileName": "hotstar.com-auto-fullscreen.js",
+      "urlRegEx": "https:(.*).hotstar.com(.*)*",
+      "version": "1.0.0"
     },
     {
       "id": "thewatchcartoononline-remove-outline",

@@ -5,12 +5,12 @@ var incrementCounter = 1;
 var maxCounter = 5;
 var timeoutGap = 3000;
 
-var videoQualitDefaultInterval = setInterval(function(){
+var videoQualityDefaultInterval = setInterval(function(){
     var result = setVideoQuality(defaultQuality);
     if(result === true || incrementCounter > maxCounter)
     {
         console.log("Finished after: " + incrementCounter);
-        clearInterval(videoQualitDefaultInterval);
+        clearInterval(videoQualityDefaultInterval);
     }
     else
     {

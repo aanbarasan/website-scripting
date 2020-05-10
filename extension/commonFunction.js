@@ -1,7 +1,6 @@
 window.websiteConfigurationString = "websiteConfigurations";
 window.scriptPreText = "CustomScript_";
 
-
 function getActiveUrlMatchCallbackScript(currentURLLocation, callback)
 {
     urlMatchCallbackScript(currentURLLocation, function(configurationResultList){
@@ -99,11 +98,8 @@ function updateDataOneTime(callback)
                        var thisWebConfig = websiteConfiguration.webList[j];
                        if(thisWebConfig.id == thisConfiguration.id)
                        {
-                            if(thisWebConfig.customizedByOwn == true)
-                            {
-                               thisConfiguration.enabled = thisWebConfig.enabled;
-                               thisConfiguration.customizedByOwn = true;
-                            }
+                           thisConfiguration.enabled = thisWebConfig.enabled;
+                           thisConfiguration.customizedByOwn = thisWebConfig.customizedByOwn;
                        }
                    }
                }
