@@ -7,6 +7,7 @@
       "nature": true,
       "enable": false,
       "customizedByOwn": false,
+      "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-high.js",
       "urlRegEx": "https:(.*).hotstar.com(.*)*",
       "version": "1.0.2"
@@ -18,6 +19,7 @@
       "nature": true,
       "enable": false,
       "customizedByOwn": false,
+      "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-fullscreen.js",
       "urlRegEx": "https:(.*).hotstar.com(.*)*",
       "version": "1.0.0"
@@ -29,6 +31,7 @@
       "nature": true,
       "enable": false,
       "customizedByOwn": false,
+      "jqueryEnabled": false,
       "fileName": "thewatchcartoononline-tv.js",
       "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)",
       "version": "1.0.3"

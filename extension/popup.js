@@ -25,10 +25,11 @@ function saveConfigurationButton()
     var configurationName = document.getElementById("web-script-name-input").value;
     var configurationUrlRegex = document.getElementById("page-url-show").value;
     var configurationEnabled = document.getElementById("web-script-enabled-checkbox-input").checked;
+    var jqueryEnabled = document.getElementById("enable-jquery-checkbox-input").checked;
     var callback = function(){
         showToast("Saved successfully");
     }
-    saveConfigurationForOneData(scriptData, scriptDataID, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, callback);
+    saveConfigurationForOneData(scriptData, scriptDataID, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback);
 }
 
 function checkScriptChanges(scriptDataID, scriptData)
@@ -53,6 +54,7 @@ function init()
             var thisTab = tabs[0];
             let url = thisTab.url;
             urlMatchCallbackScript(url, function(configurationResultList){
+                console.log(configurationResultList);
                 if(configurationResultList.length > 0)
                 {
                     var optionList = "";
@@ -83,6 +85,7 @@ function init()
                     document.getElementById("page-url-show").value = regexURL;
                     document.getElementById("web-script-name-input").value = title;
                     document.getElementById("web-script-enabled-checkbox-input").checked  = true;
+                    document.getElementById("enable-jquery-checkbox-input").checked  = true;
                     document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
                     var selectOptions = document.getElementById("select-option-for-different-script");
                     selectOptions.innerHTML = "<option selected value=\""+scriptDataID+"\">"+title+"</option>";
@@ -109,6 +112,7 @@ function addNewScriptButton(){
             document.getElementById("page-url-show").value = regexURL;
             document.getElementById("web-script-name-input").value = title;
             document.getElementById("web-script-enabled-checkbox-input").checked  = true;
+            document.getElementById("enable-jquery-checkbox-input").checked  = true;
             document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
             var selectOptions = document.getElementById("select-option-for-different-script");
             selectOptions.innerHTML = selectOptions.innerHTML + "<option selected value=\""+scriptDataID+"\">"+title+"</option>";
@@ -133,7 +137,8 @@ function loadContainer(thisConfiguration, configurationId)
         scriptDataID = thisConfiguration.id;
         document.getElementById("web-script-name-input").value = thisConfiguration.name;
         document.getElementById("page-url-show").value = thisConfiguration.urlRegEx;
-        document.getElementById("web-script-enabled-checkbox-input").checked = (thisConfiguration.enabled == true) ? true : false;
+        document.getElementById("web-script-enabled-checkbox-input").checked = thisConfiguration.enabled;
+        document.getElementById("enable-jquery-checkbox-input").checked = thisConfiguration.jqueryEnabled;
         var scriptIdUrl = scriptPreText + scriptDataID;
         getStorageVariablesFromSync([scriptIdUrl], function(result){
             var scriptData = result[scriptIdUrl];
@@ -157,6 +162,7 @@ function loadContainer(thisConfiguration, configurationId)
                 document.getElementById("page-url-show").value = regexURL;
                 document.getElementById("web-script-name-input").value = title;
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
+                document.getElementById("enable-jquery-checkbox-input").checked  = true;
                 document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
            }
        });

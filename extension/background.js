@@ -24,17 +24,34 @@ function openOrFocusOptionsPage() {
             for(var i=0;i<configurationList.length;i++)
             {
                 var thisConfiguration = configurationList[i];
-                executeScript(thisConfiguration.id, tabId, tab.url)
-                /*chrome.tabs.executeScript(tabId, {file: "scripts/hotstar.com.js"}, function() {
-                    console.log("Script injected")
-                });*/
+                if(thisConfiguration.jqueryEnabled == true)
+                {
+                    executeScriptWithJquery(thisConfiguration.id, tabId, tab.url);
+                }
+                else
+                {
+                    executeScriptNormal(thisConfiguration.id, tabId, tab.url);
+                }
             }
-
         });
      }
  });
 
- function executeScript(configurationId, tabId, tabURL)
+function executeScriptWithJquery(configurationId, tabId, tabURL)
+{
+    chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.js"}, function() {
+        console.log("Jquery executed");
+        var scriptId = scriptPreText + configurationId;
+        getStorageVariablesFromSync([scriptId], function(result){
+            var scriptData = result[scriptId];
+            chrome.tabs.executeScript(tabId, {code: scriptData}, function() {
+                console.log("Script injected", configurationId, tabURL);
+            });
+        });
+    });
+ }
+
+ function executeScriptNormal(configurationId, tabId, tabURL)
  {
     var scriptId = scriptPreText + configurationId;
     getStorageVariablesFromSync([scriptId], function(result){
@@ -43,7 +60,6 @@ function openOrFocusOptionsPage() {
             console.log("Script injected", configurationId, tabURL);
         });
     });
-
  }
 
 

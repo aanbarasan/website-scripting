@@ -180,8 +180,7 @@ function updateScriptDataFromLocalFile(fileName, scriptDataID, callback)
     });
 }
 
-
-function saveConfigurationForOneData(scriptData, scriptDataID, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, callback)
+function saveConfigurationForOneData(scriptData, scriptDataID, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback)
 {
     getStorageVariablesFromSync([websiteConfigurationString], function(result){
        var websiteConfiguration = result[websiteConfigurationString];
@@ -210,6 +209,7 @@ function saveConfigurationForOneData(scriptData, scriptDataID, configurationName
                     thisWebConfiguration.name = configurationName;
                     thisWebConfiguration.urlRegEx = configurationUrlRegex;
                     thisWebConfiguration.enabled = configurationEnabled;
+                    thisWebConfiguration.jqueryEnabled = jqueryEnabled;
                     if(configurationPurpose)
                     {
                         thisWebConfiguration.purpose = configurationPurpose;
@@ -242,6 +242,7 @@ function saveConfigurationForOneData(scriptData, scriptDataID, configurationName
                 thisWebConfiguration.name = configurationName;
                 thisWebConfiguration.urlRegEx = configurationUrlRegex;
                 thisWebConfiguration.enabled = configurationEnabled;
+                thisWebConfiguration.jqueryEnabled = jqueryEnabled;
                 thisWebConfiguration.id = scriptDataID;
                 thisWebConfiguration.customizedByOwn = true;
                 webList.push(thisWebConfiguration);

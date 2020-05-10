@@ -160,11 +160,13 @@ function resetScriptFromLocal()
                             var configurationName = thisConfiguration.name;
                             var configurationUrlRegex = thisConfiguration.urlRegEx;
                             var configurationEnabled = thisConfiguration.enabled;
+                            var jqueryEnabled = thisConfiguration.jqueryEnabled;
                             if(thisLocalConfiguration)
                             {
                                 configurationPurpose = thisLocalConfiguration.purpose;
                                 configurationName = thisLocalConfiguration.name;
                                 configurationUrlRegex = thisLocalConfiguration.urlRegEx;
+                                jqueryEnabled = thisLocalConfiguration.jqueryEnabled;
                             }
                             var callback = function(){
                                 showToast("Saved successfully");
@@ -172,7 +174,7 @@ function resetScriptFromLocal()
                                 previewScript(configurationId);
                                 loadContainer();
                             }
-                            saveConfigurationForOneData(scriptData, configurationId, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, callback);
+                            saveConfigurationForOneData(scriptData, configurationId, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback);
                         })
                     }
                     {
