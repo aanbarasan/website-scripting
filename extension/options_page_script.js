@@ -1,6 +1,15 @@
 
 function init()
 {
+    loadContainer();
+    document.getElementById("popupViewModalClose").onclick = function(){
+        document.getElementById("popupViewModal").style.display = "none";
+    }
+    document.getElementById("popup-update-reset-script-from-local-button").onclick = resetScriptFromLocal;
+}
+
+function loadContainer()
+{
     document.getElementById("scripts-list-container").innerHTML = "";
     getSortedScript(function(configurationWebList){
         var container = document.getElementById("scripts-list-container");
@@ -47,7 +56,7 @@ function init()
                 deleteButton.innerText = "Delete";
                 deleteButton.onclick = deleteConfiguration;
                 innerContainer.append(deleteButton);
-                innerContainer.onclick = previewScript;
+                innerContainer.onclick = previewScriptClick;
                 container.append(innerContainer);
             }
         }
@@ -56,9 +65,6 @@ function init()
             container.innerHTML = "<div>No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here</div>";
         }
     });
-    document.getElementById("popupViewModalClose").onclick = function(){
-        document.getElementById("popupViewModal").style.display = "none";
-    }
 }
 
 function getSortedScript(callback){
@@ -68,13 +74,12 @@ function getSortedScript(callback){
         {
             var configurationWebList = [];
             var webList = websiteConfiguration.webList;
-            for(var i=0;i<webList.length;i++)
+            for(var i=webList.length - 1;i>=0;i--)
             {
                 if(webList[i].customizedByOwn == true && webList[i].nature != true)
                 {
                     configurationWebList.push(webList[i]);
                     webList.splice(i, 1);
-                    i--;
                 }
             }
             for(var i=0;i<webList.length;i++)
@@ -101,15 +106,19 @@ function getSortedScript(callback){
     })
 }
 
-function previewScript()
+function previewScriptClick()
 {
-    var _this = this;
     var configurationId = this.getAttribute("configuration-id");
+    previewScript(configurationId);
+}
+
+function previewScript(configurationId)
+{
     getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
         var scriptId = scriptPreText + configurationId;
         getStorageVariablesFromSync([scriptId], function(result){
             var scriptData = result[scriptId];
-            console.log(scriptData);
+            document.getElementById("popup-current-configuration-id").value = configurationId;
             document.getElementById("popupViewModal").style.display = "block";
             document.getElementById("popupViewModalContent").value = scriptData;
             var modelName = thisConfiguration.name;
@@ -119,7 +128,59 @@ function previewScript()
             }
             document.getElementById("popupViewModalName").innerHTML = modelName;
             document.getElementById("popupViewModalURL").innerHTML = thisConfiguration.urlRegEx;
+            if(thisConfiguration.nature == true && thisConfiguration.customizedByOwn == true)
+            {
+                document.getElementById("popup-update-reset-script-from-local-button").style.display = "";
+            }
+            else
+            {
+                document.getElementById("popup-update-reset-script-from-local-button").style.display = "none";
+            }
         });
+    });
+}
+
+function resetScriptFromLocal()
+{
+    var _this = this;
+    var configurationId = document.getElementById("popup-current-configuration-id").value;
+    getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
+        if(thisConfiguration)
+        {
+            var scriptId = scriptPreText + configurationId;
+            var r = confirm("Confirm to reset the script '" + thisConfiguration.name +"'");
+            if (r == true) {
+                console.log("reset");
+                scriptDataFromFile(configurationId, function(existingScriptDataForScriptId){
+                    if(existingScriptDataForScriptId)
+                    {
+                        getConfigurationForConfigIdFromLocalFile(configurationId, function(thisLocalConfiguration){
+                            var scriptData = existingScriptDataForScriptId;
+                            var configurationPurpose = thisConfiguration.purpose;
+                            var configurationName = thisConfiguration.name;
+                            var configurationUrlRegex = thisConfiguration.urlRegEx;
+                            var configurationEnabled = thisConfiguration.enabled;
+                            if(thisLocalConfiguration)
+                            {
+                                configurationPurpose = thisLocalConfiguration.purpose;
+                                configurationName = thisLocalConfiguration.name;
+                                configurationUrlRegex = thisLocalConfiguration.urlRegEx;
+                            }
+                            var callback = function(){
+                                showToast("Saved successfully");
+                                var configurationId = document.getElementById("popup-current-configuration-id").value;
+                                previewScript(configurationId);
+                                loadContainer();
+                            }
+                            saveConfigurationForOneData(scriptData, configurationId, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, callback);
+                        })
+                    }
+                    {
+                        showToast("Local data not found");
+                    }
+                });
+            }
+        }
     });
 }
 
@@ -189,24 +250,6 @@ function updateFeatureState(websiteConfiguration, configId, booleanValue)
             websiteConfiguration.webList[i].enabled = booleanValue;
         }
     }
-}
-
-function updateDataFromCloudFiles()
-{
-    updateDataFromCloud(function(){
-        showToast("Saved successfully");
-        init();
-    });
-}
-
-function clearLocal()
-{
-    var data = {};
-    data[websiteConfigurationString] = {};
-    saveStorage(data, function(){
-        showToast("Cleared successfully");
-    });
-    init();
 }
 
 init();

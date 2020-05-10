@@ -51,16 +51,22 @@
 <body style="width:600px;">
    <div>
        <div>
-            <div>
-                <div style="padding: 3px;">
-                    <span>URL regex: <input type="text" id="page-url-show" style="max-width: 200px"/> <span style="color:red;">*</span></span>
-                    <span>Name: <input type="text" placeholder="name" id="web-script-name-input"/></span>
-                    <span>Active: <input type="checkbox" id="web-script-enabled-checkbox-input"/></span>
-                </div>
-                <div style="padding: 3px;">
-
-                </div>
+           <div>
+               <select id="select-option-for-different-script">
+                   <option>None</option>
+               </select>
+               <button id="add-new-script-button">Add new script</button>
+           </div>
+           <div>
+            <div style="padding: 3px;">
+                <span>URL regex: <input type="text" id="page-url-show" style="max-width: 200px"/> <span style="color:red;">*</span></span>
+                <span>Name: <input type="text" placeholder="name" id="web-script-name-input"/></span>
+                <span>Active: <input type="checkbox" id="web-script-enabled-checkbox-input"/></span>
             </div>
+            <div style="padding: 3px;">
+
+            </div>
+           </div>
            <div>
                 <textarea style="width:100%;height:200px;color:brown;" id="script-data-text-area"></textarea>
            </div>

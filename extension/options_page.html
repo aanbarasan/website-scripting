@@ -87,6 +87,7 @@
     <div id="popupViewModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">
       <div style="padding: 100px 200px;background-color: #ffffffd9;" id="popupViewModalBody">
         <div style="float: left;width: 100%;background: #dde5dd;padding: 8px;">
+          <input style="display:none;" type="text" id="popup-current-configuration-id"/>
           <div style="float:left;">
             <div>
               <div style="display: inline-block;width: 80px;font-size: 14px;">URL regex:</div>
@@ -96,6 +97,9 @@
               <div style="display: inline-block;width: 80px;font-size: 14px;">Name:</div>
               <span id="popupViewModalName" style="font-size: 20px;">Header</span>
             </div>
+          </div>
+          <div style="float:left;">
+            <button id="popup-update-reset-script-from-local-button" style="display:none;">Reset</button>
           </div>
           <div style="float:right;">
             <button id="popupViewModalClose" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">X</button>

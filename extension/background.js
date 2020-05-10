@@ -19,19 +19,32 @@ function openOrFocusOptionsPage() {
  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
      if(changeInfo.status == "complete") {
         // console.log(tabId, changeInfo, tab);
-        urlMatchCallbackScript(tab.url, function(configurationList){
-            if(configurationList && configurationList.length > 0)
+        getActiveUrlMatchCallbackScript(tab.url, function(configurationList){
+            console.log(configurationList);
+            for(var i=0;i<configurationList.length;i++)
             {
-                chrome.tabs.executeScript(tabId, {file: "scripts/hotstar.com.js"}, function() {
-                    console.log("Script injected")
-                });
-                /*chrome.tabs.executeScript(tabId, {code: "alert(\"Test\");"}, function() {
+                var thisConfiguration = configurationList[i];
+                executeScript(thisConfiguration.id, tabId, tab.url)
+                /*chrome.tabs.executeScript(tabId, {file: "scripts/hotstar.com.js"}, function() {
                     console.log("Script injected")
                 });*/
             }
+
         });
      }
  });
+
+ function executeScript(configurationId, tabId, tabURL)
+ {
+    var scriptId = scriptPreText + configurationId;
+    getStorageVariablesFromSync([scriptId], function(result){
+        var scriptData = result[scriptId];
+        chrome.tabs.executeScript(tabId, {code: scriptData}, function() {
+            console.log("Script injected", configurationId, tabURL);
+        });
+    });
+
+ }
 
 
  chrome.extension.onConnect.addListener(function(port) {
