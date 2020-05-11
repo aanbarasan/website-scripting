@@ -9,7 +9,7 @@ var videoQualityDefaultInterval = setInterval(function(){
     var result = setVideoQuality(defaultQuality);
     if(result === true || incrementCounter > maxCounter)
     {
-        console.log("Finished after: " + incrementCounter);
+        console.log("Finished quality set after: " + incrementCounter);
         clearInterval(videoQualityDefaultInterval);
     }
     else

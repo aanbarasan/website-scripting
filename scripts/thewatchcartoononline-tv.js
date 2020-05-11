@@ -2,8 +2,8 @@
 // Version updated test
 
 setTimeout(function(){
-    var iframes = document.getElementsByTagName("iframe");
-    for(var i=0;i<iframes.length;i++)
+    var iFrameList = document.getElementsByTagName("iframe");
+    for(var i=0;i<iFrameList.length;i++)
     {
        var stylesTag= `<style type="text/css">
              video { 
@@ -13,8 +13,8 @@ setTimeout(function(){
 
        var styleSheetDiv = document.createElement("div")
        styleSheetDiv.innerHTML = stylesTag;
-       if(iframes[i].contentDocument && iframes[i].contentDocument.body) {
-          iframes[i].contentDocument.body.appendChild(styleSheetDiv);
+       if(iFrameList[i].contentDocument && iFrameList[i].contentDocument.body) {
+          iFrameList[i].contentDocument.body.appendChild(styleSheetDiv);
        }
     }
 }, 5000);
