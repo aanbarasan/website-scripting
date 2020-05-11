@@ -31,7 +31,7 @@ function openOrFocusOptionsPage() {
             }
             if(isJqueryEnabled == true)
             {
-                chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.js"}, function() {
+                chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.min.js"}, function() {
                     executeConfigurationOfList(configurationList, tabId, tab.url);
                 });
             }
