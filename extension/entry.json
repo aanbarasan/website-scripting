@@ -9,8 +9,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-high.js",
-      "urlRegEx": "https:(.*).hotstar.com(.*)*",
-      "version": "1.0.2"
+      "urlRegEx": "https:(.*).hotstar.com(.*)*"
     },
     {
       "id": "hotstar-website-video-fullscreen-automatically",
@@ -21,8 +20,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-fullscreen.js",
-      "urlRegEx": "https:(.*).hotstar.com(.*)*",
-      "version": "1.0.0"
+      "urlRegEx": "https:(.*).hotstar.com(.*)*"
     },
     {
       "id": "thewatchcartoononline-remove-outline",
@@ -33,8 +31,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "thewatchcartoononline-tv.js",
-      "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)",
-      "version": "1.0.3"
+      "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)"
     }
   ]
 }

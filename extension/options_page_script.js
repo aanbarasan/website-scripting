@@ -177,6 +177,7 @@ function resetScriptFromLocal()
                             saveConfigurationForOneData(scriptData, configurationId, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback);
                         })
                     }
+                    else
                     {
                         showToast("Local data not found");
                     }
