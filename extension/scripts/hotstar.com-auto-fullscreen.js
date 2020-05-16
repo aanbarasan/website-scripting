@@ -1,26 +1,36 @@
 /* Started to set video fullscreen when page opens */
 
-var incrementCounter = 1;
-var maxCounter = 5;
-var timeoutGap = 3000;
-var timeoutAfterFind = 5000;
-var playedOneTime = false;
+var maxIncrement = 50;
+var counterIncrement = 1;
+var counterTimeout = 0;
+var timeoutIncrement = 10;
 
-var videoFullScreenDefaultInterval = setInterval(function(){
-    var result = setFullScreen();
-    if(result === true || incrementCounter > maxCounter)
-    {
-        console.log("Finished fullscreen after: " + incrementCounter);
-        clearInterval(videoFullScreenDefaultInterval);
-    }
-    else
-    {
-        console.log("Repeating fullscreen set: " + incrementCounter)
-        incrementCounter++;
-    }
-}, timeoutGap);
+function executeInterval()
+{
+    setTimeout(function(){
+        if(counterIncrement >= maxIncrement)
+        {
+            console.log("Fullscreen set failed with max timeout: " + counterIncrement);
+        }
+        else
+        {
+            var resultBoolean = userFunction();
+            if(resultBoolean == true)
+            {
+                console.log("Fullscreen set success in: " + counterIncrement);
+            }
+            else
+            {
+                counterTimeout = counterTimeout + timeoutIncrement;
+                counterIncrement = counterIncrement + 1;
+                // console.log("Fullscreen set execution check: ", counterIncrement, counterTimeout);
+                executeInterval();
+            }
+        }
+    }, counterTimeout);
+}
 
-function setFullScreen()
+function userFunction()
 {
     var videoPlayers = document.getElementsByTagName("video");
     if(videoPlayers && videoPlayers.length > 0)
@@ -28,34 +38,25 @@ function setFullScreen()
         for(var i=0;i<videoPlayers.length;i++)
         {
             var videoPlayer = videoPlayers[i];
-            if(videoPlayer.paused != true || playedOneTime == true)
+            if(videoPlayer.networkState > 0)
             {
-                playedOneTime = true;
-                setFullScreenAfterTimeout();
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-function setFullScreenAfterTimeout()
-{
-    setTimeout(function(){
-        var fullScreenButtonList = document.getElementsByClassName("fullscreen player-control");
-        if(fullScreenButtonList && fullScreenButtonList.length > 0)
-        {
-            var fullScreenButton = fullScreenButtonList[0];
-            if(fullScreenButton)
-            {
-                if(!isFullScreenOrNot())
+                var fullScreenButtonList = document.getElementsByClassName("fullscreen player-control");
+                if(fullScreenButtonList && fullScreenButtonList.length > 0)
                 {
-                    fullScreenButton.click();
+                    var fullScreenButton = fullScreenButtonList[0];
+                    if(fullScreenButton)
+                    {
+                        if(!isFullScreenOrNot())
+                        {
+                            fullScreenButton.click();
+                            return true;
+                        }
+                    }
                 }
             }
         }
-    }, timeoutAfterFind);
+    }
+    return false;
 }
 
 function isFullScreenOrNot()
@@ -67,4 +68,7 @@ function isFullScreenOrNot()
         return false;
     }
 }
+
+executeInterval();
+
 /* End video fullscreen*/
