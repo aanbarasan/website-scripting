@@ -1,36 +1,6 @@
 /* Started to set video fullscreen when page opens */
 
-var maxIncrement = 50;
-var counterIncrement = 1;
-var counterTimeout = 0;
-var timeoutIncrement = 10;
-
-function executeInterval()
-{
-    setTimeout(function(){
-        if(counterIncrement >= maxIncrement)
-        {
-            console.log("Fullscreen set failed with max timeout: " + counterIncrement);
-        }
-        else
-        {
-            var resultBoolean = userFunction();
-            if(resultBoolean == true)
-            {
-                console.log("Fullscreen set success in: " + counterIncrement);
-            }
-            else
-            {
-                counterTimeout = counterTimeout + timeoutIncrement;
-                counterIncrement = counterIncrement + 1;
-                // console.log("Fullscreen set execution check: ", counterIncrement, counterTimeout);
-                executeInterval();
-            }
-        }
-    }, counterTimeout);
-}
-
-function userFunction()
+function userFunctionFullScreen()
 {
     var videoPlayers = document.getElementsByTagName("video");
     if(videoPlayers && videoPlayers.length > 0)
@@ -69,6 +39,37 @@ function isFullScreenOrNot()
     }
 }
 
-executeInterval();
+(function(){
+    var _this = {};
+    _this.maxIncrement = 50;
+    _this.counterIncrement = 1;
+    _this.counterTimeout = 0;
+    _this.timeoutIncrement = 10;
+
+    _this.executeInterval = function(){
+        setTimeout(function(){
+            if(_this.counterIncrement >= _this.maxIncrement)
+            {
+                console.log("Fullscreen set failed with max timeout: " + _this.counterIncrement);
+            }
+            else
+            {
+                var resultBoolean = userFunctionFullScreen();
+                if(resultBoolean == true)
+                {
+                    console.log("Fullscreen set success in: " + _this.counterIncrement);
+                }
+                else
+                {
+                    _this.counterTimeout = _this.counterTimeout + _this.timeoutIncrement;
+                    _this.counterIncrement = _this.counterIncrement + 1;
+                    console.log("Fullscreen set execution check: ", _this.counterIncrement, _this.counterTimeout);
+                    _this.executeInterval();
+                }
+            }
+        }, _this.counterTimeout);
+    }
+    _this.executeInterval();
+})();
 
 /* End video fullscreen*/
