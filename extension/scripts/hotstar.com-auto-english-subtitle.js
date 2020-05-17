@@ -51,9 +51,9 @@ function userFunctionAutoEnglish()
                 }
                 else
                 {
+                    // console.log("English subtitle set check: ", _this.counterIncrement, _this.counterTimeout);
                     _this.counterTimeout = _this.counterTimeout + _this.timeoutIncrement;
                     _this.counterIncrement = _this.counterIncrement + 1;
-                    console.log("English subtitle set check: ", _this.counterIncrement, _this.counterTimeout);
                     _this.executeInterval();
                 }
             }
