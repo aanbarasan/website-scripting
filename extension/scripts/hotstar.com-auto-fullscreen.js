@@ -8,7 +8,7 @@ function userFunctionFullScreen()
         for(var i=0;i<videoPlayers.length;i++)
         {
             var videoPlayer = videoPlayers[i];
-            if(videoPlayer.networkState > 0)
+            if(videoPlayer.networkState > 0 && videoPlayer.videoWidth > 0 && videoPlayer.videoHeight > 0)
             {
                 var fullScreenButtonList = document.getElementsByClassName("fullscreen player-control");
                 if(fullScreenButtonList && fullScreenButtonList.length > 0)
