@@ -14,7 +14,10 @@
     "http://*/",
     "https://*/"
   ],
-  "options_page": "options_page.html",
+  "options_ui": {
+    "page": "options_page.html",
+    "open_in_tab": true
+  },
   "browser_action": {
     "default_title": "Website-scripting",
     "default_popup": "popup.html"
