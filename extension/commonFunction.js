@@ -277,9 +277,9 @@ function scriptDataFromFile(scriptId, callback)
 {
     getStorageVariablesFromSync([websiteConfigurationString], function(result){
        var websiteConfiguration = result[websiteConfigurationString];
-       var webList = websiteConfiguration.webList;
        if(websiteConfiguration && websiteConfiguration.webList)
        {
+          var webList = websiteConfiguration.webList;
           for(var i=0;i<webList.length;i++)
           {
                var thisWebConfiguration = webList[i];

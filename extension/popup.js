@@ -9,7 +9,7 @@ function openOrFocusOptionsPage() {
             if (optionsUrl == extensionTabs[i].url) {
                 found = true;
                 // console.log("tab id: " + extensionTabs[i].id);
-                chrome.tabs.update(extensionTabs[i].id, {"selected": true});
+                chrome.tabs.update(extensionTabs[i].id, {"active": true});
             }
         }
         if (found == false) {
@@ -86,7 +86,7 @@ function init()
                     document.getElementById("web-script-name-input").value = title;
                     document.getElementById("web-script-enabled-checkbox-input").checked  = true;
                     document.getElementById("enable-jquery-checkbox-input").checked  = true;
-                    document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
+                    document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
                     var selectOptions = document.getElementById("select-option-for-different-script");
                     selectOptions.innerHTML = "<option selected value=\""+scriptDataID+"\">"+title+"</option>";
                     selectOptions.onchange = selectButtonChanged;
@@ -163,7 +163,7 @@ function loadContainer(thisConfiguration, configurationId)
                 document.getElementById("web-script-name-input").value = title;
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
                 document.getElementById("enable-jquery-checkbox-input").checked  = true;
-                document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
+                document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
            }
        });
     }

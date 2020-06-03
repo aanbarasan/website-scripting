@@ -7,7 +7,7 @@ function openOrFocusOptionsPage() {
           if (optionsUrl == extensionTabs[i].url) {
              found = true;
              // console.log("tab id: " + extensionTabs[i].id);
-             chrome.tabs.update(extensionTabs[i].id, {"selected": true});
+             chrome.tabs.update(extensionTabs[i].id, {"active": true});
           }
        }
        if (found == false) {
@@ -63,7 +63,7 @@ function openOrFocusOptionsPage() {
  }
 
 
- chrome.extension.onConnect.addListener(function(port) {
+/* chrome.extension.onConnect.addListener(function(port) {
    var tab = port.sender.tab;
    // This will get called by the content script we execute in
    // the tab as a result of the user pressing the browser action.
@@ -73,7 +73,7 @@ function openOrFocusOptionsPage() {
        info.selection = info.selection.substring(0, max_length);
        openOrFocusOptionsPage();
    });
- });
+ });*/
  
  // Called when the user clicks on the browser action icon.
  chrome.browserAction.onClicked.addListener(function(tab) {
