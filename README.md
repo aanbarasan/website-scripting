@@ -5,4 +5,8 @@ Use a custom javascript attach extensions with this codes. Put this codes in the
 
 For reference use below extension.
 
+In Chrome
 https://chrome.google.com/webstore/detail/website-scripting/aggnfbkmhedkekjoplldenefbchaoiln
+
+In Firefox
+https://addons.mozilla.org/en-US/firefox/addon/website-scripting/
