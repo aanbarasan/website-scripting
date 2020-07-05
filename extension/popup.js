@@ -85,7 +85,7 @@ function init()
                     document.getElementById("page-url-show").value = regexURL;
                     document.getElementById("web-script-name-input").value = title;
                     document.getElementById("web-script-enabled-checkbox-input").checked  = true;
-                    document.getElementById("enable-jquery-checkbox-input").checked  = true;
+                    document.getElementById("enable-jquery-checkbox-input").checked  = false;
                     document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
                     var selectOptions = document.getElementById("select-option-for-different-script");
                     selectOptions.innerHTML = "<option selected value=\""+scriptDataID+"\">"+title+"</option>";
@@ -97,11 +97,37 @@ function init()
     document.getElementById("ConfigurationButton").onclick = openOrFocusOptionsPage;
     document.getElementById("saveConfigurationButton").onclick = saveConfigurationButton;
     document.getElementById("add-new-script-button").onclick = addNewScriptButton;
+    document.getElementById("run-code-on-page-button").onclick = runCodeOnThisPage;
+    document.getElementById("libraries-open-button").onclick = function(){
+        if(document.getElementById("libraries-container").style.display == "none")
+        {
+            document.getElementById("libraries-container").style.display = "block";
+        }
+        else
+        {
+            document.getElementById("libraries-container").style.display = "none";
+        }
+    }
+}
+
+function runCodeOnThisPage()
+{
+    getCurrentActiveOrLastFocusedWindows(function(tabs){
+        if(tabs && tabs.length>0)
+        {
+            var thisTab = tabs[0];
+            console.log(thisTab);
+            var scriptData = document.getElementById("script-data-text-area").value;
+            chrome.tabs.executeScript(thisTab.id, {code: scriptData}, function() {
+            // console.log("Script injected", configurationId, tabURL);
+            });
+        }
+    });
 }
 
 function addNewScriptButton(){
    getCurrentActiveOrLastFocusedWindows(function(tabs){
-       if(tabs)
+       if(tabs && tabs.length>0)
        {
             var thisTab = tabs[0];
             // console.log(thisTab);
@@ -112,10 +138,14 @@ function addNewScriptButton(){
             document.getElementById("page-url-show").value = regexURL;
             document.getElementById("web-script-name-input").value = title;
             document.getElementById("web-script-enabled-checkbox-input").checked  = true;
-            document.getElementById("enable-jquery-checkbox-input").checked  = true;
+            document.getElementById("enable-jquery-checkbox-input").checked  = false;
             document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
             var selectOptions = document.getElementById("select-option-for-different-script");
-            selectOptions.innerHTML = selectOptions.innerHTML + "<option selected value=\""+scriptDataID+"\">"+title+"</option>";
+            var newOption = document.createElement( 'option' );
+            newOption.value = scriptDataID;
+            newOption.text = title;
+            selectOptions.add(newOption);
+            selectOptions.value = scriptDataID;
        }
    });
 }
@@ -162,7 +192,7 @@ function loadContainer(thisConfiguration, configurationId)
                 document.getElementById("page-url-show").value = regexURL;
                 document.getElementById("web-script-name-input").value = title;
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
-                document.getElementById("enable-jquery-checkbox-input").checked  = true;
+                document.getElementById("enable-jquery-checkbox-input").checked  = false;
                 document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
            }
        });
@@ -170,11 +200,9 @@ function loadContainer(thisConfiguration, configurationId)
 }
 
 function getRegexForURL(url){
-    var regexUrl = url;
-    regexUrl = regexUrl.replace("https://www", "https:(.*)").replace("http://www", "http:(.*)");
-    regexUrl = regexUrl.replace("https://", "https:(.*)").replace("http://", "http:(.*)");
-    regexUrl = regexUrl.split("/")[0];
-    regexUrl = regexUrl + "(.*)";
+    var urlObject = new URL(url);
+    console.log(urlObject);
+    var regexUrl = urlObject.origin + "(.*)";
     return regexUrl;
 }
 

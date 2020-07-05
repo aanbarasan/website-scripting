@@ -45,7 +45,7 @@ function matchURL(urlLocation, regex)
 
 function getCurrentActiveOrLastFocusedWindows(callback)
 {
-    if(chrome.tabs && chrome.tabs.query)
+    if(chrome && chrome.tabs && chrome.tabs.query)
     {
         chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
             callback(tabs);

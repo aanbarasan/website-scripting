@@ -5,84 +5,196 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
     <style type="text/css">
-    *{
-      box-sizing: border-box;
-    }
-    .fixedToast{
-      display: none;
-      border: 2px solid green;
-      padding: 10px;
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      background-color: #48b348;
-      color: white;
-      font-size: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    #scripts-list-container
-    {
-      background-color: #d6d6d6;
-      padding: 5px 20px 5px 20px;
-    }
-    #saveConfigurationButton
-    {
-     color: white;
-     border: none;
-     padding: 5px 10px;
-     font-size: 18px;
-     border-radius: 3px;
-     background-color: #39c839;
-     cursor: pointer;
-    }
-    #ConfigurationButton
-    {
-     color: white;
-     border: none;
-     padding: 5px 10px;
-     font-size: 18px;
-     border-radius: 3px;
-     background-color: orange;
-     cursor: pointer;
-    }
-  </style>
-    <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+        *{
+            box-sizing: border-box;
+        }
+        .fixedToast{
+            display: none;
+            border: 2px solid green;
+            padding: 10px;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            background-color: #48b348;
+            color: white;
+            font-size: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .button
+        {
+            font-size: 25px;
+            border: 0px;
+            border-radius: 5px;
+            padding: 3px 12px;
+            cursor: pointer;
+        }
+        .save-button
+        {
+            background-color: #24d924;
+            color: #efefef;
+        }
+        .settings-button
+        {
+            background-color: orange;
+            color: #efefef;
+        }
+        .active-inactive-checkbox
+        {
+            width: 20px;
+            height: 20px;
+            margin: 0px;
+        }
+        .checkbox-label-active
+        {
+            vertical-align: top;
+            color: #979797;
+        }
+        .active-inactive-checkbox:checked ~ .checkbox-label-active {
+            color: #151515;
+            font-weight: bold;
+        }
+        .input-text-box
+        {
+            border: 1px solid #ced4da;
+            padding: 5px 6px;
+            border-radius: 4px;
+            transition: 0.1s box-shadow;
+        }
+        .input-text-box:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 3px 3px rgba(0,123,255,.25);
+        }
+        .editor-text-area:focus
+        {
+            border: 1.5px solid black;
+        }
+        .preview-run-button
+        {
+            border: 1px solid brown;
+            background-color: brown;
+            color: white;
+            border-radius: 0px;
+            padding: 2px 10px;
+            font-size: 12px;
+        }
+        .select-script-list-tag
+        {
+            padding: 4px 6px;
+            font-size: 14px;
+        }
+        .add-new-script-button
+        {
+            font-size: 17px;
+            border: 0.2px solid #b9b9b9;
+        }
+    </style>
+    <style>
+        .arrow {
+          border: solid black;
+          border-width: 0 3px 3px 0;
+          display: inline-block;
+          padding: 3px;
+        }
+
+        .right {
+          transform: rotate(-45deg);
+          -webkit-transform: rotate(-45deg);
+        }
+
+        .left {
+          transform: rotate(135deg);
+          -webkit-transform: rotate(135deg);
+        }
+
+        .up {
+          transform: rotate(-135deg);
+          -webkit-transform: rotate(-135deg);
+        }
+
+        .down {
+          transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+        }
+    </style>
     <script type="text/javascript" src="commonFunction.js"></script>
 </head>
-<body style="width:640px;">
-   <div>
-       <div>
-           <div>
-               <span>Select script: </span>
-               <select id="select-option-for-different-script" style="max-width: 300px;">
-                   <option>None</option>
-               </select>
-               <button id="add-new-script-button">Add new script</button>
-           </div>
-           <div>
-            <div style="padding: 3px;">
-                <span>URL regex: <input type="text" id="page-url-show" style="max-width: 200px"/> <span style="color:red;">*</span></span>
-                <span>Name: <input type="text" placeholder="name" id="web-script-name-input" style="max-width: 150px;"/></span>
-                <span style="border-right: 1px solid black;padding-right: 5px;">Active:<input type="checkbox" id="web-script-enabled-checkbox-input" style="vertical-align: middle;"/></span>
-                <span title="Jquery 3.3.1 version" style="padding-left: 5px;">Enable Jquery:<input type="checkbox" id="enable-jquery-checkbox-input" style="vertical-align: middle;"/></span>
+<body style="width:650px;">
+<div>
+    <div style="display: inline-block;width: 100%;">
+        <div style="float:left;">
+            <label>Name: </label>
+            <input type="text" style="width: 300px;height: 35px;font-size: 14px;" class="input-text-box"
+                placeholder="Script name" id="web-script-name-input">
+        </div>
+        <div style="float:right;">
+            <div style="display:inline-block;width: 100px;font-size: 18px;">
+                <div style="display:inline-block;">
+                    <label>
+                        <input type="checkbox" class="active-inactive-checkbox" id="web-script-enabled-checkbox-input">
+                        <span class="checkbox-label-active">Active</span>
+                    </label>
+                </div>
             </div>
-           </div>
-           <div>
-                <textarea style="width:100%;height:200px;color:brown;" id="script-data-text-area"></textarea>
-           </div>
-           <div>
-               <button id="saveConfigurationButton">Save script to execute in this page</button>
-               <button id="ConfigurationButton" style="float:right">Click to enter configuration page</button>
-           </div>
-       </div>
-   </div>
-
-    <div id="fixedToastDiv" class="fixedToast">
-        <div id="fixedToastContent">
-           Updated Successfully
+            <div style="display:inline-block;">
+                <button class="button save-button" id="saveConfigurationButton">Save</button>
+            </div>
         </div>
     </div>
-    <script src="popup.js"></script>
+    <div style="display: inline-block;width: 100%;margin: 4px 0px;">
+        <div style="float:left;">
+            <label>URL regex: </label>
+            <input type="text" style="width: 350px;" class="input-text-box" id="page-url-show">
+        </div>
+        <div style="float:right;position: relative;">
+            <div id="libraries-open-button" style="padding: 7px 13px;background-color: #e4e4e4;border-radius: 2px;cursor: pointer;width:180px;">
+                <span>Include libraries</span>
+                <span style="float: right;"><i class="arrow down"></i></span>
+            </div>
+            <div id="libraries-container" style="display: none;position: absolute;top: 29px;right: 0px;
+                    background-color: white;width: 180px;border: 1px solid #acacac;padding: 7px;z-index: 10;">
+                <div>
+                    <div>
+                        <label>
+                            <input type="checkbox" id="enable-jquery-checkbox-input">
+                            <span>Jquery-3.3.1</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: inline-block;width: 100%;position: relative;">
+        <textarea class="editor-text-area" style="width:100%;height:250px;color:brown;display: block;"
+              id="script-data-text-area"></textarea>
+        <div style="text-align: center;position: absolute;top: 0px;right: 0px;">
+            <button class="preview-run-button" title="Run code on this page" id="run-code-on-page-button">Run</button>
+        </div>
+    </div>
+    <div style="display: inline-block;width: 100%;">
+        <div style="float:left;padding: 6px;">
+            <label>Select script: </label>
+            <select style="max-width: 180px;" class="select-script-list-tag" id="select-option-for-different-script">
+                <option>None</option>
+            </select>
+            <button class="button add-new-script-button" id="add-new-script-button">Add new script</button>
+        </div>
+        <div style="float:right;">
+            <div style="display:inline-block;">
+                <button class="button settings-button" id="ConfigurationButton">Configuration page</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="fixedToastDiv" class="fixedToast">
+    <div id="fixedToastContent">
+        Updated Successfully
+    </div>
+</div>
+<script src="popup.js"></script>
 </body>
 </html>
