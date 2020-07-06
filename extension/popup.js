@@ -116,11 +116,24 @@ function runCodeOnThisPage()
         if(tabs && tabs.length>0)
         {
             var thisTab = tabs[0];
-            console.log(thisTab);
-            var scriptData = document.getElementById("script-data-text-area").value;
-            chrome.tabs.executeScript(thisTab.id, {code: scriptData}, function() {
-            // console.log("Script injected", configurationId, tabURL);
-            });
+            var tabURL = thisTab.url;
+            var urlRegEx = document.getElementById("page-url-show").value;
+            if(matchURL(tabURL, urlRegEx))
+            {
+                console.log(thisTab);
+                var scriptData = document.getElementById("script-data-text-area").value;
+                chrome.tabs.executeScript(thisTab.id, {code: scriptData}, function() {
+                    showToast("Executed successfully", "secondary");
+                });
+            }
+            else
+            {
+                showToast("URL regex not match with current active tab", "danger");
+            }
+        }
+        else
+        {
+            showToast("No active tab found", "warning");
         }
     });
 }
