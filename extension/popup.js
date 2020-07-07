@@ -122,9 +122,21 @@ function runCodeOnThisPage()
             {
                 console.log(thisTab);
                 var scriptData = document.getElementById("script-data-text-area").value;
-                chrome.tabs.executeScript(thisTab.id, {code: scriptData}, function() {
-                    showToast("Executed successfully", "secondary");
-                });
+                var jqueryEnabled = document.getElementById("enable-jquery-checkbox-input").checked;
+                if(jqueryEnabled == true)
+                {
+                    chrome.tabs.executeScript(thisTab.id, {file: "js/jquery-3.3.1.min.js"}, function() {
+                        chrome.tabs.executeScript(thisTab.id, {code: scriptData}, function() {
+                            showToast("Executed successfully..", "secondary");
+                        });
+                    });
+                }
+                else
+                {
+                    chrome.tabs.executeScript(thisTab.id, {code: scriptData}, function() {
+                        showToast("Executed successfully", "secondary");
+                    });
+                }
             }
             else
             {
