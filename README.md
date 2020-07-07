@@ -30,7 +30,7 @@ Following list of features available.
     9. You do have templates in the code, those are mostly reusable only.
     10. By default some javascript codes will be provided. You can enable it, if it is relevant to you. Due to privacy we don't enable any scripts on default. You can read the javascript codes and activate it.
 
-Following websites we fixed bugs.
+Following websites, we fixed bugs.
 
     1. Watch cartoons online - Fullscreen outline removed
     2. Hotstar - Subtitle default english selected and Quality set to highest quality
