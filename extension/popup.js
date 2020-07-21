@@ -155,9 +155,11 @@ function addNewScriptButton(){
        if(tabs && tabs.length>0)
        {
             var thisTab = tabs[0];
-            // console.log(thisTab);
+            var selectOptions = document.getElementById("select-option-for-different-script");
             let url = thisTab.url;
             let title = thisTab.title;
+            var optionsLength = selectOptions.children.length;
+            title = title + "(" + optionsLength + ")";
             scriptDataID = Math.random() + "";
             var regexURL = getRegexForURL(url);
             document.getElementById("page-url-show").value = regexURL;
@@ -165,7 +167,6 @@ function addNewScriptButton(){
             document.getElementById("web-script-enabled-checkbox-input").checked  = true;
             document.getElementById("enable-jquery-checkbox-input").checked  = false;
             document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing javascript\");";
-            var selectOptions = document.getElementById("select-option-for-different-script");
             var newOption = document.createElement( 'option' );
             newOption.value = scriptDataID;
             newOption.text = title;
@@ -179,13 +180,22 @@ function selectButtonChanged()
 {
     console.log("selectButtonChanged called")
     var selectOptions = document.getElementById("select-option-for-different-script");
+    var configurationName;
     var configurationId = selectOptions.value;
+    var childrenList = selectOptions.children;
+    for(var i=0;i<childrenList.length;i++)
+    {
+        if(childrenList[i].value == configurationId)
+        {
+            configurationName = childrenList[i].text;
+        }
+    }
     getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
-        loadContainer(thisConfiguration, configurationId);
+        loadContainer(thisConfiguration, configurationName, configurationId);
     });
 }
 
-function loadContainer(thisConfiguration, configurationId)
+function loadContainer(thisConfiguration, configurationName, configurationId)
 {
     if(thisConfiguration)
     {
@@ -215,7 +225,14 @@ function loadContainer(thisConfiguration, configurationId)
                 scriptDataID = configurationId;
                 var regexURL = getRegexForURL(url);
                 document.getElementById("page-url-show").value = regexURL;
-                document.getElementById("web-script-name-input").value = title;
+                if(configurationName)
+                {
+                    document.getElementById("web-script-name-input").value = configurationName;
+                }
+                else
+                {
+                    document.getElementById("web-script-name-input").value = title;
+                }
                 document.getElementById("web-script-enabled-checkbox-input").checked  = true;
                 document.getElementById("enable-jquery-checkbox-input").checked  = false;
                 document.getElementById("script-data-text-area").value = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";

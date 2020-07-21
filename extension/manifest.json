@@ -3,6 +3,7 @@
   "short_name": "Web script",
   "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes.",
   "version": "2.4.1",
+  "offline_enabled": true,
   "icons": {
     "16": "image/16_icon.png",
     "48": "image/48_icon.png",
