@@ -2,6 +2,7 @@ function ChromeFunctionalities()
 {
     this.websiteConfigurationString = "websiteConfigurations";
     this.scriptPreText = "CustomScript_";
+    this.deletedScriptText = "DeletedScriptList"
     var commonFunctions = new CommonFunctionalities();
     var _this = this;
 
@@ -58,6 +59,45 @@ function ChromeFunctionalities()
             {
                 callback();
             }
+        });
+    }
+
+    this.addToDeletedConfiguration = function(configurationId)
+    {
+        this.getSingleConfigurationFromLocalFile(configurationId, function(thisConfig){
+            if(thisConfig)
+            {
+                _this.getStorageVariables([_this.deletedScriptText], function(result){
+                    var list = result[_this.deletedScriptText];
+                    if(!list)
+                    {
+                        list = [];
+                    }
+                    list.push(configurationId);
+                    var data = {};
+                    data[_this.deletedScriptText] = list;
+                    _this.saveInStorage(data, function(response){
+                        console.log(response, data);
+                    });
+                })
+            }
+        })
+    }
+
+    this.getDeletedConfiguration = function(callback)
+    {
+        _this.getStorageVariables([_this.deletedScriptText], function(result){
+            var list = result[_this.deletedScriptText];
+            callback(list);
+        });
+    }
+
+    this.restoreDeletedScriptsButton = function(callback)
+    {
+        var data = {};
+        data[_this.deletedScriptText] = [];
+        _this.saveInStorage(data, function(response){
+            callback("success");
         });
     }
 
@@ -226,6 +266,7 @@ function ChromeFunctionalities()
             callback();
         }
     }
+
     this.getScriptDataFromLocalFile = function(scriptId, callback)
     {
         var _this = this;
@@ -249,31 +290,17 @@ function ChromeFunctionalities()
         })
     }
 
-
-    this.updateScriptDataFromLocalFile = function(fileName, scriptDataID, callback)
+    this.updateScriptDataFromLocalFile = function(scriptDataID, callback)
     {
         var _this = this;
-        this.getScriptDataFromLocalFile(fileName, function(scriptData){
+        this.getScriptDataFromLocalFile(scriptDataID, function(scriptData){
            var scriptDataToStore = {};
            scriptDataToStore[_this.scriptIdFromConfigId(scriptDataID)] = scriptData;
+           console.log("storing", scriptDataToStore);
            _this.saveInStorage(scriptDataToStore, function(){
                callback("success");
            });
         });
-    }
-
-    this.saveConfigurationForOneData = function(scriptData, scriptDataID, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback)
-    {
-        var thisConfiguration = {};
-        thisConfiguration.scriptData = scriptData;
-        thisConfiguration.scriptDataID = scriptDataID;
-        thisConfiguration.configurationName = configurationName;
-        thisConfiguration.configurationPurpose = configurationPurpose;
-        thisConfiguration.configurationUrlRegex = configurationUrlRegex;
-        thisConfiguration.configurationEnabled = configurationEnabled;
-        thisConfiguration.jqueryEnabled = jqueryEnabled;
-
-        this.saveThisConfiguration(thisConfiguration. callback);
     }
 
     this.saveThisConfiguration = function(thisConfigurationToSave, callback)
@@ -369,10 +396,10 @@ function ChromeFunctionalities()
                            }
                        }
                    }
+                   console.log(thisConfiguration)
                    if(thisConfiguration.customizedByOwn != true)
                    {
-                        // TODO: we have to check deleted files should not show here
-                        _this.updateScriptDataFromLocalFile(thisConfiguration.fileName, thisConfiguration.id, callback);
+                        _this.updateScriptDataFromLocalFile(thisConfiguration.id, function(result){console.log(result)});
                    }
                }
                if(websiteConfiguration && websiteConfiguration.webList)

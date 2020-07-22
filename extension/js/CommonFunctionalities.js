@@ -40,6 +40,7 @@ function CommonFunctionalities()
             toastContainer.style.top = "10px";
             toastContainer.style.left = "50%";
             toastContainer.style.transform = "translate(-50%, 0)";
+            toastContainer.style.zIndex = "1000";
             document.body.append(toastContainer);
         }
         var toastId = "toast-id-" + (Math.random() * Math.pow(10,20));

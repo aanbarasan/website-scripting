@@ -1,3 +1,0 @@
-May/10/2020 -- reduce bottom padding of this container "script-list-content-manager" when updating new scripts
-May/11/2020 -- once nature script deleted, it will automatically comes after the restart. need to fix this issue
-reset default script other properies like jquery url

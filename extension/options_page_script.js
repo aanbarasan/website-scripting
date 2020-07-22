@@ -8,7 +8,51 @@ function init()
     document.getElementById("cancelConfigurationButton").onclick = cancelConfigurationButton;
     document.getElementById("popup-update-reset-script-from-local-button").onclick = resetScriptFromLocal;
     document.getElementById("add-new-script-button").onclick = addNewScriptButton;
+    document.getElementById("setting-popup-button").onclick = openSettingsModalButton;
+    document.getElementById("restore-deleted-script-button").onclick = restoreDeletedScriptsButton;
     document.getElementById("edit-configuration-button").onclick = editButtonClick;
+    document.onkeyup = detectEscapeKey;
+}
+
+function detectEscapeKey(evt) {
+
+    evt = evt || window.event;
+    var isEscape = false;
+    if ("key" in evt) {
+        isEscape = (evt.key === "Escape" || evt.key === "Esc");
+    } else {
+        isEscape = (evt.keyCode === 27);
+    }
+
+    if (isEscape) {
+        document.getElementById("popupViewModal").style.display = "none";
+        document.getElementById("popupEditorModule").style.display = "none";
+        document.getElementById("popupSettingsModal").style.display = "none";
+    }
+}
+
+function restoreDeletedScriptsButton(){
+    chromeFunctions.restoreDeletedScriptsButton(function(message){
+        if(message == "success")
+        {
+            chromeFunctions.updateDataOneTime(function(){
+                loadContainer();
+                commonFunctions.showToast("Successfully restored");
+            });
+        }
+    });
+}
+
+function openSettingsModalButton(){
+    document.getElementById("popupSettingsModal").style.display = "block";
+}
+
+function closeModalFunction(){
+    document.getElementById("popupViewModal").style.display = "none";
+}
+
+function cancelConfigurationButton(){
+    document.getElementById("popupEditorModule").style.display = "none";
 }
 
 function loadContainer()
@@ -74,38 +118,58 @@ function getSortedScript(callback){
     chromeFunctions.getConfigurationVariable(function(websiteConfiguration){
         if(websiteConfiguration && websiteConfiguration.webList && websiteConfiguration.webList.length > 0)
         {
-            var configurationWebList = [];
-            var webList = websiteConfiguration.webList;
-            for(var i=webList.length - 1;i>=0;i--)
-            {
-                if(webList[i].customizedByOwn == true && webList[i].nature != true)
+            chromeFunctions.getDeletedConfiguration(function(deleteList){
+                var configurationWebList = [];
+                var webList = websiteConfiguration.webList;
+                for(var i=webList.length - 1;i>=0;i--)
                 {
-                    configurationWebList.push(webList[i]);
-                    webList.splice(i, 1);
+                    if(webList[i].customizedByOwn == true && webList[i].nature != true)
+                    {
+                        configurationWebList.push(webList[i]);
+                        webList.splice(i, 1);
+                    }
                 }
-            }
-            for(var i=0;i<webList.length;i++)
-            {
-                if(webList[i].customizedByOwn == true && webList[i].nature == true)
+                for(var i=0;i<webList.length;i++)
                 {
-                    configurationWebList.push(webList[i]);
-                    webList.splice(i, 1);
-                    i--;
+                    if(webList[i].customizedByOwn == true && webList[i].nature == true)
+                    {
+                        configurationWebList.push(webList[i]);
+                        webList.splice(i, 1);
+                        i--;
+                    }
                 }
-            }
 
-            for(var i=0;i<webList.length;i++)
-            {
-                configurationWebList.push(webList[i]);
-            }
-            console.log(websiteConfiguration, configurationWebList);
-            callback(configurationWebList);
+                for(var i=0;i<webList.length;i++)
+                {
+                    configurationWebList.push(webList[i]);
+                }
+                var configList = removeDeleteListFromList(configurationWebList, deleteList);
+                console.log(configurationWebList, deleteList);
+                callback(configList);
+            });
         }
         else
         {
             callback();
         }
     })
+}
+
+function removeDeleteListFromList(webList, deleteList)
+{
+    var configList = [];
+    if(!deleteList)
+    {
+        deleteList = [];
+    }
+    for(var i=0;i<webList.length;i++)
+    {
+        if(deleteList.indexOf(webList[i].id) < 0)
+        {
+            configList.push(webList[i]);
+        }
+    }
+    return configList;
 }
 
 function previewScriptClick()
@@ -121,10 +185,8 @@ function previewScript(configurationId)
         {
             thisConfiguration = {};
         }
-        var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
-        chromeFunctions.getStorageVariables([scriptId], function(result){
-            var scriptData = result[scriptId];
-            document.getElementById("popup-current-configuration-id").value = configurationId;
+        chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
+            document.getElementById("popup-current-configuration-id").value = thisConfiguration.id;
             document.getElementById("popupViewModal").style.display = "block";
             document.getElementById("popupViewModalContent").value = scriptData;
             var modelName = thisConfiguration.name;
@@ -146,76 +208,48 @@ function previewScript(configurationId)
     });
 }
 
-function closeModalFunction(){
-    document.getElementById("popupViewModal").style.display = "none";
-}
-
-function cancelConfigurationButton(){
-    document.getElementById("popupEditorModule").style.display = "none";
-}
-
-function editButtonClick(){
-    var configurationId = document.getElementById("popup-current-configuration-id").value;
-    document.getElementById("popupViewModal").style.display = "none";
-    document.getElementById("popupEditorModule").style.display = "block";
-    var editorFunctions = new EditorFunctionalities();
-    editorFunctions.saveButtonCallback = function(){
-        document.getElementById("popupEditorModule").style.display = "none";
-        loadContainer();
-    }
-    editorFunctions.init();
-    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
-        if(thisConfiguration)
-        {
-            chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
-                thisConfiguration.scriptData = scriptData;
-                editorFunctions.loadContainer(thisConfiguration);
-            });
-        }
-    });
-
-}
-
 function resetScriptFromLocal()
 {
     var _this = this;
     var configurationId = document.getElementById("popup-current-configuration-id").value;
-    chromeFunctions.getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
+    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
         if(thisConfiguration)
         {
-            var scriptId = scriptPreText + configurationId;
             var r = confirm("Confirm to reset the script '" + thisConfiguration.name +"'");
             if (r == true) {
                 console.log("reset");
-                scriptDataFromFile(configurationId, function(existingScriptDataForScriptId){
+                chromeFunctions.getScriptDataFromLocalFile(configurationId, function(existingScriptDataForScriptId){
                     if(existingScriptDataForScriptId)
                     {
-                        getConfigurationForConfigIdFromLocalFile(configurationId, function(thisLocalConfiguration){
-                            var scriptData = existingScriptDataForScriptId;
-                            var configurationPurpose = thisConfiguration.purpose;
-                            var configurationName = thisConfiguration.name;
-                            var configurationUrlRegex = thisConfiguration.urlRegEx;
-                            var configurationEnabled = thisConfiguration.enabled;
-                            var jqueryEnabled = thisConfiguration.jqueryEnabled;
+                        chromeFunctions.getSingleConfigurationFromLocalFile(configurationId, function(thisLocalConfiguration){
+                            var savingConfiguration = {};
+                            savingConfiguration.scriptData = existingScriptDataForScriptId;
+                            savingConfiguration.scriptDataID = configurationId;
+                            savingConfiguration.configurationName = thisConfiguration.name;
+                            savingConfiguration.configurationPurpose = thisConfiguration.purpose;
+                            savingConfiguration.configurationUrlRegex = thisConfiguration.urlRegEx;
+                            savingConfiguration.configurationEnabled = thisConfiguration.enabled;
+                            savingConfiguration.jqueryEnabled = thisConfiguration.jqueryEnabled;
                             if(thisLocalConfiguration)
                             {
-                                configurationPurpose = thisLocalConfiguration.purpose;
-                                configurationName = thisLocalConfiguration.name;
-                                configurationUrlRegex = thisLocalConfiguration.urlRegEx;
-                                jqueryEnabled = thisLocalConfiguration.jqueryEnabled;
+                                savingConfiguration.configurationPurpose = thisLocalConfiguration.purpose;
+                                savingConfiguration.configurationName = thisLocalConfiguration.name;
+                                savingConfiguration.configurationUrlRegex = thisLocalConfiguration.urlRegEx;
+                                savingConfiguration.jqueryEnabled = thisLocalConfiguration.jqueryEnabled;
                             }
                             var callback = function(){
-                                showToast("Saved successfully");
+                                commonFunctions.showToast("Saved successfully");
                                 var configurationId = document.getElementById("popup-current-configuration-id").value;
                                 previewScript(configurationId);
                                 loadContainer();
                             }
-                            saveConfigurationForOneData(scriptData, configurationId, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback);
+                            console.log(savingConfiguration)
+                            chromeFunctions.saveThisConfiguration(savingConfiguration, callback);
                         })
                     }
                     else
                     {
-                        showToast("Local data not found");
+                        commonFunctions.showToast("Local data not found");
                     }
                 });
             }
@@ -244,6 +278,7 @@ function deleteConfiguration(event)
                         data[chromeFunctions.websiteConfigurationString] = websiteConfiguration;
                         chromeFunctions.saveInStorage(data, function(){
                             _this.parentElement.remove();
+                            chromeFunctions.addToDeletedConfiguration(configurationId);
                             commonFunctions.showToast("Successfully deleted");
                         });
                         break;
@@ -293,13 +328,33 @@ function addNewScriptButton(){
     document.getElementById("popupEditorModule").style.display = "block";
     var editorFunctions = new EditorFunctionalities();
     editorFunctions.saveButtonCallback = function(){
-        document.getElementById("popupEditorModule").style.display = "none";
         loadContainer();
     }
     editorFunctions.init();
     let title = "New script";
     let regexURL = "https://example.com";
     editorFunctions.loadNewConfiguration(title, regexURL);
+}
+
+function editButtonClick(){
+    var configurationId = document.getElementById("popup-current-configuration-id").value;
+    document.getElementById("popupViewModal").style.display = "none";
+    document.getElementById("popupEditorModule").style.display = "block";
+    var editorFunctions = new EditorFunctionalities();
+    editorFunctions.saveButtonCallback = function(){
+        loadContainer();
+    }
+    editorFunctions.init();
+    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
+        if(thisConfiguration)
+        {
+            chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
+                thisConfiguration.scriptData = scriptData;
+                editorFunctions.loadContainer(thisConfiguration);
+            });
+        }
+    });
+
 }
 
 init();

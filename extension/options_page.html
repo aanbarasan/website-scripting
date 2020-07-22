@@ -63,21 +63,23 @@
   </head>
   <body style="margin: 0px;overflow: scroll;">
     <div style="width: 100%;padding: 0px 6% 0px 6%;">
-      <div id="script-list-content-manager" style="width: 100%;padding: 10px 10px 270px 10px;background-color: #f1f2f3;">
+      <div id="script-list-content-manager" style="width: 100%;padding: 10px 10px 200px 10px;background-color: #f1f2f3;">
         <div style="margin: 0px;">
           <div>
             <image src="image/text_logo.png" style="width: 250px"></image>
           </div>
         </div>
         <div style="text-align:right;">
-          <button class="button" style="margin-bottom: 3px;border: 1px solid grey;"
+          <button class="button success-button" style="margin-bottom: 3px;border: 1px solid grey;"
             id="add-new-script-button">Add new script</button>
+          <button class="button" style="margin-bottom: 3px;border: 1px solid grey;"
+            id="setting-popup-button">Settings</button>
         </div>
         <div id="scripts-list-container"></div>
       </div>
     </div>
     <div id="popupViewModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">
-      <div style="padding: 100px 200px;background-color: #ffffffd9;" id="popupViewModalBody">
+      <div style="padding: 100px 200px;background-color: rgba(128, 128, 128, 0.82);height: 100%;" id="popupViewModalBody">
         <div style="float: left;width: 100%;background: #dde5dd;padding: 8px;">
           <input style="display:none;" type="text" id="popup-current-configuration-id"/>
           <div style="float:left;">
@@ -99,13 +101,13 @@
           </div>
         </div>
         <div style="width:100%;">
-          <textarea id="popupViewModalContent" style="width:100%;height:400px;outline: none;color: brown;" disabled></textarea>
+          <textarea id="popupViewModalContent" style="width:100%;height:400px;outline: none;color: brown;background-color: white;" disabled></textarea>
         </div>
       </div>
     </div>
     <div id="popupEditorModule" style="display:none;position:fixed;width:100%;height:100%;z-index:101;
               top: 0;left: 0;background-color: #808080d1;">
-      <div style="padding: 80px 160px;">
+      <div style="padding: 100px 200px;">
         <div style="padding: 10px;background-color:white;">
           <div style="display: inline-block;width: 100%;">
             <div style="float:left;">
@@ -123,10 +125,10 @@
                 </div>
               </div>
               <div style="display:inline-block;margin-right:2px;">
-                <button class="button settings-button" id="cancelConfigurationButton">Cancel</button>
+                <button class="button settings-button" id="cancelConfigurationButton">Close</button>
               </div>
               <div style="display:inline-block;">
-                <button class="button save-button" id="saveConfigurationButton">Save</button>
+                <button class="button success-button" id="saveConfigurationButton">Save</button>
               </div>
             </div>
           </div>
@@ -158,6 +160,26 @@
                       id="script-data-text-area"></textarea>
           </div>
         </div>
+      </div>
+    </div>
+    <div id="popupSettingsModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">
+      <div style="padding: 100px 200px;background-color: rgba(128, 128, 128, 0.82);height: 100%;text-align: center;">
+          <div style="padding:30px 15px;background-color:white;width: 600px;display: inline-block;text-align: left;">
+            <div>
+              <h1>
+                Settings
+              </h1>
+            </div>
+            <div style="margin: 15px 0px;">
+              <label>
+                <input type="checkbox"/>
+                URL end with slash(/) optional when compare with regular expression
+              </label>
+            </div>
+            <div style="margin: 15px 0px 0px 0px;">
+              <button id="restore-deleted-script-button">Restore deleted scripts</button>
+            </div>
+          </div>
       </div>
     </div>
     <footer style="position: fixed;bottom: 0px;width: 100%;background-color: white;box-shadow: 0px 0px 7px #8888888c;">
