@@ -72,7 +72,7 @@ function EditorFunctionalities()
 
     this.getRegexForURL = function(url){
         var urlObject = new URL(url);
-        console.log(urlObject);
+        // console.log(urlObject);
         var regexUrl = urlObject.origin + "(.*)";
         return regexUrl;
     }

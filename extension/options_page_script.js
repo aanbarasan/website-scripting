@@ -144,7 +144,6 @@ function getSortedScript(callback){
                     configurationWebList.push(webList[i]);
                 }
                 var configList = removeDeleteListFromList(configurationWebList, deleteList);
-                console.log(configurationWebList, deleteList);
                 callback(configList);
             });
         }
@@ -217,7 +216,6 @@ function resetScriptFromLocal()
         {
             var r = confirm("Confirm to reset the script '" + thisConfiguration.name +"'");
             if (r == true) {
-                console.log("reset");
                 chromeFunctions.getScriptDataFromLocalFile(configurationId, function(existingScriptDataForScriptId){
                     if(existingScriptDataForScriptId)
                     {
@@ -243,7 +241,6 @@ function resetScriptFromLocal()
                                 previewScript(configurationId);
                                 loadContainer();
                             }
-                            console.log(savingConfiguration)
                             chromeFunctions.saveThisConfiguration(savingConfiguration, callback);
                         })
                     }

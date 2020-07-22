@@ -11,7 +11,7 @@ function init()
     editorFunctions.init();
 
     chromeFunctions.getCurrentTabConfigurations(function(configurationResultList, thisTab){
-        console.log(configurationResultList);
+        // console.log(configurationResultList);
         var initConfiguration = {};
         if(configurationResultList.length > 0)
         {
@@ -60,7 +60,7 @@ function runCodeOnThisPage()
             var urlRegEx = document.getElementById("page-url-show").value;
             if(commonFunctions.isMatchRegex(urlRegEx, tabURL))
             {
-                console.log(thisTab);
+                // console.log(thisTab);
                 var scriptData = document.getElementById("script-data-text-area").value;
                 var jqueryEnabled = document.getElementById("enable-jquery-checkbox-input").checked;
                 if(jqueryEnabled == true)
@@ -105,7 +105,7 @@ function addNewScriptButton(){
 
 function selectButtonChanged()
 {
-    console.log("selectButtonChanged called")
+    // console.log("selectButtonChanged called")
     var selectOptions = document.getElementById("select-option-for-different-script");
     var configurationId = selectOptions.value;
     var childrenList = selectOptions.children;

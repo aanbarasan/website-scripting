@@ -77,7 +77,7 @@ function ChromeFunctionalities()
                     var data = {};
                     data[_this.deletedScriptText] = list;
                     _this.saveInStorage(data, function(response){
-                        console.log(response, data);
+                        // console.log(response, data);
                     });
                 })
             }
@@ -176,7 +176,6 @@ function ChromeFunctionalities()
             if(tabs && tabs.length > 0)
             {
                 thisTab = tabs[0];
-                console.log(thisTab);
                 url = thisTab.url;
             }
             else
@@ -296,7 +295,6 @@ function ChromeFunctionalities()
         this.getScriptDataFromLocalFile(scriptDataID, function(scriptData){
            var scriptDataToStore = {};
            scriptDataToStore[_this.scriptIdFromConfigId(scriptDataID)] = scriptData;
-           console.log("storing", scriptDataToStore);
            _this.saveInStorage(scriptDataToStore, function(){
                callback("success");
            });
@@ -396,10 +394,9 @@ function ChromeFunctionalities()
                            }
                        }
                    }
-                   console.log(thisConfiguration)
                    if(thisConfiguration.customizedByOwn != true)
                    {
-                        _this.updateScriptDataFromLocalFile(thisConfiguration.id, function(result){console.log(result)});
+                        _this.updateScriptDataFromLocalFile(thisConfiguration.id, function(result){});
                    }
                }
                if(websiteConfiguration && websiteConfiguration.webList)
