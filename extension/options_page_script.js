@@ -1,3 +1,4 @@
+var chromeFunctions = new ChromeFunctionalities();
 
 function init()
 {
@@ -68,8 +69,7 @@ function loadContainer()
 }
 
 function getSortedScript(callback){
-    getStorageVariablesFromSync([websiteConfigurationString], function(result){
-        var websiteConfiguration = result[websiteConfigurationString];
+    chromeFunctions.getConfigurationVariable(function(websiteConfiguration){
         if(websiteConfiguration && websiteConfiguration.webList && websiteConfiguration.webList.length > 0)
         {
             var configurationWebList = [];
@@ -114,9 +114,9 @@ function previewScriptClick()
 
 function previewScript(configurationId)
 {
-    getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
-        var scriptId = scriptPreText + configurationId;
-        getStorageVariablesFromSync([scriptId], function(result){
+    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
+        var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
+        chromeFunctions.getStorageVariables([scriptId], function(result){
             var scriptData = result[scriptId];
             document.getElementById("popup-current-configuration-id").value = configurationId;
             document.getElementById("popupViewModal").style.display = "block";
@@ -144,7 +144,7 @@ function resetScriptFromLocal()
 {
     var _this = this;
     var configurationId = document.getElementById("popup-current-configuration-id").value;
-    getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
+    chromeFunctions.getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
         if(thisConfiguration)
         {
             var scriptId = scriptPreText + configurationId;
@@ -228,8 +228,7 @@ function updateActiveStatusFromCheckBox(event)
     var checkBoxCheckedStatus = this.checked
     var configurationId = this.parentElement.getAttribute("configuration-id");
     var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
-    getStorageVariablesFromSync([websiteConfigurationString], function(result){
-        var websiteConfiguration = result[websiteConfigurationString];
+    chromeFunctions.getConfigurationVariablesFromSync(function(websiteConfiguration){
         if(websiteConfiguration)
         {
             updateFeatureState(websiteConfiguration, configurationId, checkBoxCheckedStatus);

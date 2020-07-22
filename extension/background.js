@@ -1,3 +1,4 @@
+var chromeFunctions = new ChromeFunctionalities();
 
 function openOrFocusOptionsPage() {
     var optionsUrl = chrome.extension.getURL('options_page.html'); 
@@ -19,7 +20,7 @@ function openOrFocusOptionsPage() {
  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
      if(changeInfo.status == "complete") {
         // console.log(tabId, changeInfo, tab);
-        getActiveUrlMatchCallbackScript(tab.url, function(configurationList){
+        chromeFunctions.getActiveConfigurations(tab.url, function(configurationList){
             // console.log(configurationList);
             var isJqueryEnabled = false;
             for(var i=0;i<configurationList.length;i++)
@@ -53,8 +54,8 @@ function openOrFocusOptionsPage() {
 
  function executeScript(configurationId, tabId, tabURL)
  {
-    var scriptId = scriptPreText + configurationId;
-    getStorageVariablesFromSync([scriptId], function(result){
+    var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
+    chromeFunctions.getStorageVariables([scriptId], function(result){
         var scriptData = result[scriptId];
         chrome.tabs.executeScript(tabId, {code: scriptData}, function() {
             // console.log("Script injected", configurationId, tabURL);
@@ -71,7 +72,7 @@ function openOrFocusOptionsPage() {
 
 function init()
 {
-    updateDataOneTime(function(){});
+    chromeFunctions.updateDataOneTime(function(){});
 }
 
 init();

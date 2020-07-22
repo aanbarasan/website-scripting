@@ -2,7 +2,7 @@
   "name": "Website scripting",
   "short_name": "Web script",
   "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes.",
-  "version": "2.4.1",
+  "version": "2.5.0",
   "offline_enabled": true,
   "icons": {
     "16": "image/16_icon.png",
@@ -25,7 +25,8 @@
   },
   "background": {
     "scripts": [
-      "commonFunction.js",
+      "js/CommonFunctionalities.js",
+      "js/ChromeFunctionalities.js",
       "background.js"
     ]
   },
