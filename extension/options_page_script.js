@@ -5,7 +5,10 @@ function init()
 {
     loadContainer();
     document.getElementById("popupViewModalClose").onclick = closeModalFunction;
+    document.getElementById("cancelConfigurationButton").onclick = cancelConfigurationButton;
     document.getElementById("popup-update-reset-script-from-local-button").onclick = resetScriptFromLocal;
+    document.getElementById("add-new-script-button").onclick = addNewScriptButton;
+    document.getElementById("edit-configuration-button").onclick = editButtonClick;
 }
 
 function loadContainer()
@@ -147,6 +150,32 @@ function closeModalFunction(){
     document.getElementById("popupViewModal").style.display = "none";
 }
 
+function cancelConfigurationButton(){
+    document.getElementById("popupEditorModule").style.display = "none";
+}
+
+function editButtonClick(){
+    var configurationId = document.getElementById("popup-current-configuration-id").value;
+    document.getElementById("popupViewModal").style.display = "none";
+    document.getElementById("popupEditorModule").style.display = "block";
+    var editorFunctions = new EditorFunctionalities();
+    editorFunctions.saveButtonCallback = function(){
+        document.getElementById("popupEditorModule").style.display = "none";
+        loadContainer();
+    }
+    editorFunctions.init();
+    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
+        if(thisConfiguration)
+        {
+            chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
+                thisConfiguration.scriptData = scriptData;
+                editorFunctions.loadContainer(thisConfiguration);
+            });
+        }
+    });
+
+}
+
 function resetScriptFromLocal()
 {
     var _this = this;
@@ -258,6 +287,19 @@ function updateFeatureState(websiteConfiguration, configId, booleanValue)
             websiteConfiguration.webList[i].enabled = booleanValue;
         }
     }
+}
+
+function addNewScriptButton(){
+    document.getElementById("popupEditorModule").style.display = "block";
+    var editorFunctions = new EditorFunctionalities();
+    editorFunctions.saveButtonCallback = function(){
+        document.getElementById("popupEditorModule").style.display = "none";
+        loadContainer();
+    }
+    editorFunctions.init();
+    let title = "New script";
+    let regexURL = "https://example.com";
+    editorFunctions.loadNewConfiguration(title, regexURL);
 }
 
 init();

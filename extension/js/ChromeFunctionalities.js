@@ -134,7 +134,7 @@ function ChromeFunctionalities()
     {
         chromeFunctions.getCurrentActiveOrLastFocusedWindows(function(tabs){
             let url, thisTab = {};
-            if(tabs)
+            if(tabs && tabs.length > 0)
             {
                 thisTab = tabs[0];
                 console.log(thisTab);
@@ -142,7 +142,7 @@ function ChromeFunctionalities()
             }
             else
             {
-                thisTab.url = "";
+                thisTab.url = "https://example.com";
             }
             chromeFunctions.urlAllMatchConfigurations(thisTab.url, function(configurationResultList){
                 callback(configurationResultList, thisTab);

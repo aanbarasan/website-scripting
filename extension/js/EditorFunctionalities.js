@@ -12,8 +12,6 @@ function EditorFunctionalities()
         this.inputEnabledTag = document.getElementById("web-script-enabled-checkbox-input");
         this.inputJqueryTag = document.getElementById("enable-jquery-checkbox-input");
         this.inputScriptDataTag = document.getElementById("script-data-text-area");
-        console.log(this.inputScriptDataTag);
-
         document.getElementById("saveConfigurationButton").onclick = this.saveConfigurationButton;
         document.getElementById("libraries-open-button").onclick = this.toggleLibrariesBox;
     }
@@ -52,7 +50,11 @@ function EditorFunctionalities()
         thisConfiguration.jqueryEnabled = _this.inputJqueryTag.checked;
 
         chromeFunctions.saveThisConfiguration(thisConfiguration, function(){
-           commonFunctions.showToast("Saved successfully");
+            if(typeof _this.saveButtonCallback == "function")
+            {
+                _this.saveButtonCallback();
+            }
+            commonFunctions.showToast("Saved successfully");
         });
     }
 

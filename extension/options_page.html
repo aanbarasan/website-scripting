@@ -3,7 +3,7 @@
   <head>
     <title>Website scripting</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-    <meta content="utf-8" http-equiv="encoding">
+    <meta content="utf-8">
     <style type="text/css">
       *{
         box-sizing: border-box;
@@ -56,15 +56,23 @@
         background-color: #39c839;
       }
     </style>
+    <link rel="stylesheet" href="css/style.css"/>
     <script type="text/javascript" src="js/CommonFunctionalities.js"></script>
     <script type="text/javascript" src="js/ChromeFunctionalities.js"></script>
+    <script type="text/javascript" src="js/EditorFunctionalities.js"></script>
   </head>
-  <body style="margin: 0px">
+  <body style="margin: 0px;overflow: scroll;">
     <div style="width: 100%;padding: 0px 6% 0px 6%;">
       <div id="script-list-content-manager" style="width: 100%;padding: 10px 10px 270px 10px;background-color: #f1f2f3;">
-        <h1 style="margin: 0px;">
-          <image src="image/text_logo.png" style="width: 250px"></image>
-        </h1>
+        <div style="margin: 0px;">
+          <div>
+            <image src="image/text_logo.png" style="width: 250px"></image>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <button class="button" style="margin-bottom: 3px;border: 1px solid grey;"
+            id="add-new-script-button">Add new script</button>
+        </div>
         <div id="scripts-list-container"></div>
       </div>
     </div>
@@ -86,11 +94,69 @@
             <button id="popup-update-reset-script-from-local-button" style="display:none;">Reset</button>
           </div>
           <div style="float:right;">
+            <button id="edit-configuration-button" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">Edit</button>
             <button id="popupViewModalClose" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">X</button>
           </div>
         </div>
         <div style="width:100%;">
           <textarea id="popupViewModalContent" style="width:100%;height:400px;outline: none;color: brown;" disabled></textarea>
+        </div>
+      </div>
+    </div>
+    <div id="popupEditorModule" style="display:none;position:fixed;width:100%;height:100%;z-index:101;
+              top: 0;left: 0;background-color: #808080d1;">
+      <div style="padding: 80px 160px;">
+        <div style="padding: 10px;background-color:white;">
+          <div style="display: inline-block;width: 100%;">
+            <div style="float:left;">
+              <label>Name: </label>
+              <input type="text" style="width: 300px;height: 35px;font-size: 14px;" class="input-text-box"
+                     placeholder="Script name" id="web-script-name-input">
+            </div>
+            <div style="float:right;">
+              <div style="display:inline-block;width: 100px;font-size: 18px;">
+                <div style="display:inline-block;">
+                  <label>
+                    <input type="checkbox" class="active-inactive-checkbox" id="web-script-enabled-checkbox-input">
+                    <span class="checkbox-label-active">Active</span>
+                  </label>
+                </div>
+              </div>
+              <div style="display:inline-block;margin-right:2px;">
+                <button class="button settings-button" id="cancelConfigurationButton">Cancel</button>
+              </div>
+              <div style="display:inline-block;">
+                <button class="button save-button" id="saveConfigurationButton">Save</button>
+              </div>
+            </div>
+          </div>
+          <div style="display: inline-block;width: 100%;margin: 4px 0px;">
+            <div style="float:left;">
+              <label>URL regex: </label>
+              <input type="text" style="width: 350px;" class="input-text-box" id="page-url-show">
+            </div>
+            <div style="float:right;position: relative;">
+              <div id="libraries-open-button" style="padding: 7px 13px;background-color: #e4e4e4;border-radius: 2px;cursor: pointer;width:180px;">
+                <span>Include libraries</span>
+                <span style="float: right;"><i class="arrow down"></i></span>
+              </div>
+              <div id="libraries-container" style="display: none;position: absolute;top: 29px;right: 0px;
+                      background-color: white;width: 180px;border: 1px solid #acacac;padding: 7px;z-index: 10;">
+                <div>
+                  <div>
+                    <label>
+                      <input type="checkbox" id="enable-jquery-checkbox-input">
+                      <span>Jquery-3.3.1</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display: inline-block;width: 100%;position: relative;">
+            <textarea class="editor-text-area" style="width:100%;height:380px;color:brown;display: block;"
+                      id="script-data-text-area"></textarea>
+          </div>
         </div>
       </div>
     </div>
