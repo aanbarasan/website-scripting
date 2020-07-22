@@ -3,6 +3,7 @@ function ChromeFunctionalities()
     this.websiteConfigurationString = "websiteConfigurations";
     this.scriptPreText = "CustomScript_";
     var commonFunctions = new CommonFunctionalities();
+    var _this = this;
 
     this.scriptIdFromConfigId = function(configurationId)
     {
@@ -193,7 +194,7 @@ function ChromeFunctionalities()
     }
 
     this.getScriptDataFromConfigurationId = function(configurationId, callback){
-        var scriptIdUrl = this.getScriptIdFromConfigurationId(configurationId);
+        var scriptIdUrl = this.scriptIdFromConfigId(configurationId);
         this.getStorageVariables([scriptIdUrl], function(result){
             var scriptData = result[scriptIdUrl];
             callback(scriptData);
@@ -296,7 +297,6 @@ function ChromeFunctionalities()
 
     this.saveThisConfiguration = function(thisConfigurationToSave, callback)
     {
-        var _this = this;
         this.getConfigurationVariable(function(websiteConfiguration){
            if(!websiteConfiguration)
            {
@@ -362,7 +362,7 @@ function ChromeFunctionalities()
                     webList.push(thisWebConfiguration);
                }
                scriptDataToStore[_this.websiteConfigurationString] = websiteConfiguration;
-               _this.saveStorage(scriptDataToStore, callback);
+               _this.saveInStorage(scriptDataToStore, callback);
            });
        });
     }

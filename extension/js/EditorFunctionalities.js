@@ -1,7 +1,9 @@
 function EditorFunctionalities()
 {
     var chromeFunctions = new ChromeFunctionalities();
+    var commonFunctions = new CommonFunctionalities();
     this.configurationId;
+    var _this = this;
 
     this.init = function()
     {
@@ -10,6 +12,7 @@ function EditorFunctionalities()
         this.inputEnabledTag = document.getElementById("web-script-enabled-checkbox-input");
         this.inputJqueryTag = document.getElementById("enable-jquery-checkbox-input");
         this.inputScriptDataTag = document.getElementById("script-data-text-area");
+        console.log(this.inputScriptDataTag);
 
         document.getElementById("saveConfigurationButton").onclick = this.saveConfigurationButton;
         document.getElementById("libraries-open-button").onclick = this.toggleLibrariesBox;
@@ -40,16 +43,16 @@ function EditorFunctionalities()
     this.saveConfigurationButton = function()
     {
         var thisConfiguration = {};
-        thisConfiguration.scriptData = inputScriptDataTag.value;
-        thisConfiguration.scriptDataID = this.configurationId;
-        thisConfiguration.configurationName = inputNameTag.value;
+        thisConfiguration.scriptData = _this.inputScriptDataTag.value;
+        thisConfiguration.scriptDataID = _this.configurationId;
+        thisConfiguration.configurationName = _this.inputNameTag.value;
         thisConfiguration.configurationPurpose = null;
-        thisConfiguration.configurationUrlRegex = inputURLTag.value;
-        thisConfiguration.configurationEnabled = inputEnabledTag.checked;
-        thisConfiguration.jqueryEnabled = inputJqueryTag.checked;
+        thisConfiguration.configurationUrlRegex = _this.inputURLTag.value;
+        thisConfiguration.configurationEnabled = _this.inputEnabledTag.checked;
+        thisConfiguration.jqueryEnabled = _this.inputJqueryTag.checked;
 
         chromeFunctions.saveThisConfiguration(thisConfiguration, function(){
-           showToast("Saved successfully");
+           commonFunctions.showToast("Saved successfully");
         });
     }
 

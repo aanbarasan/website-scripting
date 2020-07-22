@@ -1,3 +1,4 @@
+var commonFunctions = new CommonFunctionalities();
 var chromeFunctions = new ChromeFunctionalities();
 var editorFunctions = new EditorFunctionalities();
 
@@ -15,6 +16,7 @@ function init()
         if(configurationResultList.length > 0)
         {
             var selectOptions = document.getElementById("select-option-for-different-script");
+            selectOptions.innerHTML = "";
             for(var i=0;i<configurationResultList.length;i++)
             {
                 var thisConfiguration = configurationResultList[i];
@@ -27,7 +29,7 @@ function init()
             initConfiguration = configurationResultList[0];
             chromeFunctions.getScriptDataFromConfigurationId(initConfiguration.id, function(scriptData){
                 initConfiguration.scriptData = scriptData;
-                chromeFunctions.loadContainer(initConfiguration);
+                editorFunctions.loadContainer(initConfiguration);
             });
         }
         else
@@ -49,7 +51,7 @@ function runCodeOnThisPage()
             var thisTab = tabs[0];
             var tabURL = thisTab.url;
             var urlRegEx = document.getElementById("page-url-show").value;
-            if(matchURL(tabURL, urlRegEx))
+            if(commonFunctions.isMatchRegex(urlRegEx, tabURL))
             {
                 console.log(thisTab);
                 var scriptData = document.getElementById("script-data-text-area").value;
@@ -57,13 +59,13 @@ function runCodeOnThisPage()
                 if(jqueryEnabled == true)
                 {
                     chromeFunctions.executeScriptWithJquery(thisTab.id, scriptData, function() {
-                        showToast("Executed successfully..", "secondary");
+                        commonFunctions.showToast("Executed successfully..", "secondary");
                     });
                 }
                 else
                 {
                     chromeFunctions.executeScript(thisTab.id, scriptData, function() {
-                        showToast("Executed successfully", "secondary");
+                        commonFunctions.showToast("Executed successfully", "secondary");
                     });
                 }
             }
@@ -84,13 +86,13 @@ function addNewScriptButton(){
         var selectOptions = document.getElementById("select-option-for-different-script");
         var optionsLength = selectOptions.children.length;
         title = title + "(" + optionsLength + ")";
-        let regexURL = getRegexForURL(url);
-        chromeFunctions.loadNewConfiguration(title, regexURL);
+        let regexURL = editorFunctions.getRegexForURL(url);
+        editorFunctions.loadNewConfiguration(title, regexURL);
         var newOption = document.createElement( 'option' );
-        newOption.value = scriptDataID;
+        newOption.value = editorFunctions.configurationId;
         newOption.text = title;
         selectOptions.add(newOption);
-        selectOptions.value = scriptDataID;
+        selectOptions.value = editorFunctions.configurationId;
    });
 }
 
@@ -107,16 +109,19 @@ function selectButtonChanged()
             configurationName = childrenList[i].text;
         }
     }
-    chromeFunctions.getConfigurationForConfigurationId(configurationId, function(thisConfiguration){
+    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
         if(thisConfiguration)
         {
-            loadContainer(thisConfiguration);
+            chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
+                thisConfiguration.scriptData = scriptData;
+                editorFunctions.loadContainer(thisConfiguration);
+            });
         }
         else
         {
             chromeFunctions.getTitleAndUrlOfLastWindow(function(title, url){
-                let regexURL = getRegexForURL(url);
-                chromeFunctions.loadNewConfiguration(configurationName, regexURL);
+                let regexURL = editorFunctions.getRegexForURL(url);
+                editorFunctions.loadNewConfiguration(configurationName, regexURL);
             });
         }
     });

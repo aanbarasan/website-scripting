@@ -19,7 +19,8 @@ function openOrFocusOptionsPage() {
 
  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
      if(changeInfo.status == "complete") {
-        // console.log(tabId, changeInfo, tab);
+         console.log(tabId, changeInfo, tab);
+        console.log(tab);
         chromeFunctions.getActiveConfigurations(tab.url, function(configurationList){
             // console.log(configurationList);
             var isJqueryEnabled = false;

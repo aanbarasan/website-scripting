@@ -1,11 +1,10 @@
+var commonFunctions = new CommonFunctionalities();
 var chromeFunctions = new ChromeFunctionalities();
 
 function init()
 {
     loadContainer();
-    document.getElementById("popupViewModalClose").onclick = function(){
-        document.getElementById("popupViewModal").style.display = "none";
-    }
+    document.getElementById("popupViewModalClose").onclick = closeModalFunction;
     document.getElementById("popup-update-reset-script-from-local-button").onclick = resetScriptFromLocal;
 }
 
@@ -115,6 +114,10 @@ function previewScriptClick()
 function previewScript(configurationId)
 {
     chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
+        if(!thisConfiguration)
+        {
+            thisConfiguration = {};
+        }
         var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
         chromeFunctions.getStorageVariables([scriptId], function(result){
             var scriptData = result[scriptId];
@@ -138,6 +141,10 @@ function previewScript(configurationId)
             }
         });
     });
+}
+
+function closeModalFunction(){
+    document.getElementById("popupViewModal").style.display = "none";
 }
 
 function resetScriptFromLocal()
@@ -195,8 +202,7 @@ function deleteConfiguration(event)
     var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
     var r = confirm("Confirm to delete the script '" + configurationName +"'");
     if (r == true) {
-        getStorageVariablesFromSync([websiteConfigurationString], function(result){
-            var websiteConfiguration = result[websiteConfigurationString];
+        chromeFunctions.getConfigurationVariable(function(websiteConfiguration){
             if(websiteConfiguration)
             {
                 var webList = websiteConfiguration.webList;
@@ -206,10 +212,10 @@ function deleteConfiguration(event)
                     {
                         webList.splice(i, 1);
                         var data = {};
-                        data[websiteConfigurationString] = websiteConfiguration;
-                        saveStorage(data, function(){
+                        data[chromeFunctions.websiteConfigurationString] = websiteConfiguration;
+                        chromeFunctions.saveInStorage(data, function(){
                             _this.parentElement.remove();
-                            showToast("Successfully deleted");
+                            commonFunctions.showToast("Successfully deleted");
                         });
                         break;
                     }
@@ -228,16 +234,16 @@ function updateActiveStatusFromCheckBox(event)
     var checkBoxCheckedStatus = this.checked
     var configurationId = this.parentElement.getAttribute("configuration-id");
     var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
-    chromeFunctions.getConfigurationVariablesFromSync(function(websiteConfiguration){
+    chromeFunctions.getConfigurationVariable(function(websiteConfiguration){
         if(websiteConfiguration)
         {
             updateFeatureState(websiteConfiguration, configurationId, checkBoxCheckedStatus);
             var data = {};
-            data[websiteConfigurationString] = websiteConfiguration;
-            saveStorage(data, function(){
+            data[chromeFunctions.websiteConfigurationString] = websiteConfiguration;
+            chromeFunctions.saveInStorage(data, function(){
                 var message = "";
                 message = "'" + configurationName + "' script " + (checkBoxCheckedStatus ? "enabled" : "disabled")
-                showToast(message);
+                commonFunctions.showToast(message);
             });
         }
     });
