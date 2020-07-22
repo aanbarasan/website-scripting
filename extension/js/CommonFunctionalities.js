@@ -2,8 +2,27 @@ function CommonFunctionalities()
 {
     this.isMatchRegex = function(regex, text)
     {
-        var pattern = new RegExp(regex);
+        var parsedRegex = "^(" + regex + "(/)?)$";
+        var pattern = new RegExp(parsedRegex);
         return pattern.test(text);
+    }
+
+    this.compareText = function(oldText, newText)
+    {
+        var oldTextArray = oldText.split("\n");
+        var newTextArray = newText.split("\n");
+        if(oldTextArray.length != newTextArray.length)
+        {
+            return false;
+        }
+        for(var i=0;i<oldTextArray.length,i<newTextArray.length;i++)
+        {
+            if(oldTextArray[i].valueOf().trim() != newTextArray[i].valueOf().trim())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     this.showToast = function(text, severity, timeout){

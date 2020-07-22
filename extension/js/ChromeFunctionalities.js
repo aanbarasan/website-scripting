@@ -97,7 +97,6 @@ function ChromeFunctionalities()
     {
         var _this = this;
         this.getConfigurationVariable(function(websiteConfiguration){
-            console.log(websiteConfiguration);
             var configurationResultList = [];
             if(websiteConfiguration && websiteConfiguration.webList)
             {
@@ -132,7 +131,7 @@ function ChromeFunctionalities()
 
     this.getCurrentTabConfigurations = function(callback)
     {
-        chromeFunctions.getCurrentActiveOrLastFocusedWindows(function(tabs){
+        _this.getCurrentActiveOrLastFocusedWindows(function(tabs){
             let url, thisTab = {};
             if(tabs && tabs.length > 0)
             {
@@ -144,7 +143,7 @@ function ChromeFunctionalities()
             {
                 thisTab.url = "https://example.com";
             }
-            chromeFunctions.urlAllMatchConfigurations(thisTab.url, function(configurationResultList){
+            _this.urlAllMatchConfigurations(thisTab.url, function(configurationResultList){
                 callback(configurationResultList, thisTab);
             });
         });
@@ -263,24 +262,6 @@ function ChromeFunctionalities()
         });
     }
 
-    this.compareText = function(oldText, newText)
-    {
-        var oldTextArray = oldText.split("\n");
-        var newTextArray = newText.split("\n");
-        if(oldTextArray.length != newTextArray.length)
-        {
-            return false;
-        }
-        for(var i=0;i<oldTextArray.length,i<newTextArray.length;i++)
-        {
-            if(oldTextArray[i].valueOf().trim() != newTextArray[i].valueOf().trim())
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     this.saveConfigurationForOneData = function(scriptData, scriptDataID, configurationName, configurationPurpose, configurationUrlRegex, configurationEnabled, jqueryEnabled, callback)
     {
         var thisConfiguration = {};
@@ -331,7 +312,7 @@ function ChromeFunctionalities()
                         thisWebConfiguration.id = thisConfigurationToSave.scriptDataID;
                         if(typeof existingScriptDataForScriptId == "string")
                         {
-                            var differentValue = compareText(thisConfigurationToSave.scriptData, existingScriptDataForScriptId);
+                            var differentValue = commonFunctions.compareText(thisConfigurationToSave.scriptData, existingScriptDataForScriptId);
                             // console.log(differentValue)
                             if(differentValue)
                             {
@@ -437,7 +418,7 @@ function ChromeFunctionalities()
 
      this.executeScriptWithJquery = function(tabId, scriptData, callback)
      {
-        chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.min.js"}, function() {
+        chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.3.1.min.js"}, function() {console.log("jquery executed")
             chrome.tabs.executeScript(tabId, {code: scriptData}, callback);
         });
      }

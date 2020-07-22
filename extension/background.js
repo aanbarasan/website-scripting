@@ -19,8 +19,6 @@ function openOrFocusOptionsPage() {
 
  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
      if(changeInfo.status == "complete") {
-         console.log(tabId, changeInfo, tab);
-        console.log(tab);
         chromeFunctions.getActiveConfigurations(tab.url, function(configurationList){
             // console.log(configurationList);
             var isJqueryEnabled = false;
@@ -33,7 +31,7 @@ function openOrFocusOptionsPage() {
             }
             if(isJqueryEnabled == true)
             {
-                chrome.tabs.executeScript(tabId, {file: "js/jquery-3.3.1.min.js"}, function() {
+                chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.3.1.min.js"}, function() {
                     executeConfigurationOfList(configurationList, tabId, tab.url);
                 });
             }

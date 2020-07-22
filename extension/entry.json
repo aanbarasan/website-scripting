@@ -9,7 +9,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "sample-multiple-files-download.js",
-      "urlRegEx": "https://file-examples.com/*"
+      "urlRegEx": "https://file-examples.com/(.*)"
     },
     {
       "id": "hotstar-website-quality-change",

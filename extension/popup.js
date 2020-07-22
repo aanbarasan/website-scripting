@@ -71,12 +71,12 @@ function runCodeOnThisPage()
             }
             else
             {
-                showToast("URL regex not match with current active tab", "danger");
+                commonFunctions.showToast("URL regex not match with current active tab", "danger");
             }
         }
         else
         {
-            showToast("No active tab found", "warning");
+            commonFunctions.showToast("No active tab found", "warning");
         }
     });
 }
