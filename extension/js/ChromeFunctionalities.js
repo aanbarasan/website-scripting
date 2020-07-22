@@ -420,7 +420,7 @@ function ChromeFunctionalities()
         });
     }
 
-    this.openOrFocusOptionsPage = function()
+    this.openOrFocusOptionsPage = function(callback)
     {
         var optionsUrl = chrome.extension.getURL('options_page.html');
         chrome.tabs.query({}, function(extensionTabs) {
@@ -428,13 +428,15 @@ function ChromeFunctionalities()
             for (var i=0; i < extensionTabs.length; i++) {
                 if (optionsUrl == extensionTabs[i].url) {
                     found = true;
-                    // console.log("tab id: " + extensionTabs[i].id);
                     chrome.tabs.update(extensionTabs[i].id, {"active": true});
                 }
             }
             if (found == false) {
                 chrome.tabs.create({url: "options_page.html"});
             }
+            setTimeout(function(){
+                callback();
+            }, 100);
         });
      }
 

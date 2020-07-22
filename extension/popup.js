@@ -4,7 +4,7 @@ var editorFunctions = new EditorFunctionalities();
 
 function init()
 {
-    document.getElementById("ConfigurationButton").onclick = chromeFunctions.openOrFocusOptionsPage;
+    document.getElementById("ConfigurationButton").onclick = configurationButtonClick;
     document.getElementById("add-new-script-button").onclick = addNewScriptButton;
     document.getElementById("run-code-on-page-button").onclick = runCodeOnThisPage;
     document.getElementById("select-option-for-different-script").onchange = selectButtonChanged;
@@ -40,6 +40,13 @@ function init()
             var selectOptions = document.getElementById("select-option-for-different-script");
             selectOptions.innerHTML = "<option selected value=\""+editorFunctions.configurationId+"\">"+title+"</option>";
         }
+    });
+}
+
+function configurationButtonClick()
+{
+    chromeFunctions.openOrFocusOptionsPage(function(){
+        window.close();
     });
 }
 
