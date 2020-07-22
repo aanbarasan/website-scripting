@@ -32,7 +32,7 @@ function detectEscapeKey(evt) {
 }
 
 function restoreDeletedScriptsButton(){
-    chromeFunctions.restoreDeletedScriptsButton(function(message){
+    chromeFunctions.restoreDeletedScripts(function(message){
         if(message == "success")
         {
             chromeFunctions.updateDataOneTime(function(){
@@ -235,13 +235,12 @@ function resetScriptFromLocal()
                                 savingConfiguration.configurationUrlRegex = thisLocalConfiguration.urlRegEx;
                                 savingConfiguration.jqueryEnabled = thisLocalConfiguration.jqueryEnabled;
                             }
-                            var callback = function(){
-                                commonFunctions.showToast("Saved successfully");
-                                var configurationId = document.getElementById("popup-current-configuration-id").value;
-                                previewScript(configurationId);
-                                loadContainer();
-                            }
-                            chromeFunctions.saveThisConfiguration(savingConfiguration, callback);
+                            chromeFunctions.saveThisConfiguration(savingConfiguration, function(){
+                                   commonFunctions.showToast("Saved successfully");
+                                   var configurationId = document.getElementById("popup-current-configuration-id").value;
+                                   previewScript(configurationId);
+                                   loadContainer();
+                               });
                         })
                     }
                     else

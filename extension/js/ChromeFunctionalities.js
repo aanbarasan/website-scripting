@@ -26,7 +26,6 @@ function ChromeFunctionalities()
     }
 
     this.getConfigurationVariable = function(callback){
-        var _this = this;
         this.getStorageVariables([_this.websiteConfigurationString], function(result){
             var websiteConfiguration;
             if(result)
@@ -38,7 +37,6 @@ function ChromeFunctionalities()
     }
 
     this.getSingleConfiguration = function(configurationId, callback){
-        var _this = this;
         this.getConfigurationVariable(function(websiteConfiguration){
             var foundConfiguration = false;
             if(websiteConfiguration && websiteConfiguration.webList)
@@ -92,7 +90,7 @@ function ChromeFunctionalities()
         });
     }
 
-    this.restoreDeletedScriptsButton = function(callback)
+    this.restoreDeletedScripts = function(callback)
     {
         var data = {};
         data[_this.deletedScriptText] = [];
@@ -135,7 +133,6 @@ function ChromeFunctionalities()
 
     this.urlAllMatchConfigurations = function(currentURLLocation, callback)
     {
-        var _this = this;
         this.getConfigurationVariable(function(websiteConfiguration){
             var configurationResultList = [];
             if(websiteConfiguration && websiteConfiguration.webList)
@@ -190,7 +187,7 @@ function ChromeFunctionalities()
 
     this.getConfigurationVariableFromFile = function(callback)
     {
-        var entryJsonURL = "../entry.json";
+        var entryJsonURL = "entry.json";
         var xhr = new XMLHttpRequest();
         xhr.open('GET', entryJsonURL, true);
         xhr.responseType = 'blob';
@@ -268,7 +265,6 @@ function ChromeFunctionalities()
 
     this.getScriptDataFromLocalFile = function(scriptId, callback)
     {
-        var _this = this;
         this.getConfigurationVariable(function(websiteConfiguration){
            if(websiteConfiguration && websiteConfiguration.webList)
            {
@@ -291,7 +287,6 @@ function ChromeFunctionalities()
 
     this.updateScriptDataFromLocalFile = function(scriptDataID, callback)
     {
-        var _this = this;
         this.getScriptDataFromLocalFile(scriptDataID, function(scriptData){
            var scriptDataToStore = {};
            scriptDataToStore[_this.scriptIdFromConfigId(scriptDataID)] = scriptData;
@@ -375,7 +370,6 @@ function ChromeFunctionalities()
 
     this.updateDataOneTime = function(callback)
     {
-        var _this = this;
         this.getConfigurationVariableFromFile(function(localFileData){
            _this.getConfigurationVariable(function(websiteConfiguration){
                var localFileDataList = localFileData.webList;
