@@ -5,6 +5,7 @@ function init()
 {
     loadContainer();
     document.getElementById("popupViewModalClose").onclick = closeModalFunction;
+    document.getElementById("popupSettingsModalClose").onclick = closeSettingsModalFunction;
     document.getElementById("cancelConfigurationButton").onclick = cancelConfigurationButton;
     document.getElementById("popup-update-reset-script-from-local-button").onclick = resetScriptFromLocal;
     document.getElementById("add-new-script-button").onclick = addNewScriptButton;
@@ -49,6 +50,10 @@ function openSettingsModalButton(){
 
 function closeModalFunction(){
     document.getElementById("popupViewModal").style.display = "none";
+}
+
+function closeSettingsModalFunction(){
+    document.getElementById("popupSettingsModal").style.display = "none";
 }
 
 function cancelConfigurationButton(){
