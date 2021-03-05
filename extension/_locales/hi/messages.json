@@ -1,0 +1,141 @@
+{
+  "appTitle": {
+    "message": "Website scripting"
+  },
+  "addNewScript":{
+    "message": "नई स्क्रिप्ट जोड़ें",
+    "description": "Add new script"
+  },
+  "settings":{
+    "message": "समायोजन",
+    "description": "Settings"
+  },
+  "rateUs":{
+    "message": "हमें रेटिंग दें!",
+    "description": "Rate us"
+  },
+  "appreciateYourEffort":{
+    "message": "मैं वास्तव में आपके प्रयास की सराहना करता हूं",
+    "description": "I truly appreciate your effort"
+  },
+  "contributeToDevelopment":{
+    "message": "विकास में योगदान दें",
+    "description": "Contribute to development"
+  },
+  "pushYourScriptPublic":{
+    "message": "अपनी स्क्रिप्ट को सार्वजनिक करने के लिए पुश करें",
+    "description": "Push your script to public"
+  },
+  "requestToWriteCode":{
+    "message": "कोड लिखने का अनुरोध",
+    "description": "Request to write code"
+  },
+  "delete":{
+    "message": "हटाएं",
+    "description": "Delete"
+  },
+  "reset":{
+    "message": "रीसेट",
+    "description": "Reset"
+  },
+  "edit":{
+    "message": "संपादित करें",
+    "description": "Edit"
+  },
+  "active":{
+    "message": "सक्रिय",
+    "description": "Active"
+  },
+  "close":{
+    "message": "बंद करे",
+    "description": "Close"
+  },
+  "save":{
+    "message": "सहेजें",
+    "description": "Save"
+  },
+  "run":{
+    "message": "चलाना",
+    "description": "Run"
+  },
+  "script":{
+    "message": "लिपि",
+    "description": "script"
+  },
+  "enabled":{
+    "message": "सक्षम",
+    "description": "enabled"
+  },
+  "script":{
+    "message": "विकलांग",
+    "description": "disabled"
+  },
+  "includeLibraries":{
+    "message": "पुस्तकालयों को शामिल करें",
+    "description": "Include libraries"
+  },
+  "urlRegexHeader":{
+    "message": "URL regex:",
+    "description": "URL regex"
+  },
+  "selectScriptHeader":{
+    "message": "स्क्रिप्ट का चयन करें:",
+    "description": "Select script"
+  },
+  "nameHeader":{
+    "message": "नाम:",
+    "description": "Name"
+  },
+  "restoreDeletedScripts":{
+    "message": "हटाए गए स्क्रिप्ट को पुनर्स्थापित करें",
+    "description": "Restore deleted scripts"
+  },
+  "disablePromotions":{
+    "message": "पदोन्नति अक्षम करें",
+    "description": "Disable promotions"
+  },
+  "configurationPage":{
+    "message": "कॉन्फ़िगरेशन पृष्ठ",
+    "description": "Configuration Page"
+  },
+  "noScriptFoundInOptionPageError":{
+    "message": "कोई स्क्रिप्ट नहीं मिली। उसी वेबसाइट में क्लिक एक्सटेंशन द्वारा नई स्क्रिप्ट जोड़ें। यह एक पॉपअप खोलेगा। आप स्क्रिप्ट जोड़ें और इसे सहेजें, फिर यहाँ दिखाई देगा",
+    "description": "No script found"
+  },
+  "successfullyRestored":{
+    "message": "सफलतापूर्वक बहाल किया गया",
+    "description": "Successfully restored"
+  },
+  "savedSuccessfully":{
+    "message": "सफलतापूर्वक बचाया",
+    "description": "Saved successfully"
+  },
+  "successfullyDeleted":{
+    "message": "सफलतापूर्वक हटा दिया गया",
+    "description": "Successfully deleted"
+  },
+  "confirmResetLocal":{
+    "message": "स्क्रिप्ट रीसेट करने की पुष्टि करें",
+    "description": "Confirm to reset the script"
+  },
+  "confirmDeleteScript":{
+    "message": "स्क्रिप्ट को हटाने की पुष्टि करें",
+    "description": "Confirm to delete the script"
+  },
+  "localDataNotFound":{
+    "message": "स्थानीय डेटा नहीं मिला",
+    "description": "Local data not found"
+  },
+  "executedSuccessfully":{
+    "message": "सफलतापूर्वक निष्पादित किया गया",
+    "description": "Executed successfully"
+  },
+  "urlNotMatchWithActiveTab":{
+    "message": "URL रेगेक्स वर्तमान सक्रिय टैब से मेल नहीं खाता है",
+    "description": "URL regex not match with current active tab"
+  },
+  "noActiveTabFound":{
+    "message": "कोई सक्रिय टैब नहीं मिला",
+    "description": "No active tab found"
+  }
+}

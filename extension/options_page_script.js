@@ -3,6 +3,7 @@ var chromeFunctions = new ChromeFunctionalities();
 
 function init()
 {
+    rateUsLinkUpdate();
     loadContainer();
     document.getElementById("popupViewModalClose").onclick = closeModalFunction;
     document.getElementById("popupSettingsModalClose").onclick = closeSettingsModalFunction;
@@ -12,7 +13,125 @@ function init()
     document.getElementById("setting-popup-button").onclick = openSettingsModalButton;
     document.getElementById("restore-deleted-script-button").onclick = restoreDeletedScriptsButton;
     document.getElementById("edit-configuration-button").onclick = editButtonClick;
+    document.getElementById("disable-promotions-checkbox").onchange = changeDisablePromotions;
     document.onkeyup = detectEscapeKey;
+    chromeInternationalization();
+}
+
+function chromeInternationalization()
+{
+    chrome.i18n.getAcceptLanguages(function(languageList) {
+      var languages = languageList.join(",");
+      console.log("Accepted languages: " + languages);
+      console.log("UI language: " + chrome.i18n.getUILanguage());
+    });
+
+    updateLocalizationById("add-new-script-button", "addNewScript");
+    updateLocalizationClassElements("setting-span-class", "settings");
+    updateLocalizationClassElements("rate-us-span", "rateUs");
+    updateLocalizationClassElements("appreciate-your-effort-span", "appreciateYourEffort");
+    updateLocalizationById("contribute-to-development-anchor", "contributeToDevelopment");
+    updateLocalizationById("push-your-script-public-anchor", "pushYourScriptPublic");
+    updateLocalizationById("request-to-write-code-anchor", "requestToWriteCode");
+    updateLocalizationClassElements("url-regex-header-block", "urlRegexHeader");
+    updateLocalizationClassElements("editor-name-header-block", "nameHeader");
+    updateLocalizationById("popup-update-reset-script-from-local-button", "reset");
+    updateLocalizationById("edit-configuration-button", "edit");
+    updateLocalizationClassElements("checkbox-label-active", "active");
+    updateLocalizationById("cancelConfigurationButton", "close");
+    updateLocalizationById("saveConfigurationButton", "save");
+    updateLocalizationById("include-libraries-span", "includeLibraries");
+    updateLocalizationById("restore-deleted-script-button", "restoreDeletedScripts");
+    updateLocalizationById("disable-promotions-span", "disablePromotions");
+
+}
+
+function updateLocalizationById(id, localId)
+{
+    var text = chrome.i18n.getMessage(localId);
+    if(text && text != "")
+    {
+        var elem = document.getElementById(id);
+        if(elem)
+        {
+            elem.innerHTML = text;
+        }
+    }
+}
+
+function updateLocalizationClassElements(className, localId)
+{
+    var elements = document.getElementsByClassName(className);
+    var text = chrome.i18n.getMessage(localId);
+    if(text && text != "" && elements && elements.length > 0)
+    {
+        for(var i=0;i<elements.length;i++)
+        {
+            elements[i].innerHTML = text;
+        }
+    }
+}
+
+function getLocalizeText(id, text)
+{
+    var content = chrome.i18n.getMessage(id);
+    var result = (content && content != "") ? content : text;
+    return result;
+}
+
+function rateUsLinkUpdate()
+{
+    // Opera 8.0+
+    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+    // Firefox 1.0+
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+
+    // Safari 3.0+ "[object HTMLElementConstructor]"
+    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+
+    // Internet Explorer 6-11
+    var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+    // Edge 20+
+    var isEdge = !isIE && !!window.StyleMedia;
+
+    // Chrome 1 - 79
+    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+    // Edge (based on chromium) detection
+    var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
+
+    // Blink engine detection
+    var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+    if(isFirefox)
+    {
+        var list = document.getElementById("rate-us-div").children;
+        for(var i=0;i<list.length;i++)
+        {
+            list[i].style.display = "none";
+        }
+        document.getElementById("rate-us-div").getElementsByClassName("firefox")[0].style.display = "";
+    }
+    else if(isEdge || isEdgeChromium)
+    {
+        var list = document.getElementById("rate-us-div").children;
+        for(var i=0;i<list.length;i++)
+        {
+            list[i].style.display = "none";
+        }
+        document.getElementById("rate-us-div").getElementsByClassName("edge")[0].style.display = "";
+    }
+    else
+    {
+        var list = document.getElementById("rate-us-div").children;
+        for(var i=0;i<list.length;i++)
+        {
+            list[i].style.display = "none";
+        }
+        document.getElementById("rate-us-div").getElementsByClassName("chrome")[0].style.display = "";
+    }
 }
 
 function detectEscapeKey(evt) {
@@ -38,7 +157,7 @@ function restoreDeletedScriptsButton(){
         {
             chromeFunctions.updateDataOneTime(function(){
                 loadContainer();
-                commonFunctions.showToast("Successfully restored");
+                commonFunctions.showToast(getLocalizeText("successfullyRestored", "Successfully restored"));
             });
         }
     });
@@ -60,12 +179,63 @@ function cancelConfigurationButton(){
     document.getElementById("popupEditorModule").style.display = "none";
 }
 
+function changeDisablePromotions()
+{
+    var ch = document.getElementById("disable-promotions-checkbox").checked;
+    var store = (ch == true) ? "yes" : "no";
+    var data = {"disable-promotions":store};
+    chromeFunctions.saveInStorage(data, function(){
+        if(store == "yes")
+        {
+            disablePromotions();
+        }
+        else
+        {
+            enablePromotions();
+        }
+    });
+}
+
+function disablePromotions()
+{
+    console.log("disable");
+    var elements = document.getElementsByClassName("hide-to-disable-promotions");
+    if(elements && elements.length > 0)
+    {
+        for(var i=0;i<elements.length;i++)
+        {
+            var elem = elements[i];
+            elem.style.display = "none";
+        }
+    }
+}
+
+function enablePromotions()
+{
+    var elements = document.getElementsByClassName("hide-to-disable-promotions");
+    if(elements && elements.length > 0)
+    {
+        for(var i=0;i<elements.length;i++)
+        {
+            var elem = elements[i];
+            elem.style.display = "";
+        }
+    }
+}
+
 function loadContainer()
 {
     document.getElementById("scripts-list-container").innerHTML = "";
+    chromeFunctions.getStorageVariables("disable-promotions", function(data){
+        if(data && data["disable-promotions"] == "yes")
+        {
+            document.getElementById("disable-promotions-checkbox").checked = true;
+            disablePromotions();
+        }
+    });
     getSortedScript(function(configurationWebList){
         var container = document.getElementById("scripts-list-container");
-        if(configurationWebList)
+        if(configurationWebList && configurationWebList.length > 0)
         {
             for(var i=0;i<configurationWebList.length;i++)
             {
@@ -105,7 +275,7 @@ function loadContainer()
                     }
                 }
                 var deleteButton = document.createElement("button");
-                deleteButton.innerText = "Delete";
+                deleteButton.innerText = getLocalizeText("delete", "Delete");
                 deleteButton.onclick = deleteConfiguration;
                 innerContainer.append(deleteButton);
                 innerContainer.onclick = previewScriptClick;
@@ -114,7 +284,7 @@ function loadContainer()
         }
         else
         {
-            container.innerHTML = "<div>No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here</div>";
+            container.innerHTML = "<div>" + getLocalizeText("noScriptFoundInOptionPageError", "No script found") + "</div>";
         }
     });
 }
@@ -219,7 +389,7 @@ function resetScriptFromLocal()
     chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
         if(thisConfiguration)
         {
-            var r = confirm("Confirm to reset the script '" + thisConfiguration.name +"'");
+            var r = confirm(getLocalizeText("confirmResetLocal", "Confirm to reset the script") + " '" + thisConfiguration.name +"'");
             if (r == true) {
                 chromeFunctions.getScriptDataFromLocalFile(configurationId, function(existingScriptDataForScriptId){
                     if(existingScriptDataForScriptId)
@@ -241,7 +411,7 @@ function resetScriptFromLocal()
                                 savingConfiguration.jqueryEnabled = thisLocalConfiguration.jqueryEnabled;
                             }
                             chromeFunctions.saveThisConfiguration(savingConfiguration, function(){
-                                   commonFunctions.showToast("Saved successfully");
+                                   commonFunctions.showToast(getLocalizeText("savedSuccessfully", "Saved successfully"));
                                    var configurationId = document.getElementById("popup-current-configuration-id").value;
                                    previewScript(configurationId);
                                    loadContainer();
@@ -250,7 +420,7 @@ function resetScriptFromLocal()
                     }
                     else
                     {
-                        commonFunctions.showToast("Local data not found");
+                        commonFunctions.showToast(getLocalizeText("localDataNotFound", "Local data not found"));
                     }
                 });
             }
@@ -264,7 +434,7 @@ function deleteConfiguration(event)
     var _this = this;
     var configurationId = this.parentElement.getAttribute("configuration-id");
     var configurationName = _this.parentElement.getElementsByClassName("nameTag")[0].innerHTML;
-    var r = confirm("Confirm to delete the script '" + configurationName +"'");
+    var r = confirm(getLocalizeText("confirmDeleteScript", "Confirm to delete the script") + " '" + configurationName +"'");
     if (r == true) {
         chromeFunctions.getConfigurationVariable(function(websiteConfiguration){
             if(websiteConfiguration)
@@ -280,7 +450,7 @@ function deleteConfiguration(event)
                         chromeFunctions.saveInStorage(data, function(){
                             _this.parentElement.remove();
                             chromeFunctions.addToDeletedConfiguration(configurationId);
-                            commonFunctions.showToast("Successfully deleted");
+                            commonFunctions.showToast(getLocalizeText("successfullyDeleted", "Successfully deleted"));
                         });
                         break;
                     }
@@ -307,7 +477,10 @@ function updateActiveStatusFromCheckBox(event)
             data[chromeFunctions.websiteConfigurationString] = websiteConfiguration;
             chromeFunctions.saveInStorage(data, function(){
                 var message = "";
-                message = "'" + configurationName + "' script " + (checkBoxCheckedStatus ? "enabled" : "disabled")
+                var scriptText = getLocalizeText("script", "script");
+                var enabledText = getLocalizeText("enabled", "enabled");
+                var disabledText = getLocalizeText("disabled", "disabled");
+                message = "'" + configurationName + "' " + scriptText + " " + (checkBoxCheckedStatus ? enabledText : disabledText)
                 commonFunctions.showToast(message);
             });
         }

@@ -46,6 +46,14 @@
       {
         background-color: #c9dfd6;
       }
+      .footer-links
+      {
+        font-size: 20px;
+        background-color: #e7dae7b0;
+        padding: 5px;
+        border-radius: 3px;
+        display: inline-block;
+      }
       #saveDataButton
       {
         color: white;
@@ -63,8 +71,8 @@
   </head>
   <body style="margin: 0px;height: 100%;">
     <div style="width: 100%;padding: 0px 6% 0px 6%;overflow: scroll;height: 100%;">
-      <div id="script-list-content-manager" style="width: 100%;padding: 10px 10px 200px 10px;background-color: #f1f2f3;">
-        <div style="margin: 0px;">
+      <div id="script-list-content-manager" style="width: 100%;padding: 10px 10px 20px 10px;background-color: #f1f2f3;">
+        <div style="margin: 0px;" class="hide-to-disable-promotions">
           <div>
             <image src="image/text_logo.png" style="width: 250px"></image>
           </div>
@@ -72,8 +80,8 @@
         <div style="text-align:right;">
           <button class="button success-button" style="margin-bottom: 3px;border: 1px solid grey;"
             id="add-new-script-button">Add new script</button>
-          <button class="button" style="margin-bottom: 3px;border: 1px solid grey;"
-            id="setting-popup-button">Settings</button>
+          <button style="margin-bottom: 3px;border: 1px solid grey;"
+            id="setting-popup-button" class="button setting-span-class">Settings</button>
         </div>
         <div id="scripts-list-container"></div>
       </div>
@@ -84,16 +92,17 @@
           <input style="display:none;" type="text" id="popup-current-configuration-id"/>
           <div style="float:left;">
             <div>
-              <div style="display: inline-block;width: 80px;font-size: 14px;">URL regex:</div>
+              <div style="display: inline-block;width: 80px;font-size: 14px;" class="url-regex-header-block">URL regex:</div>
               <span id="popupViewModalURL" style="font-size: 15px;">URL</span>
             </div>
             <div>
-              <div style="display: inline-block;width: 80px;font-size: 14px;">Name:</div>
+              <div style="display: inline-block;width: 80px;font-size: 14px;" class="editor-name-header-block">Name:</div>
               <span id="popupViewModalName" style="font-size: 20px;">Header</span>
             </div>
           </div>
           <div style="float:left;">
-            <button id="popup-update-reset-script-from-local-button" style="display:none;">Reset</button>
+            <button id="popup-update-reset-script-from-local-button"
+                    style="display:none;">Reset</button>
           </div>
           <div style="float:right;">
             <button id="edit-configuration-button" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">Edit</button>
@@ -110,12 +119,12 @@
         <div style="padding: 10px;background-color:white;">
           <div style="display: inline-block;width: 100%;">
             <div style="float:left;">
-              <label>Name: </label>
+              <label class="editor-name-header-block">Name: </label>
               <input type="text" style="width: 300px;height: 35px;font-size: 14px;" class="input-text-box"
                      placeholder="Script name" id="web-script-name-input">
             </div>
             <div style="float:right;">
-              <div style="display:inline-block;width: 100px;font-size: 18px;">
+              <div style="display:inline-block;width: 130px;font-size: 18px;text-align: right;margin-right: 5px;">
                 <div style="display:inline-block;">
                   <label>
                     <input type="checkbox" class="active-inactive-checkbox" id="web-script-enabled-checkbox-input">
@@ -133,12 +142,12 @@
           </div>
           <div style="display: inline-block;width: 100%;margin: 4px 0px;">
             <div style="float:left;">
-              <label>URL regex: </label>
+              <label class="url-regex-header-block">URL regex: </label>
               <input type="text" style="width: 350px;" class="input-text-box" id="page-url-show">
             </div>
             <div style="float:right;position: relative;">
               <div id="libraries-open-button" style="padding: 7px 13px;background-color: #e4e4e4;border-radius: 2px;cursor: pointer;width:180px;">
-                <span>Include libraries</span>
+                <span id="include-libraries-span">Include libraries</span>
                 <span style="float: right;"><i class="arrow down"></i></span>
               </div>
               <div id="libraries-container" style="display: none;position: absolute;top: 29px;right: 0px;
@@ -166,7 +175,7 @@
           <div style="padding:20px 15px 30px 15px;background-color:white;width: 600px;display: inline-block;text-align: left;min-height: 300px;">
             <div>
               <h1 style="margin:0px;">
-                Settings
+                <span class="setting-span-class">Settings</span>
                 <span style="float:right;">
                   <button id="popupSettingsModalClose" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">X</button>
                 </span>
@@ -174,8 +183,8 @@
             </div>
             <div style="margin: 15px 0px;">
               <label>
-                <input type="checkbox"/>
-                URL end with slash(/) optional when compare with regular expression
+                <input type="checkbox" id="disable-promotions-checkbox"/>
+                <span id="disable-promotions-span">Disable promotions</span>
               </label>
             </div>
             <div style="margin: 15px 0px 0px 0px;">
@@ -184,29 +193,41 @@
           </div>
       </div>
     </div>
-    <div style="position: fixed;bottom: 0px;width: 100%;background-color: white;box-shadow: 0px 0px 7px #8888888c;">
-      <div style="padding: 20px 10% 20px 10%;float:left;width:100%;">
-        <div style="float: left;">
-          <a href="https://forms.gle/dqhCtm4sk1jW83UZ6" target="_blank"
-             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
-            Send feedback
+    <div style="position: fixed;bottom: 0px;width: 100%;background-color: white;box-shadow: 0px 0px 7px #8888888c;"
+       class="hide-to-disable-promotions">
+      <div style="padding: 10px 10% 8px 10%;float:left;width:100%;">
+        <div style="float: left;" id="rate-us-div">
+          <a href="https://chrome.google.com/webstore/detail/website-scripting/aggnfbkmhedkekjoplldenefbchaoiln" target="_blank"
+             class="footer-links chrome" style="line-height: 0.7;">
+            <span class="rate-us-span">Rate us!</span><br/>
+            <span class="appreciate-your-effort-span" style="font-size: 10px;">I truly appreciate your effort</span>
+          </a>
+          <a href="https://addons.mozilla.org/en-US/firefox/addon/website-scripting/" target="_blank"
+             class="footer-links firefox" style="display: none;line-height: 0.7;">
+            <span class="rate-us-span">Rate us!</span><br/>
+            <span class="appreciate-your-effort-span" style="font-size: 10px;">I truly appreciate your effort</span>
+          </a>
+          <a href="https://microsoftedge.microsoft.com/addons/detail/website-scripting/lcofajjkcgijgdijbllafnjfnffilnmc" target="_blank"
+             class="footer-links edge" style="display: none;line-height: 0.7;">
+            <span class="rate-us-span">Rate us!</span><br/>
+            <span class="appreciate-your-effort-span" style="font-size: 10px;">I truly appreciate your effort</span>
           </a>
         </div>
         <div style="float: left;margin-left:10px;">
           <a href="https://github.com/aanbarasan/website-scripting" target="_blank"
-             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
+             class="footer-links" id="contribute-to-development-anchor">
             Contribute to development
           </a>
         </div>
         <div style="float: right;">
           <a href="https://forms.gle/pnp9gd2JiNntZtzw6" target="_blank"
-             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
+             class="footer-links" id="push-your-script-public-anchor">
             Push your script to public
           </a>
         </div>
         <div style="float: right;padding-right:10px;">
           <a href="https://forms.gle/nHszkRZT8Lh1T2Mh7" target="_blank"
-             style="font-size: 20px;background: #d7bfd7;padding: 5px;border-radius: 3px;">
+             class="footer-links" id="request-to-write-code-anchor">
             Request to write code
           </a>
         </div>

@@ -1,0 +1,141 @@
+{
+  "appTitle": {
+    "message": "Website scripting"
+  },
+  "addNewScript":{
+    "message": "Добавить новый скрипт",
+    "description": "Add new script"
+  },
+  "settings":{
+    "message": "Настройки",
+    "description": "Settings"
+  },
+  "rateUs":{
+    "message": "Оцените нас!",
+    "description": "Rate us"
+  },
+  "appreciateYourEffort":{
+    "message": "Я действительно ценю твои старания",
+    "description": "I truly appreciate your effort"
+  },
+  "contributeToDevelopment":{
+    "message": "Способствовать развитию",
+    "description": "Contribute to development"
+  },
+  "pushYourScriptPublic":{
+    "message": "Публикуйте свой скрипт",
+    "description": "Push your script to public"
+  },
+  "requestToWriteCode":{
+    "message": "Запрос на написание кода",
+    "description": "Request to write code"
+  },
+  "delete":{
+    "message": "Удалить",
+    "description": "Delete"
+  },
+  "reset":{
+    "message": "Перезагрузить",
+    "description": "Reset"
+  },
+  "edit":{
+    "message": "Редактировать",
+    "description": "Edit"
+  },
+  "active":{
+    "message": "Активный",
+    "description": "Active"
+  },
+  "close":{
+    "message": "Закрывать",
+    "description": "Close"
+  },
+  "save":{
+    "message": "Сохранять",
+    "description": "Save"
+  },
+  "run":{
+    "message": "Пробег",
+    "description": "Run"
+  },
+  "script":{
+    "message": "сценарий",
+    "description": "script"
+  },
+  "enabled":{
+    "message": "включено",
+    "description": "enabled"
+  },
+  "script":{
+    "message": "отключен",
+    "description": "disabled"
+  },
+  "includeLibraries":{
+    "message": "Включить библиотеки",
+    "description": "Include libraries"
+  },
+  "urlRegexHeader":{
+    "message": "Регулярное выражение URL:",
+    "description": "URL regex"
+  },
+  "selectScriptHeader":{
+    "message": "Выбрать сценарий:",
+    "description": "Select script"
+  },
+  "nameHeader":{
+    "message": "Имя:",
+    "description": "Name"
+  },
+  "restoreDeletedScripts":{
+    "message": "Восстановить удаленные скрипты",
+    "description": "Restore deleted scripts"
+  },
+  "disablePromotions":{
+    "message": "Отключить рекламные акции",
+    "description": "Disable promotions"
+  },
+  "configurationPage":{
+    "message": "Страница конфигурации",
+    "description": "Configuration Page"
+  },
+  "noScriptFoundInOptionPageError":{
+    "message": "Сценарий не найден. Добавьте новый скрипт по расширению клика на том же сайте. Откроется всплывающее окно. Добавьте свой скрипт и сохраните его, он появится здесь.",
+    "description": "No script found"
+  },
+  "successfullyRestored":{
+    "message": "Успешно восстановлен",
+    "description": "Successfully restored"
+  },
+  "savedSuccessfully":{
+    "message": "Успешно сохранено",
+    "description": "Saved successfully"
+  },
+  "successfullyDeleted":{
+    "message": "Успешно удалено",
+    "description": "Successfully deleted"
+  },
+  "confirmResetLocal":{
+    "message": "Подтвердите сброс скрипта",
+    "description": "Confirm to reset the script"
+  },
+  "confirmDeleteScript":{
+    "message": "Подтвердите удаление скрипта",
+    "description": "Confirm to delete the script"
+  },
+  "localDataNotFound":{
+    "message": "Локальные данные не найдены",
+    "description": "Local data not found"
+  },
+  "executedSuccessfully":{
+    "message": "Выполнено успешно",
+    "description": "Executed successfully"
+  },
+  "urlNotMatchWithActiveTab":{
+    "message": "Регулярное выражение URL не соответствует текущей активной вкладке",
+    "description": "URL regex not match with current active tab"
+  },
+  "noActiveTabFound":{
+    "message": "Активная вкладка не найдена",
+    "description": "No active tab found"
+  }
+}

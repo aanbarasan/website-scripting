@@ -1,0 +1,141 @@
+{
+  "appTitle": {
+    "message": "Website scripting"
+  },
+  "addNewScript":{
+    "message": "أضف نصًا جديدًا",
+    "description": "Add new script"
+  },
+  "settings":{
+    "message": "إعدادات",
+    "description": "Settings"
+  },
+  "rateUs":{
+    "message": "قيمنا!",
+    "description": "Rate us"
+  },
+  "appreciateYourEffort":{
+    "message": "أنا حقا أقدر جهودك",
+    "description": "I truly appreciate your effort"
+  },
+  "contributeToDevelopment":{
+    "message": "المساهمة في التنمية",
+    "description": "Contribute to development"
+  },
+  "pushYourScriptPublic":{
+    "message": "ادفع النص الخاص بك للجمهور",
+    "description": "Push your script to public"
+  },
+  "requestToWriteCode":{
+    "message": "طلب كتابة كود",
+    "description": "Request to write code"
+  },
+  "delete":{
+    "message": "حذف",
+    "description": "Delete"
+  },
+  "reset":{
+    "message": "إعادة ضبط",
+    "description": "Reset"
+  },
+  "edit":{
+    "message": "يحرر",
+    "description": "Edit"
+  },
+  "active":{
+    "message": "نشيط",
+    "description": "Active"
+  },
+  "close":{
+    "message": "قريب",
+    "description": "Close"
+  },
+  "save":{
+    "message": "يحفظ",
+    "description": "Save"
+  },
+  "run":{
+    "message": "يركض",
+    "description": "Run"
+  },
+  "script":{
+    "message": "النصي",
+    "description": "script"
+  },
+  "enabled":{
+    "message": "ممكن",
+    "description": "enabled"
+  },
+  "script":{
+    "message": "معاق",
+    "description": "disabled"
+  },
+  "includeLibraries":{
+    "message": "تشمل المكتبات",
+    "description": "Include libraries"
+  },
+  "urlRegexHeader":{
+    "message": "URL regex:",
+    "description": "URL regex"
+  },
+  "selectScriptHeader":{
+    "message": "حدد البرنامج النصي:",
+    "description": "Select script"
+  },
+  "nameHeader":{
+    "message": "اسم:",
+    "description": "Name"
+  },
+  "restoreDeletedScripts":{
+    "message": "استعادة البرامج النصية المحذوفة",
+    "description": "Restore deleted scripts"
+  },
+  "disablePromotions":{
+    "message": "تعطيل الترقيات",
+    "description": "Disable promotions"
+  },
+  "configurationPage":{
+    "message": "صفحة التكوين",
+    "description": "Configuration Page"
+  },
+  "noScriptFoundInOptionPageError":{
+    "message": "لم يتم العثور على نص برمجي. إضافة برنامج نصي جديد عن طريق النقر فوق امتداد في نفس الموقع. سيفتح نافذة منبثقة. أضف البرنامج النصي واحفظه ، ثم سيظهر ذلك هنا",
+    "description": "No script found"
+  },
+  "successfullyRestored":{
+    "message": "تمت الاستعادة بنجاح",
+    "description": "Successfully restored"
+  },
+  "savedSuccessfully":{
+    "message": "حفظ بنجاح",
+    "description": "Saved successfully"
+  },
+  "successfullyDeleted":{
+    "message": "تم الحذف بنجاح",
+    "description": "Successfully deleted"
+  },
+  "confirmResetLocal":{
+    "message": "قم بالتأكيد لإعادة تعيين البرنامج النصي",
+    "description": "Confirm to reset the script"
+  },
+  "confirmDeleteScript":{
+    "message": "أكد لحذف البرنامج النصي",
+    "description": "Confirm to delete the script"
+  },
+  "localDataNotFound":{
+    "message": "البيانات المحلية غير موجودة",
+    "description": "Local data not found"
+  },
+  "executedSuccessfully":{
+    "message": "تم التنفيذ بنجاح",
+    "description": "Executed successfully"
+  },
+  "urlNotMatchWithActiveTab":{
+    "message": "لا يتطابق التعبير العادي لعنوان URL مع علامة التبويب النشطة الحالية",
+    "description": "URL regex not match with current active tab"
+  },
+  "noActiveTabFound":{
+    "message": "لم يتم العثور على علامة تبويب نشطة",
+    "description": "No active tab found"
+  }
+}

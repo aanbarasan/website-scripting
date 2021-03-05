@@ -1,0 +1,141 @@
+{
+  "appTitle": {
+    "message": "Website scripting"
+  },
+  "addNewScript":{
+    "message": "Add new script",
+    "description": "Add new script"
+  },
+  "settings":{
+    "message": "Settings",
+    "description": "Settings"
+  },
+  "rateUs":{
+    "message": "Rate us!",
+    "description": "Rate us"
+  },
+  "appreciateYourEffort":{
+    "message": "I truly appreciate your effort",
+    "description": "I truly appreciate your effort"
+  },
+  "contributeToDevelopment":{
+    "message": "Contribute to development",
+    "description": "Contribute to development"
+  },
+  "pushYourScriptPublic":{
+    "message": "Push your script to public",
+    "description": "Push your script to public"
+  },
+  "requestToWriteCode":{
+    "message": "Request to write code",
+    "description": "Request to write code"
+  },
+  "delete":{
+    "message": "Delete",
+    "description": "Delete"
+  },
+  "reset":{
+    "message": "Reset",
+    "description": "Reset"
+  },
+  "edit":{
+    "message": "Edit",
+    "description": "Edit"
+  },
+  "active":{
+    "message": "Active",
+    "description": "Active"
+  },
+  "close":{
+    "message": "Close",
+    "description": "Close"
+  },
+  "save":{
+    "message": "Save",
+    "description": "Save"
+  },
+  "run":{
+    "message": "Run",
+    "description": "Run"
+  },
+  "script":{
+    "message": "script",
+    "description": "script"
+  },
+  "enabled":{
+    "message": "enabled",
+    "description": "enabled"
+  },
+  "script":{
+    "message": "disabled",
+    "description": "disabled"
+  },
+  "includeLibraries":{
+    "message": "Include libraries",
+    "description": "Include libraries"
+  },
+  "urlRegexHeader":{
+    "message": "URL regex:",
+    "description": "URL regex"
+  },
+  "selectScriptHeader":{
+    "message": "Select script:",
+    "description": "Select script"
+  },
+  "nameHeader":{
+    "message": "Name:",
+    "description": "Name"
+  },
+  "restoreDeletedScripts":{
+    "message": "Restore deleted scripts",
+    "description": "Restore deleted scripts"
+  },
+  "disablePromotions":{
+    "message": "Disable promotions",
+    "description": "Disable promotions"
+  },
+  "configurationPage":{
+    "message": "Configuration Page",
+    "description": "Configuration Page"
+  },
+  "noScriptFoundInOptionPageError":{
+    "message": "No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here",
+    "description": "No script found"
+  },
+  "successfullyRestored":{
+    "message": "Successfully restored",
+    "description": "Successfully restored"
+  },
+  "savedSuccessfully":{
+    "message": "Saved successfully",
+    "description": "Saved successfully"
+  },
+  "successfullyDeleted":{
+    "message": "Successfully deleted",
+    "description": "Successfully deleted"
+  },
+  "confirmResetLocal":{
+    "message": "Confirm to reset the script",
+    "description": "Confirm to reset the script"
+  },
+  "confirmDeleteScript":{
+    "message": "Confirm to delete the script",
+    "description": "Confirm to delete the script"
+  },
+  "localDataNotFound":{
+    "message": "Local data not found",
+    "description": "Local data not found"
+  },
+  "executedSuccessfully":{
+    "message": "Executed successfully",
+    "description": "Executed successfully"
+  },
+  "urlNotMatchWithActiveTab":{
+    "message": "URL regex not match with current active tab",
+    "description": "URL regex not match with current active tab"
+  },
+  "noActiveTabFound":{
+    "message": "No active tab found",
+    "description": "No active tab found"
+  }
+}

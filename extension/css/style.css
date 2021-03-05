@@ -18,6 +18,8 @@
 {
     background-color: orange;
     color: #efefef;
+    padding: 3px 5px;
+    font-size: 23px;
 }
 .active-inactive-checkbox
 {
@@ -63,13 +65,14 @@
 }
 .select-script-list-tag
 {
-    padding: 4px 6px;
+    padding: 4px 2px;
     font-size: 14px;
 }
 .add-new-script-button
 {
     font-size: 17px;
     border: 0.2px solid #b9b9b9;
+    padding: 4px;
 }
 
 

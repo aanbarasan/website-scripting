@@ -54,7 +54,9 @@ function EditorFunctionalities()
             {
                 _this.saveButtonCallback();
             }
-            commonFunctions.showToast("Saved successfully");
+            var content = chrome.i18n.getMessage("savedSuccessfully");
+            var result = (content && content != "") ? content : "Saved successfully";
+            commonFunctions.showToast(result);
         });
     }
 

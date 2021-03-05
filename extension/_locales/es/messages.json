@@ -1,0 +1,141 @@
+{
+  "appTitle": {
+    "message": "Website scripting"
+  },
+  "addNewScript":{
+    "message": "Agregar nuevo texto",
+    "description": "Add new script"
+  },
+  "settings":{
+    "message": "Ajustes",
+    "description": "Settings"
+  },
+  "rateUs":{
+    "message": "Nos califica!",
+    "description": "Rate us"
+  },
+  "appreciateYourEffort":{
+    "message": "Realmente aprecio tu esfuerzo",
+    "description": "I truly appreciate your effort"
+  },
+  "contributeToDevelopment":{
+    "message": "Contribuir al desarrollo",
+    "description": "Contribute to development"
+  },
+  "pushYourScriptPublic":{
+    "message": "Empuje su guión al público",
+    "description": "Push your script to public"
+  },
+  "requestToWriteCode":{
+    "message": "Solicitud para escribir código",
+    "description": "Request to write code"
+  },
+  "delete":{
+    "message": "Borrar",
+    "description": "Delete"
+  },
+  "reset":{
+    "message": "Reiniciar",
+    "description": "Reset"
+  },
+  "edit":{
+    "message": "Editar",
+    "description": "Edit"
+  },
+  "active":{
+    "message": "Activa",
+    "description": "Active"
+  },
+  "close":{
+    "message": "Cerrar",
+    "description": "Close"
+  },
+  "save":{
+    "message": "Salvar",
+    "description": "Save"
+  },
+  "run":{
+    "message": "Correr",
+    "description": "Run"
+  },
+  "script":{
+    "message": "texto",
+    "description": "script"
+  },
+  "enabled":{
+    "message": "activada",
+    "description": "enabled"
+  },
+  "script":{
+    "message": "discapacitada",
+    "description": "disabled"
+  },
+  "includeLibraries":{
+    "message": "Incluir bibliotecas",
+    "description": "Include libraries"
+  },
+  "urlRegexHeader":{
+    "message": "Regex de URL:",
+    "description": "URL regex"
+  },
+  "selectScriptHeader":{
+    "message": "Seleccione texto:",
+    "description": "Select script"
+  },
+  "nameHeader":{
+    "message": "Nombre:",
+    "description": "Name"
+  },
+  "restoreDeletedScripts":{
+    "message": "Restaurar scripts eliminados",
+    "description": "Restore deleted scripts"
+  },
+  "disablePromotions":{
+    "message": "Desactivar promociones",
+    "description": "Disable promotions"
+  },
+  "configurationPage":{
+    "message": "Página de configuración",
+    "description": "Configuration Page"
+  },
+  "noScriptFoundInOptionPageError":{
+    "message": "No se encontró ningún script. Agregue un nuevo script haciendo clic en la extensión en el mismo sitio web. Se abrirá una ventana emergente. Agregue su script y guárdelo, luego aparecerá aquí",
+    "description": "No script found"
+  },
+  "successfullyRestored":{
+    "message": "Restaurado con éxito",
+    "description": "Successfully restored"
+  },
+  "savedSuccessfully":{
+    "message": "Guardado exitosamente",
+    "description": "Saved successfully"
+  },
+  "successfullyDeleted":{
+    "message": "Eliminado con éxito",
+    "description": "Successfully deleted"
+  },
+  "confirmResetLocal":{
+    "message": "Confirmar para restablecer el script",
+    "description": "Confirm to reset the script"
+  },
+  "confirmDeleteScript":{
+    "message": "Confirmar para eliminar el texto",
+    "description": "Confirm to delete the script"
+  },
+  "localDataNotFound":{
+    "message": "No se encontraron datos locales",
+    "description": "Local data not found"
+  },
+  "executedSuccessfully":{
+    "message": "Ejecutado con éxito",
+    "description": "Executed successfully"
+  },
+  "urlNotMatchWithActiveTab":{
+    "message": "La expresión regular de la URL no coincide con la pestaña activa actual",
+    "description": "URL regex not match with current active tab"
+  },
+  "noActiveTabFound":{
+    "message": "No se encontró ninguna pestaña activa",
+    "description": "No active tab found"
+  }
+}
