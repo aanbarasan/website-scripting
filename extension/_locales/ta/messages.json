@@ -66,7 +66,7 @@
     "message": "இயக்கப்பட்டது",
     "description": "enabled"
   },
-  "script":{
+  "disabled":{
     "message": "முடக்கப்பட்டது",
     "description": "disabled"
   },
