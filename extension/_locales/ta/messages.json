@@ -1,0 +1,141 @@
+{
+  "appTitle": {
+    "message": "Website scripting"
+  },
+  "addNewScript":{
+    "message": "புதிய ஸ்கிரிப்ட்",
+    "description": "Add new script"
+  },
+  "settings":{
+    "message": "அமைப்புகள்",
+    "description": "Settings"
+  },
+  "rateUs":{
+    "message": "மதிப்பிடு!",
+    "description": "Rate us"
+  },
+  "appreciateYourEffort":{
+    "message": "உங்கள் முயற்சியை நான் உண்மையிலேயே பாராட்டுகிறேன்",
+    "description": "I truly appreciate your effort"
+  },
+  "contributeToDevelopment":{
+    "message": "வளர்ச்சிக்கு பங்காளியுங்கள்",
+    "description": "Contribute to development"
+  },
+  "pushYourScriptPublic":{
+    "message": "உங்கள் ஸ்கிரிப்டை பகிருங்கள்",
+    "description": "Push your script to public"
+  },
+  "requestToWriteCode":{
+    "message": "உதவி தேவை",
+    "description": "Request to write code"
+  },
+  "delete":{
+    "message": "நீக்கு",
+    "description": "Delete"
+  },
+  "reset":{
+    "message": "மீட்டமைக்க",
+    "description": "Reset"
+  },
+  "edit":{
+    "message": "தொகு",
+    "description": "Edit"
+  },
+  "active":{
+    "message": "செயல்படுத்து",
+    "description": "Active"
+  },
+  "close":{
+    "message": "மூடு",
+    "description": "Close"
+  },
+  "save":{
+    "message": "சேமி",
+    "description": "Save"
+  },
+  "run":{
+    "message": "உடனே செயல்படுத்து",
+    "description": "Run"
+  },
+  "script":{
+    "message": "கையெழுத்துப்படிவம்",
+    "description": "script"
+  },
+  "enabled":{
+    "message": "இயக்கப்பட்டது",
+    "description": "enabled"
+  },
+  "script":{
+    "message": "முடக்கப்பட்டது",
+    "description": "disabled"
+  },
+  "includeLibraries":{
+    "message": "நூலகங்களைச் சேர்க்கவும்",
+    "description": "Include libraries"
+  },
+  "urlRegexHeader":{
+    "message": "URL regex:",
+    "description": "URL regex"
+  },
+  "selectScriptHeader":{
+    "message": "ஸ்கிரிப்டை மாற்றவும்:",
+    "description": "Select script"
+  },
+  "nameHeader":{
+    "message": "பெயர்:",
+    "description": "Name"
+  },
+  "restoreDeletedScripts":{
+    "message": "நீக்கப்பட்ட ஸ்கிரிப்ட்களை மீட்டமைக்க",
+    "description": "Restore deleted scripts"
+  },
+  "disablePromotions":{
+    "message": "விளம்பரங்களை முடக்கு",
+    "description": "Disable promotions"
+  },
+  "configurationPage":{
+    "message": "அமைப்புகள்",
+    "description": "Configuration Page"
+  },
+  "noScriptFoundInOptionPageError":{
+    "message": "ஸ்கிரிப்ட் எதுவும் கிடைக்கவில்லை. அதே வலைத்தளத்தில் கிளிக் நீட்டிப்பு மூலம் புதிய ஸ்கிரிப்டைச் சேர்க்கவும். இது ஒரு பாப்அப்பைத் திறக்கும். உங்களுக்கு ஸ்கிரிப்டைச் சேர்த்து சேமிக்கவும், பின்னர் அது இங்கே தோன்றும்",
+    "description": "No script found"
+  },
+  "successfullyRestored":{
+    "message": "வெற்றிகரமாக மீட்டெடுக்கப்பட்டது",
+    "description": "Successfully restored"
+  },
+  "savedSuccessfully":{
+    "message": "வெற்றிகரமாக சேமிக்கப்பட்டது",
+    "description": "Saved successfully"
+  },
+  "successfullyDeleted":{
+    "message": "வெற்றிகரமாக நீக்கப்பட்டது",
+    "description": "Successfully deleted"
+  },
+  "confirmResetLocal":{
+    "message": "ஸ்கிரிப்டை மீட்டமைக்க உறுதிப்படுத்தவும்",
+    "description": "Confirm to reset the script"
+  },
+  "confirmDeleteScript":{
+    "message": "ஸ்கிரிப்டை நீக்க உறுதிப்படுத்தவும்",
+    "description": "Confirm to delete the script"
+  },
+  "localDataNotFound":{
+    "message": "உள்ளூர் தரவு கிடைக்கவில்லை",
+    "description": "Local data not found"
+  },
+  "executedSuccessfully":{
+    "message": "வெற்றிகரமாக செயல்படுத்தப்பட்டது",
+    "description": "Executed successfully"
+  },
+  "urlNotMatchWithActiveTab":{
+    "message": "URL ரீஜெக்ஸ் தற்போதைய செயலில் உள்ள தாவலுடன் பொருந்தவில்லை",
+    "description": "URL regex not match with current active tab"
+  },
+  "noActiveTabFound":{
+    "message": "செயலில் தாவல் எதுவும் கிடைக்கவில்லை",
+    "description": "No active tab found"
+  }
+}
