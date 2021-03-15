@@ -111,19 +111,33 @@ function runCodeOnThisPage()
                 // console.log(thisTab);
                 var scriptData = document.getElementById("script-data-text-area").value;
                 var jqueryEnabled = document.getElementById("enable-jquery-checkbox-input").checked;
+                var successMess = getLocalizeText("executedSuccessfully", "Executed successfully");
+                var notAbleToAccessError = getLocalizeText("notAbleToAccessError", "Not able to access the window");
+                var callBack = function()
+                {
+                    if (chrome.runtime.lastError) {
+                       var errorMsg = chrome.runtime.lastError.message
+                       if(errorMsg.indexOf("Cannot access contents of url") >= 0)
+                       {
+                           commonFunctions.showToast(notAbleToAccessError, "danger", 3000);
+                       }
+                       else
+                       {
+                           commonFunctions.showToast(successMess+"..", "success");
+                       }
+                    }
+                    else
+                    {
+                        commonFunctions.showToast(successMess+"..", "success");
+                    }
+                }
                 if(jqueryEnabled == true)
                 {
-                    chromeFunctions.executeScriptWithJquery(thisTab.id, scriptData, function() {
-                        var mess = getLocalizeText("executedSuccessfully", "Executed successfully");
-                        commonFunctions.showToast(mess+"..", "secondary");
-                    });
+                    chromeFunctions.executeScriptWithJquery(thisTab.id, scriptData, callBack);
                 }
                 else
                 {
-                    chromeFunctions.executeScript(thisTab.id, scriptData, function() {
-                        var mess = getLocalizeText("executedSuccessfully", "Executed successfully..");
-                        commonFunctions.showToast(mess, "secondary");
-                    });
+                    chromeFunctions.executeScript(thisTab.id, scriptData, callBack);
                 }
             }
             else

@@ -137,5 +137,9 @@
   "noActiveTabFound":{
     "message": "No active tab found",
     "description": "No active tab found"
+  },
+  "notAbleToAccessError":{
+    "message": "Not able to access the window",
+    "description": "Not able to access the window"
   }
 }

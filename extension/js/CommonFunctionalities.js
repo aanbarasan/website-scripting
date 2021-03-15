@@ -66,6 +66,11 @@ function CommonFunctionalities()
             toastContent.style.border = "2px solid red";
             toastContent.style.backgroundColor = "#b41f1f";
         }
+        else if(severity == "success")
+        {
+            toastContent.style.border = "2px solid green";
+            toastContent.style.backgroundColor = "#48b348";
+        }
         else if(severity == "secondary")
         {
             toastContent.style.border = "2px solid #9c9c9c";

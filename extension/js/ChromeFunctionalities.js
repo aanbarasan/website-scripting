@@ -438,7 +438,7 @@ function ChromeFunctionalities()
 
      this.executeScriptWithJquery = function(tabId, scriptData, callback)
      {
-        chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.3.1.min.js"}, function() {console.log("jquery executed")
+        chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.3.1.min.js"}, function() {
             chrome.tabs.executeScript(tabId, {code: scriptData}, callback);
         });
      }
