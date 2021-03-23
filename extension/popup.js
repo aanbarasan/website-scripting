@@ -158,7 +158,7 @@ function addNewScriptButton(){
    chromeFunctions.getTitleAndUrlOfLastWindow(function(title, url){
         var selectOptions = document.getElementById("select-option-for-different-script");
         var optionsLength = selectOptions.children.length;
-        title = title + "(" + optionsLength + ")";
+        title = (title ? title : "Website ") + "(" + optionsLength + ")";
         let regexURL = editorFunctions.getRegexForURL(url);
         editorFunctions.loadNewConfiguration(title, regexURL);
         var newOption = document.createElement( 'option' );

@@ -14,6 +14,7 @@ function EditorFunctionalities()
         this.inputScriptDataTag = document.getElementById("script-data-text-area");
         document.getElementById("saveConfigurationButton").onclick = this.saveConfigurationButton;
         document.getElementById("libraries-open-button").onclick = this.toggleLibrariesBox;
+        document.getElementById("web-script-name-input").onkeyup = this.onNameChange;
     }
 
     this.toggleLibrariesBox = function()
@@ -60,10 +61,30 @@ function EditorFunctionalities()
         });
     }
 
+    this.onNameChange = function()
+    {
+        var selectScriptOption = document.getElementById("select-option-for-different-script");
+        if(selectScriptOption != null)
+        {
+            var options = document.getElementById("select-option-for-different-script").children;
+            if(options && options.length > 0)
+            {
+                for(var i=0;i<options.length;i++)
+                {
+                    var opt = options[i];
+                    if(opt.value == _this.configurationId)
+                    {
+                        opt.innerText = document.getElementById("web-script-name-input").value;
+                    }
+                }
+            }
+        }
+    }
+
     this.loadNewConfiguration = function(title, regexURL)
     {
         let initConfiguration = {};
-        initConfiguration.id = Math.random() + "";
+        initConfiguration.id = commonFunctions.generateUniqueId();
         initConfiguration.name = title;
         initConfiguration.urlRegEx = regexURL;
         initConfiguration.enabled = true;
@@ -72,10 +93,17 @@ function EditorFunctionalities()
         this.loadContainer(initConfiguration);
     }
 
-    this.getRegexForURL = function(url){
-        var urlObject = new URL(url);
-        // console.log(urlObject);
-        var regexUrl = urlObject.origin + "(.*)";
-        return regexUrl;
+    this.getRegexForURL = function(url)
+    {
+        if(url)
+        {
+            var urlObject = new URL(url);
+            var regexUrl = urlObject.origin + "(.*)";
+            return regexUrl;
+        }
+        else
+        {
+            return "";
+        }
     }
 }

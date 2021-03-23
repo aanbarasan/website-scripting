@@ -25,6 +25,21 @@ function CommonFunctionalities()
         return true;
     }
 
+    this.generateUniqueId = function(){
+        // always start with a letter (for DOM friendlyness)
+        var idStr=String.fromCharCode(Math.floor((Math.random()*25)+65));
+        do {
+            // between numbers and characters (48 is 0 and 90 is Z (42-48 = 90)
+            var asciCode=Math.floor((Math.random()*42)+48);
+            if (asciCode<58 || asciCode>64){
+                // exclude all chars between : (58) and @ (64)
+                idStr+=String.fromCharCode(asciCode);
+            }
+        } while (idStr.length<32);
+
+        return (idStr);
+    }
+
     this.showToast = function(text, severity, timeout){
         if(typeof timeout != "number")
         {
