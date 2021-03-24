@@ -81,6 +81,9 @@ function EditorFunctionalities()
         }
     }
 
+    /**
+    * @todo compare unique id with existing ids matching or not
+    */
     this.loadNewConfiguration = function(title, regexURL)
     {
         let initConfiguration = {};
