@@ -81,19 +81,32 @@ function EditorFunctionalities()
         }
     }
 
-    /**
-    * @todo compare unique id with existing ids matching or not
-    */
-    this.loadNewConfiguration = function(title, regexURL)
+    this.loadNewConfiguration = function(title, regexURL, count)
     {
-        let initConfiguration = {};
-        initConfiguration.id = commonFunctions.generateUniqueId();
-        initConfiguration.name = title;
-        initConfiguration.urlRegEx = regexURL;
-        initConfiguration.enabled = true;
-        initConfiguration.jqueryEnabled = false;
-        initConfiguration.scriptData = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
-        this.loadContainer(initConfiguration);
+        if(count > 5)
+        {
+            console.error("Cant generate unique key");
+        }
+        var uniqueId = commonFunctions.generateUniqueId();
+        chromeFunctions.getSingleConfiguration(uniqueId, function(thisConfiguration){
+            if(thisConfiguration)
+            {
+                count = count + 1;
+                console.error("Unique key already found");
+                _this.loadNewConfiguration(title, regexURL, count);
+            }
+            else
+            {
+                let initConfiguration = {};
+                initConfiguration.id = uniqueId;
+                initConfiguration.name = title;
+                initConfiguration.urlRegEx = regexURL;
+                initConfiguration.enabled = true;
+                initConfiguration.jqueryEnabled = false;
+                initConfiguration.scriptData = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
+                _this.loadContainer(initConfiguration);
+            }
+        });
     }
 
     this.getRegexForURL = function(url)

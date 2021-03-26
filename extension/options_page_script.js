@@ -507,7 +507,7 @@ function addNewScriptButton(){
     editorFunctions.init();
     let title = "New script";
     let regexURL = "https://example.com";
-    editorFunctions.loadNewConfiguration(title, regexURL);
+    editorFunctions.loadNewConfiguration(title, regexURL, 0);
 }
 
 function editButtonClick(){

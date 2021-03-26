@@ -37,7 +37,7 @@ function init()
         {
             let title = thisTab.title;
             let regexURL = editorFunctions.getRegexForURL(thisTab.url);
-            editorFunctions.loadNewConfiguration(title, regexURL);
+            editorFunctions.loadNewConfiguration(title, regexURL, 0);
             var selectOptions = document.getElementById("select-option-for-different-script");
             selectOptions.innerHTML = "<option selected value=\""+editorFunctions.configurationId+"\">"+title+"</option>";
         }
@@ -160,7 +160,7 @@ function addNewScriptButton(){
         var optionsLength = selectOptions.children.length;
         title = (title ? title : "Website ") + "(" + optionsLength + ")";
         let regexURL = editorFunctions.getRegexForURL(url);
-        editorFunctions.loadNewConfiguration(title, regexURL);
+        editorFunctions.loadNewConfiguration(title, regexURL, 0);
         var newOption = document.createElement( 'option' );
         newOption.value = editorFunctions.configurationId;
         newOption.text = title;
@@ -194,7 +194,7 @@ function selectButtonChanged()
         {
             chromeFunctions.getTitleAndUrlOfLastWindow(function(title, url){
                 let regexURL = editorFunctions.getRegexForURL(url);
-                editorFunctions.loadNewConfiguration(configurationName, regexURL);
+                editorFunctions.loadNewConfiguration(configurationName, regexURL, 0);
             });
         }
     });
