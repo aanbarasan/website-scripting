@@ -86,6 +86,7 @@ function EditorFunctionalities()
         if(count > 5)
         {
             console.error("Cant generate unique key");
+            return;
         }
         var uniqueId = commonFunctions.generateUniqueId();
         chromeFunctions.getSingleConfiguration(uniqueId, function(thisConfiguration){

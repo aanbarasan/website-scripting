@@ -3,8 +3,9 @@ var chromeFunctions = new ChromeFunctionalities();
 
 function init()
 {
+    checkPromotionBanners();
+    chromeInternationalization();
     rateUsLinkUpdate();
-    loadContainer();
     document.getElementById("popupViewModalClose").onclick = closeModalFunction;
     document.getElementById("popupSettingsModalClose").onclick = closeSettingsModalFunction;
     document.getElementById("cancelConfigurationButton").onclick = cancelConfigurationButton;
@@ -15,7 +16,18 @@ function init()
     document.getElementById("edit-configuration-button").onclick = editButtonClick;
     document.getElementById("disable-promotions-checkbox").onchange = changeDisablePromotions;
     document.onkeyup = detectEscapeKey;
-    chromeInternationalization();
+    loadContainer();
+}
+
+function checkPromotionBanners()
+{
+    chromeFunctions.getStorageVariables("disable-promotions", function(data){
+        if(data && data["disable-promotions"] == "yes")
+        {
+            document.getElementById("disable-promotions-checkbox").checked = true;
+            disablePromotions();
+        }
+    });
 }
 
 function chromeInternationalization()
@@ -226,13 +238,6 @@ function enablePromotions()
 function loadContainer()
 {
     document.getElementById("scripts-list-container").innerHTML = "";
-    chromeFunctions.getStorageVariables("disable-promotions", function(data){
-        if(data && data["disable-promotions"] == "yes")
-        {
-            document.getElementById("disable-promotions-checkbox").checked = true;
-            disablePromotions();
-        }
-    });
     getSortedScript(function(configurationWebList){
         var container = document.getElementById("scripts-list-container");
         if(configurationWebList && configurationWebList.length > 0)
