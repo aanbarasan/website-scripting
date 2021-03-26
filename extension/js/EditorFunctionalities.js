@@ -81,7 +81,7 @@ function EditorFunctionalities()
         }
     }
 
-    this.loadNewConfiguration = function(title, regexURL, count)
+    this.loadNewConfiguration = function(title, regexURL, count, callback)
     {
         if(count > 5)
         {
@@ -94,7 +94,7 @@ function EditorFunctionalities()
             {
                 count = count + 1;
                 console.error("Unique key already found");
-                _this.loadNewConfiguration(title, regexURL, count);
+                _this.loadNewConfiguration(title, regexURL, count, callback);
             }
             else
             {
@@ -106,6 +106,10 @@ function EditorFunctionalities()
                 initConfiguration.jqueryEnabled = false;
                 initConfiguration.scriptData = "// Add your script here to run in this page.\n\nconsole.log(\"Testing JavaScript\");";
                 _this.loadContainer(initConfiguration);
+                if(callback)
+                {
+                    callback();
+                }
             }
         });
     }

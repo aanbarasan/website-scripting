@@ -37,9 +37,10 @@ function init()
         {
             let title = thisTab.title;
             let regexURL = editorFunctions.getRegexForURL(thisTab.url);
-            editorFunctions.loadNewConfiguration(title, regexURL, 0);
-            var selectOptions = document.getElementById("select-option-for-different-script");
-            selectOptions.innerHTML = "<option selected value=\""+editorFunctions.configurationId+"\">"+title+"</option>";
+            editorFunctions.loadNewConfiguration(title, regexURL, 0, function(){
+                var selectOptions = document.getElementById("select-option-for-different-script");
+                selectOptions.innerHTML = "<option selected value=\""+editorFunctions.configurationId+"\">"+title+"</option>";
+            });
         }
     });
 }
@@ -160,12 +161,13 @@ function addNewScriptButton(){
         var optionsLength = selectOptions.children.length;
         title = (title ? title : "Website ") + "(" + optionsLength + ")";
         let regexURL = editorFunctions.getRegexForURL(url);
-        editorFunctions.loadNewConfiguration(title, regexURL, 0);
-        var newOption = document.createElement( 'option' );
-        newOption.value = editorFunctions.configurationId;
-        newOption.text = title;
-        selectOptions.add(newOption);
-        selectOptions.value = editorFunctions.configurationId;
+        editorFunctions.loadNewConfiguration(title, regexURL, 0, function(){
+            var newOption = document.createElement( 'option' );
+            newOption.value = editorFunctions.configurationId;
+            newOption.text = title;
+            selectOptions.add(newOption);
+            selectOptions.value = editorFunctions.configurationId;
+        });
    });
 }
 
