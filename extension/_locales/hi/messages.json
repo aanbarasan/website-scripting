@@ -10,9 +10,17 @@
     "message": "आयात",
     "description": "Import"
   },
+  "export":{
+    "message": "निर्यात",
+    "description": "Export"
+  },
   "settings":{
     "message": "समायोजन",
     "description": "Settings"
+  },
+  "cancel":{
+    "message": "रद्द करना",
+    "description": "Cancel"
   },
   "rateUs":{
     "message": "हमें रेटिंग दें!",

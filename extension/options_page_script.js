@@ -54,8 +54,10 @@ function chromeInternationalization()
     updateLocalizationClassElements("editor-name-header-block", "nameHeader");
     updateLocalizationById("popup-update-reset-script-from-local-button", "reset");
     updateLocalizationById("edit-configuration-button", "edit");
+    updateLocalizationById("export-configuration-button", "export");
     updateLocalizationClassElements("checkbox-label-active", "active");
     updateLocalizationById("cancelConfigurationButton", "close");
+    updateLocalizationById("popupImportModalClose", "cancel");
     updateLocalizationById("saveConfigurationButton", "save");
     updateLocalizationById("include-libraries-span", "includeLibraries");
     updateLocalizationById("restore-deleted-script-button", "restoreDeletedScripts");

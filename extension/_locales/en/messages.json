@@ -10,9 +10,17 @@
     "message": "Import",
     "description": "Import"
   },
+  "export":{
+    "message": "Export",
+    "description": "Export"
+  },
   "settings":{
     "message": "Settings",
     "description": "Settings"
+  },
+  "cancel":{
+    "message": "Cancel",
+    "description": "Cancel"
   },
   "rateUs":{
     "message": "Rate us!",

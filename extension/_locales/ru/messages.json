@@ -10,9 +10,17 @@
     "message": "Импортировать",
     "description": "Import"
   },
+  "export":{
+    "message": "Экспорт",
+    "description": "Export"
+  },
   "settings":{
     "message": "Настройки",
     "description": "Settings"
+  },
+  "cancel":{
+    "message": "Отмена",
+    "description": "Cancel"
   },
   "rateUs":{
     "message": "Оцените нас!",

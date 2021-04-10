@@ -10,9 +10,17 @@
     "message": "进口",
     "description": "Import"
   },
+  "export":{
+    "message": "出口",
+    "description": "Export"
+  },
   "settings":{
     "message": "设定值",
     "description": "Settings"
+  },
+  "cancel":{
+    "message": "取消",
+    "description": "Cancel"
   },
   "rateUs":{
     "message": "评价我们!",

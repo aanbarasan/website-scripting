@@ -10,9 +10,17 @@
     "message": "يستورد",
     "description": "Import"
   },
+  "export":{
+    "message": "يصدر",
+    "description": "Export"
+  },
   "settings":{
     "message": "إعدادات",
     "description": "Settings"
+  },
+  "cancel":{
+    "message": "يلغي",
+    "description": "Cancel"
   },
   "rateUs":{
     "message": "قيمنا!",

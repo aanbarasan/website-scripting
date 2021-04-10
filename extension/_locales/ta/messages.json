@@ -10,9 +10,17 @@
     "message": "இறக்குமதி",
     "description": "Import"
   },
+  "export":{
+    "message": "ஏற்றுமதி",
+    "description": "Export"
+  },
   "settings":{
     "message": "அமைப்புகள்",
     "description": "Settings"
+  },
+  "cancel":{
+    "message": "ரத்துசெய்",
+    "description": "Cancel"
   },
   "rateUs":{
     "message": "மதிப்பிடு!",
