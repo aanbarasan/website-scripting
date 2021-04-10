@@ -6,6 +6,10 @@
     "message": "أضف نصًا جديدًا",
     "description": "Add new script"
   },
+  "import":{
+    "message": "يستورد",
+    "description": "Import"
+  },
   "settings":{
     "message": "إعدادات",
     "description": "Settings"
@@ -110,6 +114,18 @@
     "message": "حفظ بنجاح",
     "description": "Saved successfully"
   },
+  "importSuccessfully":{
+    "message": "تم الاستيراد بنجاح",
+    "description": "Imported successfully"
+  },
+  "fileNotSelected":{
+    "message": "الملف غير محدد",
+    "description": "File not selected"
+  },
+  "parsingFailed":{
+    "message": "فشل تحليل الملف",
+    "description": "File parsing failed"
+  },
   "successfullyDeleted":{
     "message": "تم الحذف بنجاح",
     "description": "Successfully deleted"
@@ -137,5 +153,17 @@
   "noActiveTabFound":{
     "message": "لم يتم العثور على علامة تبويب نشطة",
     "description": "No active tab found"
+  },
+  "notAbleToAccessError":{
+    "message": "غير قادر على الوصول إلى النافذة",
+    "description": "Not able to access the window"
+  },
+  "exportedSuccessfully":{
+    "message": "تم تصدير البرنامج النصي بنجاح!",
+    "description": "Script exported successfully"
+  },
+  "exportFailed":{
+    "message": "فشل تصدير البرنامج النصي",
+    "description": "Script export failed"
   }
 }

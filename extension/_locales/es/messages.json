@@ -6,6 +6,10 @@
     "message": "Agregar nuevo texto",
     "description": "Add new script"
   },
+  "import":{
+    "message": "Importar",
+    "description": "Import"
+  },
   "settings":{
     "message": "Ajustes",
     "description": "Settings"
@@ -110,6 +114,18 @@
     "message": "Guardado exitosamente",
     "description": "Saved successfully"
   },
+  "importSuccessfully":{
+    "message": "Importado exitosamente",
+    "description": "Imported successfully"
+  },
+  "fileNotSelected":{
+    "message": "Archivo no seleccionado",
+    "description": "File not selected"
+  },
+  "parsingFailed":{
+    "message": "Error al analizar el archivo",
+    "description": "File parsing failed"
+  },
   "successfullyDeleted":{
     "message": "Eliminado con éxito",
     "description": "Successfully deleted"
@@ -137,5 +153,17 @@
   "noActiveTabFound":{
     "message": "No se encontró ninguna pestaña activa",
     "description": "No active tab found"
+  },
+  "notAbleToAccessError":{
+    "message": "No puedo acceder a la ventana",
+    "description": "Not able to access the window"
+  },
+  "exportedSuccessfully":{
+    "message": "Secuencia de comandos exportada correctamente!",
+    "description": "Script exported successfully"
+  },
+  "exportFailed":{
+    "message": "Error al exportar el script",
+    "description": "Script export failed"
   }
 }

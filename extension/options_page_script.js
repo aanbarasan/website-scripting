@@ -568,7 +568,7 @@ function importActivity(textContent, count, callback)
         {
             count = count + 1;
             console.error("Unique key already found");
-            importActivity(title, regexURL, count, callback);
+            importActivity(textContent, count, callback);
         }
         else
         {

@@ -6,6 +6,10 @@
     "message": "Добавить новый скрипт",
     "description": "Add new script"
   },
+  "import":{
+    "message": "Импортировать",
+    "description": "Import"
+  },
   "settings":{
     "message": "Настройки",
     "description": "Settings"
@@ -110,6 +114,18 @@
     "message": "Успешно сохранено",
     "description": "Saved successfully"
   },
+  "importSuccessfully":{
+    "message": "Успешно импортирован",
+    "description": "Imported successfully"
+  },
+  "fileNotSelected":{
+    "message": "Файл не выбран",
+    "description": "File not selected"
+  },
+  "parsingFailed":{
+    "message": "Ошибка синтаксического анализа файла",
+    "description": "File parsing failed"
+  },
   "successfullyDeleted":{
     "message": "Успешно удалено",
     "description": "Successfully deleted"
@@ -137,5 +153,17 @@
   "noActiveTabFound":{
     "message": "Активная вкладка не найдена",
     "description": "No active tab found"
+  },
+  "notAbleToAccessError":{
+    "message": "Нет доступа к окну",
+    "description": "Not able to access the window"
+  },
+  "exportedSuccessfully":{
+    "message": "Скрипт успешно экспортирован!",
+    "description": "Script exported successfully"
+  },
+  "exportFailed":{
+    "message": "Ошибка экспорта сценария",
+    "description": "Script export failed"
   }
 }

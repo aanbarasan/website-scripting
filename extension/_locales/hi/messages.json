@@ -6,6 +6,10 @@
     "message": "नई स्क्रिप्ट जोड़ें",
     "description": "Add new script"
   },
+  "import":{
+    "message": "आयात",
+    "description": "Import"
+  },
   "settings":{
     "message": "समायोजन",
     "description": "Settings"
@@ -110,6 +114,18 @@
     "message": "सफलतापूर्वक बचाया",
     "description": "Saved successfully"
   },
+  "importSuccessfully":{
+    "message": "सफलतापूर्वक आयात किया गया",
+    "description": "Imported successfully"
+  },
+  "fileNotSelected":{
+    "message": "फ़ाइल चयनित नहीं है",
+    "description": "File not selected"
+  },
+  "parsingFailed":{
+    "message": "फ़ाइल पार्स करना विफल रहा",
+    "description": "File parsing failed"
+  },
   "successfullyDeleted":{
     "message": "सफलतापूर्वक हटा दिया गया",
     "description": "Successfully deleted"
@@ -137,5 +153,17 @@
   "noActiveTabFound":{
     "message": "कोई सक्रिय टैब नहीं मिला",
     "description": "No active tab found"
+  },
+  "notAbleToAccessError":{
+    "message": "खिड़की तक पहुंचने में सक्षम नहीं",
+    "description": "Not able to access the window"
+  },
+  "exportedSuccessfully":{
+    "message": "स्क्रिप्ट सफलतापूर्वक निर्यात की गई!",
+    "description": "Script exported successfully"
+  },
+  "exportFailed":{
+    "message": "स्क्रिप्ट निर्यात विफल रहा",
+    "description": "Script export failed"
   }
 }

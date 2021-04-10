@@ -3,167 +3,167 @@
     "message": "Website scripting"
   },
   "addNewScript":{
-    "message": "Add new script",
+    "message": "添加新脚本",
     "description": "Add new script"
   },
   "import":{
-    "message": "Import",
+    "message": "进口",
     "description": "Import"
   },
   "settings":{
-    "message": "Settings",
+    "message": "设定值",
     "description": "Settings"
   },
   "rateUs":{
-    "message": "Rate us!",
+    "message": "评价我们!",
     "description": "Rate us"
   },
   "appreciateYourEffort":{
-    "message": "I truly appreciate your effort",
+    "message": "我真的很感谢你的努力",
     "description": "I truly appreciate your effort"
   },
   "contributeToDevelopment":{
-    "message": "Contribute to development",
+    "message": "促进发展",
     "description": "Contribute to development"
   },
   "pushYourScriptPublic":{
-    "message": "Push your script to public",
+    "message": "将您的脚本公开",
     "description": "Push your script to public"
   },
   "requestToWriteCode":{
-    "message": "Request to write code",
+    "message": "要求编写代码",
     "description": "Request to write code"
   },
   "delete":{
-    "message": "Delete",
+    "message": "删除",
     "description": "Delete"
   },
   "reset":{
-    "message": "Reset",
+    "message": "重启",
     "description": "Reset"
   },
   "edit":{
-    "message": "Edit",
+    "message": "编辑",
     "description": "Edit"
   },
   "active":{
-    "message": "Active",
+    "message": "积极的",
     "description": "Active"
   },
   "close":{
-    "message": "Close",
+    "message": "关闭",
     "description": "Close"
   },
   "save":{
-    "message": "Save",
+    "message": "保存",
     "description": "Save"
   },
   "run":{
-    "message": "Run",
+    "message": "跑步",
     "description": "Run"
   },
   "script":{
-    "message": "script",
+    "message": "脚本",
     "description": "script"
   },
   "enabled":{
-    "message": "enabled",
+    "message": "已启用",
     "description": "enabled"
   },
   "disabled":{
-    "message": "disabled",
+    "message": "残障人士",
     "description": "disabled"
   },
   "includeLibraries":{
-    "message": "Include libraries",
+    "message": "包含库",
     "description": "Include libraries"
   },
   "urlRegexHeader":{
-    "message": "URL regex:",
+    "message": "网址正则表达式:",
     "description": "URL regex"
   },
   "selectScriptHeader":{
-    "message": "Select script:",
+    "message": "选择脚本:",
     "description": "Select script"
   },
   "nameHeader":{
-    "message": "Name:",
+    "message": "名称:",
     "description": "Name"
   },
   "restoreDeletedScripts":{
-    "message": "Restore deleted scripts",
+    "message": "恢复已删除的脚本",
     "description": "Restore deleted scripts"
   },
   "disablePromotions":{
-    "message": "Disable promotions",
+    "message": "禁用促销",
     "description": "Disable promotions"
   },
   "configurationPage":{
-    "message": "Configuration Page",
+    "message": "配置页面",
     "description": "Configuration Page"
   },
   "noScriptFoundInOptionPageError":{
-    "message": "No script found. Add new script by click extension in same website. It will open a popup. Add you script and save it, then that will appear here",
+    "message": "找不到脚本。通过单击同一网站上的扩展名添加新脚本。它将打开一个弹出窗口。添加脚本并保存，然后将显示在此处",
     "description": "No script found"
   },
   "successfullyRestored":{
-    "message": "Successfully restored",
+    "message": "成功还原",
     "description": "Successfully restored"
   },
   "savedSuccessfully":{
-    "message": "Saved successfully",
+    "message": "保存成功",
     "description": "Saved successfully"
   },
   "importSuccessfully":{
-    "message": "Imported successfully",
+    "message": "汇入成功",
     "description": "Imported successfully"
   },
   "fileNotSelected":{
-    "message": "File not selected",
+    "message": "未选择文件",
     "description": "File not selected"
   },
   "parsingFailed":{
-    "message": "File parsing failed",
+    "message": "文件解析失败",
     "description": "File parsing failed"
   },
   "successfullyDeleted":{
-    "message": "Successfully deleted",
+    "message": "成功删除",
     "description": "Successfully deleted"
   },
   "confirmResetLocal":{
-    "message": "Confirm to reset the script",
+    "message": "确认重置脚本",
     "description": "Confirm to reset the script"
   },
   "confirmDeleteScript":{
-    "message": "Confirm to delete the script",
+    "message": "确认删除脚本",
     "description": "Confirm to delete the script"
   },
   "localDataNotFound":{
-    "message": "Local data not found",
+    "message": "找不到本地数据",
     "description": "Local data not found"
   },
   "executedSuccessfully":{
-    "message": "Executed successfully",
+    "message": "执行成功",
     "description": "Executed successfully"
   },
   "urlNotMatchWithActiveTab":{
-    "message": "URL regex not match with current active tab",
+    "message": "URL正则表达式与当前活动选项卡不匹配",
     "description": "URL regex not match with current active tab"
   },
   "noActiveTabFound":{
-    "message": "No active tab found",
+    "message": "找不到活动的标签页",
     "description": "No active tab found"
   },
   "notAbleToAccessError":{
-    "message": "Not able to access the window",
+    "message": "无法进入视窗",
     "description": "Not able to access the window"
   },
   "exportedSuccessfully":{
-    "message": "Script exported successfully!",
+    "message": "脚本已成功导出!",
     "description": "Script exported successfully"
   },
   "exportFailed":{
-    "message": "Script export failed",
+    "message": "脚本导出失败",
     "description": "Script export failed"
   }
 }

@@ -6,6 +6,10 @@
     "message": "புதிய ஸ்கிரிப்ட்",
     "description": "Add new script"
   },
+  "import":{
+    "message": "இறக்குமதி",
+    "description": "Import"
+  },
   "settings":{
     "message": "அமைப்புகள்",
     "description": "Settings"
@@ -110,6 +114,18 @@
     "message": "வெற்றிகரமாக சேமிக்கப்பட்டது",
     "description": "Saved successfully"
   },
+  "importSuccessfully":{
+    "message": "வெற்றிகரமாக இறக்குமதி செய்யப்பட்டது",
+    "description": "Imported successfully"
+  },
+  "fileNotSelected":{
+    "message": "கோப்பு தேர்ந்தெடுக்கப்படவில்லை",
+    "description": "File not selected"
+  },
+  "parsingFailed":{
+    "message": "கோப்பு பாகுபடுத்தல் தோல்வியுற்றது",
+    "description": "File parsing failed"
+  },
   "successfullyDeleted":{
     "message": "வெற்றிகரமாக நீக்கப்பட்டது",
     "description": "Successfully deleted"
@@ -137,5 +153,17 @@
   "noActiveTabFound":{
     "message": "செயலில் தாவல் எதுவும் கிடைக்கவில்லை",
     "description": "No active tab found"
+  },
+  "notAbleToAccessError":{
+    "message": "சாளரத்தை அணுக முடியவில்லை",
+    "description": "Not able to access the window"
+  },
+  "exportedSuccessfully":{
+    "message": "ஸ்கிரிப்ட் வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது!",
+    "description": "Script exported successfully"
+  },
+  "exportFailed":{
+    "message": "ஸ்கிரிப்ட் ஏற்றுமதி தோல்வியடைந்தது",
+    "description": "Script export failed"
   }
 }
