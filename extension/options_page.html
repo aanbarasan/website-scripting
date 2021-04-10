@@ -81,6 +81,8 @@
           <button class="button success-button" style="margin-bottom: 3px;border: 1px solid grey;"
             id="add-new-script-button">Add new script</button>
           <button style="margin-bottom: 3px;border: 1px solid grey;"
+            id="import-popup-button" class="button import-span-class">Import</button>
+          <button style="margin-bottom: 3px;border: 1px solid grey;"
             id="setting-popup-button" class="button setting-span-class">Settings</button>
         </div>
         <div id="scripts-list-container" style="min-height: 500px;"></div>
@@ -105,6 +107,7 @@
                     style="display:none;">Reset</button>
           </div>
           <div style="float:right;">
+            <button id="export-configuration-button" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">Export</button>
             <button id="edit-configuration-button" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">Edit</button>
             <button id="popupViewModalClose" style="border: 1px solid #bdbdd3;border-radius: 6px;padding: 5px 10px;cursor:pointer;">X</button>
           </div>
@@ -168,6 +171,23 @@
                       id="script-data-text-area"></textarea>
           </div>
         </div>
+      </div>
+    </div>
+    <div id="popupImportModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">
+      <div style="padding: 100px 200px;background-color: rgba(128, 128, 128, 0.82);height: 100%;text-align: center;">
+          <div style="padding:15px 15px 7px 15px;background-color:white;width: 600px;display: inline-block;text-align: left;">
+            <div style="margin: 15px 0px;text-align:center;">
+              <label>
+                <input type="file" id="import-file-upload-input"/>
+              </label>
+            </div>
+            <div style="padding: 15px 0px 0px 0px;text-align: center;">
+              <button id="popupImportModalClose"
+                      style="padding: 5px 15px;font-size: 20px;cursor: pointer;">Cancel</button>
+              <button id="import-script-button" class="import-span-class"
+                      style="padding: 5px 15px;font-size: 20px;cursor: pointer;">Import</button>
+            </div>
+          </div>
       </div>
     </div>
     <div id="popupSettingsModal" style="display:none;position:fixed;width:100%;height:100%;z-index:100;top: 0;left: 0;">

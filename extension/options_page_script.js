@@ -8,12 +8,16 @@ function init()
     rateUsLinkUpdate();
     document.getElementById("popupViewModalClose").onclick = closeModalFunction;
     document.getElementById("popupSettingsModalClose").onclick = closeSettingsModalFunction;
+    document.getElementById("popupImportModalClose").onclick = closeImportModalFunction;
     document.getElementById("cancelConfigurationButton").onclick = cancelConfigurationButton;
     document.getElementById("popup-update-reset-script-from-local-button").onclick = resetScriptFromLocal;
     document.getElementById("add-new-script-button").onclick = addNewScriptButton;
+    document.getElementById("import-script-button").onclick = importScriptButton;
     document.getElementById("setting-popup-button").onclick = openSettingsModalButton;
+    document.getElementById("import-popup-button").onclick = openImportModalButton;
     document.getElementById("restore-deleted-script-button").onclick = restoreDeletedScriptsButton;
     document.getElementById("edit-configuration-button").onclick = editButtonClick;
+    document.getElementById("export-configuration-button").onclick = exportButtonClick;
     document.getElementById("disable-promotions-checkbox").onchange = changeDisablePromotions;
     document.onkeyup = detectEscapeKey;
     loadContainer();
@@ -40,6 +44,7 @@ function chromeInternationalization()
 
     updateLocalizationById("add-new-script-button", "addNewScript");
     updateLocalizationClassElements("setting-span-class", "settings");
+    updateLocalizationClassElements("import-span-class", "import");
     updateLocalizationClassElements("rate-us-span", "rateUs");
     updateLocalizationClassElements("appreciate-your-effort-span", "appreciateYourEffort");
     updateLocalizationById("contribute-to-development-anchor", "contributeToDevelopment");
@@ -175,12 +180,21 @@ function restoreDeletedScriptsButton(){
     });
 }
 
+function openImportModalButton(){
+    document.getElementById("popupImportModal").style.display = "block";
+    document.getElementById("import-file-upload-input").value = "";
+}
+
 function openSettingsModalButton(){
     document.getElementById("popupSettingsModal").style.display = "block";
 }
 
 function closeModalFunction(){
     document.getElementById("popupViewModal").style.display = "none";
+}
+
+function closeImportModalFunction(){
+    document.getElementById("popupImportModal").style.display = "none";
 }
 
 function closeSettingsModalFunction(){
@@ -425,7 +439,7 @@ function resetScriptFromLocal()
                     }
                     else
                     {
-                        commonFunctions.showToast(getLocalizeText("localDataNotFound", "Local data not found"));
+                        commonFunctions.showToast(getLocalizeText("localDataNotFound", "Local data not found"), "warning");
                     }
                 });
             }
@@ -513,6 +527,113 @@ function addNewScriptButton(){
     let title = "New script";
     let regexURL = "https://example.com";
     editorFunctions.loadNewConfiguration(title, regexURL, 0);
+}
+
+function importScriptButton()
+{
+    var files = document.getElementById("import-file-upload-input").files;
+    if(files.length > 0)
+    {
+        var fileReader =new FileReader();
+        fileReader.onload=function(){
+            var textContent=fileReader.result;
+            importActivity(textContent, 0, function(){
+                var content = chrome.i18n.getMessage("importSuccessfully");
+                var result = (content && content != "") ? content : "Imported successfully";
+                commonFunctions.showToast(result);
+                closeImportModalFunction();
+                setTimeout(function(){
+                    loadContainer();
+                }, 1000);
+            });
+        }
+        fileReader.readAsText(files[0]);
+    }
+    else
+    {
+        commonFunctions.showToast(getLocalizeText("fileNotSelected", "File not selected"), "warning");
+    }
+}
+
+function importActivity(textContent, count, callback)
+{
+    if(count > 5)
+    {
+        console.error("Cant generate unique key");
+        return;
+    }
+    var uniqueId = commonFunctions.generateUniqueId();
+    chromeFunctions.getSingleConfiguration(uniqueId, function(thisConfiguration){
+        if(thisConfiguration)
+        {
+            count = count + 1;
+            console.error("Unique key already found");
+            importActivity(title, regexURL, count, callback);
+        }
+        else
+        {
+            var thisConfiguration = parseImportConfiguration(textContent);
+            thisConfiguration.scriptDataID = uniqueId;
+
+            chromeFunctions.saveThisConfiguration(thisConfiguration, function(){
+                if(callback)
+                {
+                    callback();
+                }
+            });
+        }
+    });
+}
+
+function parseImportConfiguration(textContent)
+{
+    var thisConfiguration = {};
+    try
+    {
+        var lineSplit = commonFunctions.splitLineGeneration(100, ["=", "=", "#", "=", "="]) + "\n";
+        var textSplit = textContent.split(lineSplit);
+        var information = textSplit[0];
+        thisConfiguration.scriptData = textSplit[1];
+        var enabled = commonFunctions.getProperty(information, "enabled");
+        var jqueryEnabled = commonFunctions.getProperty(information, "jqueryEnabled");
+        thisConfiguration.configurationName = commonFunctions.getProperty(information, "name");
+        thisConfiguration.configurationUrlRegex = commonFunctions.getProperty(information, "urlRegEx");
+        thisConfiguration.configurationEnabled = (enabled == "true") ? true : false;
+        thisConfiguration.jqueryEnabled = (jqueryEnabled == "true") ? true : false;
+    }
+    catch(e)
+    {
+        console.log(e);
+        commonFunctions.showToast(getLocalizeText("parsingFailed", "File parsing failed"), "danger");
+    }
+    console.log(thisConfiguration);
+    return thisConfiguration;
+}
+
+function exportButtonClick(){
+    var configurationId = document.getElementById("popup-current-configuration-id").value;
+    chromeFunctions.getSingleConfiguration(configurationId, function(thisConfiguration){
+        if(thisConfiguration)
+        {
+            chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
+                var content = "";
+                var fileName = thisConfiguration.name;
+                var enabled = (typeof thisConfiguration.enabled == "boolean") ? thisConfiguration.enabled : false;
+                content = content + "name=" + thisConfiguration.name + "\n";
+                content = content + "urlRegEx=" + thisConfiguration.urlRegEx + "\n";
+                content = content + "enabled=" + enabled + "\n";
+                content = content + "jqueryEnabled=" + thisConfiguration.jqueryEnabled + "\n";
+                content = content + commonFunctions.splitLineGeneration(100, ["=", "=", "#", "=", "="]) + "\n";
+                content = content + scriptData;
+                commonFunctions.downloadTextAsFile(fileName, content);
+                commonFunctions.showToast(getLocalizeText("exportedSuccessfully", "Script exported successfully!"));
+            });
+        }
+        else
+        {
+            commonFunctions.showToast(getLocalizeText("exportFailed", "Script export failed"), "warning");
+        }
+    });
 }
 
 function editButtonClick(){

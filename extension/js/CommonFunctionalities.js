@@ -40,6 +40,42 @@ function CommonFunctionalities()
         return (idStr);
     }
 
+    this.getProperty = function(content, key) {
+        var configList = content.split("\n");
+        for(var i=0;i<configList.length;i++)
+        {
+            var config = configList[i];
+            if(config.indexOf(key+"=") >= 0)
+            {
+                return config.split(key+"=")[1];
+            }
+        }
+        return "";
+    }
+
+    this.splitLineGeneration = function(length, charList) {
+        var text = "";
+        for(var i=0;i<length;i++)
+        {
+            text = text + charList[(i%charList.length)];
+        }
+        return text;
+    }
+
+    this.downloadTextAsFile = function(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+
     this.showToast = function(text, severity, timeout){
         if(typeof timeout != "number")
         {
