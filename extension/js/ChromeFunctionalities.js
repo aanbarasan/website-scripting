@@ -265,7 +265,7 @@ function ChromeFunctionalities()
 
     this.getScriptDataFromLocalFile = function(scriptId, callback)
     {
-        this.getConfigurationVariable(function(websiteConfiguration){
+        this.getConfigurationVariableFromFile(function(websiteConfiguration){
            if(websiteConfiguration && websiteConfiguration.webList)
            {
               var webList = websiteConfiguration.webList;
@@ -279,7 +279,7 @@ function ChromeFunctionalities()
                         });
                         return;
                    }
-               }
+              }
            }
            callback();
         })

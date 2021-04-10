@@ -38,9 +38,7 @@ var chromeFunctions = new ChromeFunctionalities();
     var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
     chromeFunctions.getStorageVariables([scriptId], function(result){
         var scriptData = result[scriptId];
-        chrome.tabs.executeScript(tabId, {code: scriptData}, function() {
-            // console.log("Script injected", configurationId, tabURL);
-        });
+        chrome.tabs.executeScript(tabId, {code: scriptData}, function() {});
     });
  }
 
