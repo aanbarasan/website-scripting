@@ -1,6 +1,15 @@
 {
   "appTitle": {
-    "message": "Website scripting"
+    "message": "Website scripting",
+    "description": "Website scripting"
+  },
+  "appShortTitle": {
+    "message": "Web script",
+    "description": "Web script"
+  },
+  "appDesc": {
+    "message": "डेवलपर्स वेबपेज में जावास्क्रिप्ट कोड जोड़ सकते हैं। जैसे अन्य वेबसाइटों को हमारे अपने कोड के साथ कस्टमाइज़ करना।",
+    "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes."
   },
   "addNewScript":{
     "message": "नई स्क्रिप्ट जोड़ें",

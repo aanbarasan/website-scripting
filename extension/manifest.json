@@ -1,8 +1,8 @@
 {
-  "name": "Website scripting",
-  "short_name": "Web script",
-  "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes.",
-  "version": "2.7.0",
+  "name": "__MSG_appTitle__",
+  "short_name": "__MSG_appShortTitle__",
+  "description": "__MSG_appDesc__",
+  "version": "2.7.1",
   "offline_enabled": true,
   "default_locale": "en",
   "icons": {
@@ -21,7 +21,7 @@
     "open_in_tab": true
   },
   "browser_action": {
-    "default_title": "Website-scripting",
+    "default_title": "__MSG_appTitle__",
     "default_popup": "popup.html"
   },
   "background": {

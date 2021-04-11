@@ -1,6 +1,15 @@
 {
   "appTitle": {
-    "message": "Website scripting"
+    "message": "Website scripting",
+    "description": "Website scripting"
+  },
+  "appShortTitle": {
+    "message": "Web script",
+    "description": "Web script"
+  },
+  "appDesc": {
+    "message": "Los desarrolladores pueden agregar códigos javascript en la página web. Como personalizar otros sitios web con nuestros propios códigos.",
+    "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes."
   },
   "addNewScript":{
     "message": "Agregar nuevo texto",

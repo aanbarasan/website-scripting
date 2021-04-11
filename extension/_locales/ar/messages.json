@@ -1,6 +1,15 @@
 {
   "appTitle": {
-    "message": "Website scripting"
+    "message": "Website scripting",
+    "description": "Website scripting"
+  },
+  "appShortTitle": {
+    "message": "Web script",
+    "description": "Web script"
+  },
+  "appDesc": {
+    "message": "يمكن للمطورين إضافة أكواد جافا سكريبت في صفحة الويب. مثل تخصيص مواقع الويب الأخرى باستخدام أكوادنا الخاصة.",
+    "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes."
   },
   "addNewScript":{
     "message": "أضف نصًا جديدًا",

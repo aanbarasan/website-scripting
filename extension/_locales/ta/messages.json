@@ -1,6 +1,15 @@
 {
   "appTitle": {
-    "message": "Website scripting"
+    "message": "Website scripting",
+    "description": "Website scripting"
+  },
+  "appShortTitle": {
+    "message": "Web script",
+    "description": "Web script"
+  },
+  "appDesc": {
+    "message": "டெவலப்பர்கள் வலைப்பக்கத்தில் ஜாவாஸ்கிரிப்ட் குறியீடுகளைச் சேர்க்கலாம். எங்கள் சொந்த குறியீடுகளுடன் பிற வலைத்தளங்களைத் தனிப்பயனாக்குவது போல.",
+    "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes."
   },
   "addNewScript":{
     "message": "புதிய ஸ்கிரிப்ட்",
