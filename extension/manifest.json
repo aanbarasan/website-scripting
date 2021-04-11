@@ -2,7 +2,7 @@
   "name": "Website scripting",
   "short_name": "Web script",
   "description": "Developers can add javascript codes in webpage. Like customizing other websites with our own codes.",
-  "version": "2.6.3",
+  "version": "2.7.0",
   "offline_enabled": true,
   "default_locale": "en",
   "icons": {

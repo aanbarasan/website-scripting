@@ -167,6 +167,7 @@ function detectEscapeKey(evt) {
         document.getElementById("popupViewModal").style.display = "none";
         document.getElementById("popupEditorModule").style.display = "none";
         document.getElementById("popupSettingsModal").style.display = "none";
+        document.getElementById("popupImportModal").style.display = "none";
     }
 }
 
