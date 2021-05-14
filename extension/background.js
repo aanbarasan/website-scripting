@@ -13,7 +13,7 @@ var chromeFunctions = new ChromeFunctionalities();
             }
             if(isJqueryEnabled == true)
             {
-                chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.3.1.min.js"}, function() {
+                chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.6.0.min.js"}, function() {
                     executeConfigurationOfList(configurationList, tabId, tab.url);
                 });
             }

@@ -2,7 +2,7 @@
   "name": "__MSG_appTitle__",
   "short_name": "__MSG_appShortTitle__",
   "description": "__MSG_appDesc__",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "offline_enabled": true,
   "default_locale": "en",
   "icons": {
