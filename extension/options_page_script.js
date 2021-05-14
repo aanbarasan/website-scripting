@@ -133,6 +133,15 @@ function rateUsLinkUpdate()
         }
         document.getElementById("rate-us-div").getElementsByClassName("firefox")[0].style.display = "";
     }
+    else if(isOpera)
+    {
+        var list = document.getElementById("rate-us-div").children;
+        for(var i=0;i<list.length;i++)
+        {
+            list[i].style.display = "none";
+        }
+        document.getElementById("rate-us-div").getElementsByClassName("opera")[0].style.display = "";
+    }
     else if(isEdge || isEdgeChromium)
     {
         var list = document.getElementById("rate-us-div").children;
