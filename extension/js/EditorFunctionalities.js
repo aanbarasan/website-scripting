@@ -49,7 +49,6 @@ function EditorFunctionalities()
         thisConfiguration.configurationUrlRegex = _this.inputURLTag.value;
         thisConfiguration.configurationEnabled = _this.inputEnabledTag.checked;
         thisConfiguration.jqueryEnabled = _this.inputJqueryTag.checked;
-
         chromeFunctions.saveThisConfiguration(thisConfiguration, function(){
             if(typeof _this.saveButtonCallback == "function")
             {
@@ -58,6 +57,7 @@ function EditorFunctionalities()
             var content = chrome.i18n.getMessage("savedSuccessfully");
             var result = (content && content != "") ? content : "Saved successfully";
             commonFunctions.showToast(result);
+            _this.warningMessagePopulate();
         });
     }
 
@@ -76,6 +76,37 @@ function EditorFunctionalities()
                     {
                         opt.innerText = document.getElementById("web-script-name-input").value;
                     }
+                }
+            }
+        }
+    }
+
+    this.warningMessagePopulate = function()
+    {
+        var isOpera = commonFunctions.isOpera();
+        if(isOpera)
+        {
+            var urlText = document.getElementById("page-url-show").value;
+            if(commonFunctions.isUrlHasSearchEngine(urlText))
+            {
+                var warningElement = document.getElementById("opera-warning-message-div");
+                if(!warningElement)
+                {
+                    var textCont = document.getElementById("page-url-show").parentElement;
+                    var div = document.createElement("div");
+                    div.id = "opera-warning-message-div";
+                    div.style.color = "red";
+                    div.innerHTML = "Search engine url may not work. Please enable " +
+                         "<span style=\"font-weight:bold\">'Allow access to search page results'</span> option in manage extension";
+                    textCont.appendChild(div);
+                }
+            }
+            else
+            {
+                var warningElement = document.getElementById("opera-warning-message-div");
+                if(warningElement)
+                {
+                    warningElement.remove();
                 }
             }
         }

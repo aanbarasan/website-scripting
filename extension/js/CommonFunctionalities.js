@@ -75,6 +75,29 @@ function CommonFunctionalities()
         document.body.removeChild(element);
     }
 
+    this.isOpera = function()
+    {
+        return (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+    }
+
+    this.isUrlHasSearchEngine = function(inputText)
+    {
+        if(inputText)
+        {
+            var text = inputText.toLocaleLowerCase();
+            var searchEngines = ["google", "bing", "yahoo", "baidu", "yandex", "naver", "duckduckgo", "ask.com", "aol.com"];
+            for(var i = 0;i<searchEngines.length;i++)
+            {
+                var eng = searchEngines[i];
+                if(text.indexOf(eng) >= 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     this.showToast = function(text, severity, timeout){
         if(typeof timeout != "number")

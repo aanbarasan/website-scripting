@@ -101,7 +101,7 @@ function getLocalizeText(id, text)
 function rateUsLinkUpdate()
 {
     // Opera 8.0+
-    var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+    var isOpera = commonFunctions.isOpera();
 
     // Firefox 1.0+
     var isFirefox = typeof InstallTrigger !== 'undefined';
