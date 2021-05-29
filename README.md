@@ -12,7 +12,7 @@ In Firefox
 https://addons.mozilla.org/en-US/firefox/addon/website-scripting/
 
 In Microsoft Edge
-https://microsoftedge.microsoft.com/addons/detail/lcofajjkcgijgdijbllafnjfnffilnmc
+https://microsoftedge.microsoft.com/addons/detail/website-scripting/iajifajblmacpjjknebejaakcmbfmffl
 
 
 // Store description
