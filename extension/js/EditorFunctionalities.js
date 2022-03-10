@@ -49,14 +49,21 @@ function EditorFunctionalities()
         thisConfiguration.configurationUrlRegex = _this.inputURLTag.value;
         thisConfiguration.configurationEnabled = _this.inputEnabledTag.checked;
         thisConfiguration.jqueryEnabled = _this.inputJqueryTag.checked;
-        chromeFunctions.saveThisConfiguration(thisConfiguration, function(){
+        chromeFunctions.saveThisConfiguration(thisConfiguration, function(response, errorLog){
             if(typeof _this.saveButtonCallback == "function")
             {
                 _this.saveButtonCallback();
             }
-            var content = chrome.i18n.getMessage("savedSuccessfully");
-            var result = (content && content != "") ? content : "Saved successfully";
-            commonFunctions.showToast(result);
+            if(errorLog)
+            {
+                commonFunctions.showToast(errorLog.message, "danger", 10000);
+            }
+            else
+            {
+                var content = chrome.i18n.getMessage("savedSuccessfully");
+                var result = (content && content != "") ? content : "Saved successfully";
+                commonFunctions.showToast(result);
+            }
             _this.warningMessagePopulate();
         });
     }

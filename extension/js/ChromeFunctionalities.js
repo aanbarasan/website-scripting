@@ -15,7 +15,8 @@ function ChromeFunctionalities()
     this.saveInStorage = function(data, callback)
     {
         chrome.storage.sync.set(data, function(response){
-            callback(response);
+            var errorLog = chrome.runtime.lastError;
+            callback(response, errorLog);
         });
     }
 
@@ -141,9 +142,16 @@ function ChromeFunctionalities()
                 for(var i=0;i<webList.length;i++)
                 {
                     var thisConfiguration = webList[i];
-                    if(commonFunctions.isMatchRegex(thisConfiguration.urlRegEx, currentURLLocation))
+                    try
                     {
-                        configurationResultList.push(thisConfiguration);
+                        if(commonFunctions.isMatchRegex(thisConfiguration.urlRegEx, currentURLLocation))
+                        {
+                            configurationResultList.push(thisConfiguration);
+                        }
+                    }
+                    catch(ex)
+                    {
+                        console.log(ex);
                     }
                 }
             }
