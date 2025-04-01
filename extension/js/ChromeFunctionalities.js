@@ -1,4 +1,6 @@
-function ChromeFunctionalities()
+import { CommonFunctionalities } from "./CommonFunctionalities.js";
+
+export function ChromeFunctionalities()
 {
     this.websiteConfigurationString = "websiteConfigurations";
     this.scriptPreText = "CustomScript_";
@@ -195,22 +197,9 @@ function ChromeFunctionalities()
 
     this.getConfigurationVariableFromFile = function(callback)
     {
-        var entryJsonURL = "entry.json";
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', entryJsonURL, true);
-        xhr.responseType = 'blob';
-        xhr.onload = function(e) {
-          if (this.status == 200) {
-              var file = new File([this.response], 'temp');
-              var fileReader = new FileReader();
-              fileReader.addEventListener('load', function(){
-                   var localFileData = JSON.parse(fileReader.result);
-                   callback(localFileData);
-               });
-              fileReader.readAsText(file);
-          }
-        }
-        xhr.send();
+        fetch(chrome.runtime.getURL("./../entry.json"))
+            .then(response => response.json())
+            .then(data => callback(data));
     }
 
     this.getSingleConfigurationFromLocalFile = function(configurationId, callback){
@@ -248,22 +237,9 @@ function ChromeFunctionalities()
     {
         if(fileName)
         {
-            var entryJsonURL = "scripts/" + fileName;
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', entryJsonURL, true);
-            xhr.responseType = 'blob';
-            xhr.onload = function(e) {
-              if (this.status == 200) {
-                  var file = new File([this.response], 'temp');
-                  var fileReader = new FileReader();
-                  fileReader.addEventListener('load', function(){
-                       var scriptData = fileReader.result;
-                       callback(scriptData);
-                   });
-                   fileReader.readAsText(file);
-               }
-           }
-           xhr.send();
+            fetch(chrome.runtime.getURL("./scripts/" + fileName))
+                .then(response => response)
+                .then(data => callback(data));
         }
         else
         {
@@ -315,12 +291,11 @@ function ChromeFunctionalities()
            {
                 websiteConfiguration.webList = [];
            }
-           // console.log(websiteConfiguration)
            var webList = websiteConfiguration.webList;
            var scriptDataToStore = {};
 
-           scriptIdUrl = _this.scriptIdFromConfigId(thisConfigurationToSave.scriptDataID);
-           scriptDataToStore[scriptIdUrl] = thisConfigurationToSave.scriptData;
+           var scriptId = _this.scriptIdFromConfigId(thisConfigurationToSave.scriptDataID);
+           scriptDataToStore[scriptId] = thisConfigurationToSave.scriptData;
 
            _this.getScriptDataFromLocalFile(thisConfigurationToSave.scriptDataID, function(existingScriptDataForScriptId){
                var scriptFound = false;
@@ -341,7 +316,6 @@ function ChromeFunctionalities()
                         if(typeof existingScriptDataForScriptId == "string")
                         {
                             var differentValue = commonFunctions.compareText(thisConfigurationToSave.scriptData, existingScriptDataForScriptId);
-                            // console.log(differentValue)
                             if(differentValue)
                             {
                                 thisWebConfiguration.customizedByOwn = false;
@@ -370,58 +344,130 @@ function ChromeFunctionalities()
                     thisWebConfiguration.customizedByOwn = true;
                     webList.push(thisWebConfiguration);
                }
-               scriptDataToStore[_this.websiteConfigurationString] = websiteConfiguration;
-               _this.saveInStorage(scriptDataToStore, callback);
+                scriptDataToStore[_this.websiteConfigurationString] = websiteConfiguration;
+
+                var jsCode = [{code: thisConfigurationToSave.scriptData}];
+                var callbackFun = ()=>{
+                    if(chrome.runtime.lastError) {
+                        callback("Failed", chrome.runtime.lastError);
+                    } else {
+                        _this.saveInStorage(scriptDataToStore, callback);
+                        _this.registerAllScripts(scriptId);
+                    }                    
+                };
+                if(scriptFound)
+                {
+                    chrome.userScripts.unregister(()=>{
+                        _this.registerUserScript(scriptId, thisConfigurationToSave.configurationUrlRegex, 
+                            jsCode, callbackFun);
+                    });
+                }
+                else
+                {
+                    _this.registerUserScript(scriptId, thisConfigurationToSave.configurationUrlRegex, 
+                        jsCode, callbackFun);
+                }
            });
        });
+    }
+
+    this.registerAllScripts = function(exceptSriptId)
+    {
+        this.getConfigurationVariable(function(websiteConfiguration){
+            if(websiteConfiguration && websiteConfiguration.webList)
+            {
+                for(var i=0;i<websiteConfiguration.webList.length;i++)
+                {
+                    var thisWebConfiguration = websiteConfiguration.webList[i];
+                    var scriptId = _this.scriptIdFromConfigId(thisWebConfiguration.id);
+                    if(scriptId == exceptSriptId)
+                    {
+                        continue;
+                    }
+                    var jsCode;
+                    if(thisWebConfiguration.fileName)
+                    {
+                        jsCode = [{file: "./scripts/"+thisWebConfiguration.fileName}];
+                        _this.registerUserScript(thisWebConfiguration.id, thisWebConfiguration.urlRegEx, jsCode);
+                    }
+                    else
+                    {
+                        _this.getStorageVariables([scriptId], function(result){
+                            var scriptData = result[scriptId];
+                            jsCode = [{code: scriptData}];
+                            _this.registerUserScript(scriptId, thisWebConfiguration.urlRegEx, jsCode,
+                                function(){
+                                    if (chrome.runtime.lastError)
+                                    {
+                                        console.error("Error:", id, urlRegEx, JSON.stringify(jsCode), chrome.runtime.lastError.message);
+                                    }
+                                });
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    this.registerUserScript = function(id, urlRegEx, jsCode, callback)
+    {
+        chrome.userScripts.register([{
+            id: id,
+            matches: [urlRegEx],
+            js: jsCode,
+            runAt: "document_end"
+        }], callback);
+
     }
 
     this.updateDataOneTime = function(callback)
     {
         this.getConfigurationVariableFromFile(function(localFileData){
-           _this.getConfigurationVariable(function(websiteConfiguration){
-               var localFileDataList = localFileData.webList;
-               for(var i=0;i<localFileDataList.length;i++)
-               {
-                   var thisConfiguration = localFileDataList[i];
-                   if(websiteConfiguration && websiteConfiguration.webList)
-                   {
-                       for(var j=0;j<websiteConfiguration.webList.length;j++)
-                       {
-                           var thisWebConfig = websiteConfiguration.webList[j];
-                           if(thisWebConfig.id == thisConfiguration.id)
-                           {
-                               thisConfiguration.enabled = thisWebConfig.enabled;
-                               thisConfiguration.customizedByOwn = thisWebConfig.customizedByOwn;
-                           }
-                       }
-                   }
-                   if(thisConfiguration.customizedByOwn != true)
-                   {
+            console.log("localFileData", JSON.stringify(localFileData));
+            _this.getConfigurationVariable(function(websiteConfiguration){
+                var localFileDataList = localFileData.webList;
+                for(var i=0;i<localFileDataList.length;i++)
+                {
+                    var thisConfiguration = localFileDataList[i];
+                    if(websiteConfiguration && websiteConfiguration.webList)
+                    {
+                        for(var j=0;j<websiteConfiguration.webList.length;j++)
+                        {
+                            var thisWebConfig = websiteConfiguration.webList[j];
+                            if(thisWebConfig.id == thisConfiguration.id)
+                            {
+                                thisConfiguration.enabled = thisWebConfig.enabled;
+                                thisConfiguration.customizedByOwn = thisWebConfig.customizedByOwn;
+                            }
+                        }
+                    }
+                    if(thisConfiguration.customizedByOwn != true)
+                    {
                         _this.updateScriptDataFromLocalFile(thisConfiguration.id, function(result){});
-                   }
-               }
-               if(websiteConfiguration && websiteConfiguration.webList)
-               {
-                  for(var j=0;j<websiteConfiguration.webList.length;j++)
-                  {
-                      var thisConfiguration = websiteConfiguration.webList[j];
-                      if(thisConfiguration.nature != true)
-                      {
-                          localFileDataList.push(thisConfiguration);
-                      }
-                  }
-               }
-               var data = {};
-               data[_this.websiteConfigurationString] = localFileData;
-               _this.saveInStorage(data, callback);
-           });
+                    }
+                }
+                if(websiteConfiguration && websiteConfiguration.webList)
+                {
+                    for(var j=0;j<websiteConfiguration.webList.length;j++)
+                    {
+                        var thisConfiguration = websiteConfiguration.webList[j];
+                        if(thisConfiguration.nature != true)
+                        {
+                            localFileDataList.push(thisConfiguration);
+                        }
+                    }
+                }
+                var data = {};
+                data[_this.websiteConfigurationString] = localFileData;
+                console.log("Saving onetime data", JSON.stringify(data));
+                _this.saveInStorage(data, callback);
+            });
         });
     }
 
     this.openOrFocusOptionsPage = function(callback)
     {
-        var optionsUrl = chrome.extension.getURL('options_page.html');
+        var optionsUrl = chrome.runtime.getURL('options_page.html');
         chrome.tabs.query({}, function(extensionTabs) {
             var found = false;
             for (var i=0; i < extensionTabs.length; i++) {
@@ -441,13 +487,39 @@ function ChromeFunctionalities()
 
      this.executeScript = function(tabId, scriptData, callback)
      {
-        chrome.tabs.executeScript(tabId, {code: scriptData}, callback);
+        // var funcCode = new Function(scriptData);
+        // chrome.scripting.executeScript(tabId, {code: scriptData}, callback);
+        chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            func: (code) => {
+                //alert("test");
+                // funcCode();  // Execute the string as JavaScript
+                // Use DOM methods instead of eval()
+                const script = document.createElement("script");
+                script.nounce="scriptexecution";
+                script.textContent = code;
+                document.documentElement.appendChild(script);
+                script.remove();
+            },
+            args: [scriptData]  // Pass the JavaScript string,
+        },
+        (injectionResults) => {
+            if (chrome.runtime.lastError) {
+                console.error("Error:", chrome.runtime.lastError.message);
+                return;
+            }
+            console.log("Execution Results:", injectionResults);
+            if (injectionResults && injectionResults.length > 0) {
+                console.log("Page Title:", injectionResults[0].result);
+            }
+            callback();
+        });
      }
 
      this.executeScriptWithJquery = function(tabId, scriptData, callback)
      {
-        chrome.tabs.executeScript(tabId, {file: "js/plugins/jquery-3.6.0.min.js"}, function() {
-            chrome.tabs.executeScript(tabId, {code: scriptData}, callback);
+        chrome.scripting.executeScript(tabId, {file: "js/plugins/jquery-3.6.0.min.js"}, function() {
+            chrome.scripting.executeScript(tabId, {code: scriptData}, callback);
         });
      }
 }

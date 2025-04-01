@@ -1,4 +1,7 @@
-function EditorFunctionalities()
+import { CommonFunctionalities } from "./CommonFunctionalities.js";
+import { ChromeFunctionalities } from "./ChromeFunctionalities.js";
+
+export function EditorFunctionalities()
 {
     var chromeFunctions = new ChromeFunctionalities();
     var commonFunctions = new CommonFunctionalities();
@@ -49,6 +52,7 @@ function EditorFunctionalities()
         thisConfiguration.configurationUrlRegex = _this.inputURLTag.value;
         thisConfiguration.configurationEnabled = _this.inputEnabledTag.checked;
         thisConfiguration.jqueryEnabled = _this.inputJqueryTag.checked;
+
         chromeFunctions.saveThisConfiguration(thisConfiguration, function(response, errorLog){
             if(typeof _this.saveButtonCallback == "function")
             {
@@ -157,7 +161,7 @@ function EditorFunctionalities()
         if(url)
         {
             var urlObject = new URL(url);
-            var regexUrl = urlObject.origin + "(.*)";
+            var regexUrl = urlObject.origin + "/*";
             return regexUrl;
         }
         else

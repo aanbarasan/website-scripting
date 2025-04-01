@@ -2,7 +2,7 @@
   "name": "__MSG_appTitle__",
   "short_name": "__MSG_appShortTitle__",
   "description": "__MSG_appDesc__",
-  "version": "2.7.5",
+  "version": "3.0.0",
   "offline_enabled": true,
   "default_locale": "en",
   "icons": {
@@ -13,24 +13,23 @@
   "permissions": [
     "storage",
     "tabs",
-    "http://*/",
-    "https://*/"
+    "scripting", 
+    "activeTab",
+    "userScripts"
   ],
+  "host_permissions": ["<all_urls>"],  
   "options_ui": {
     "page": "options_page.html",
     "open_in_tab": true
   },
-  "browser_action": {
+  "action": {
     "default_title": "__MSG_appTitle__",
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": [
-      "js/CommonFunctionalities.js",
-      "js/ChromeFunctionalities.js",
-      "background.js"
-    ]
+    "service_worker": "background.js",
+    "type": "module"
   },
-  "manifest_version": 2
+  "manifest_version": 3
 }
 

@@ -1,3 +1,5 @@
+import { CommonFunctionalities } from "./js/CommonFunctionalities.js";
+import { ChromeFunctionalities } from "./js/ChromeFunctionalities.js";
 var commonFunctions = new CommonFunctionalities();
 var chromeFunctions = new ChromeFunctionalities();
 
@@ -390,7 +392,9 @@ function previewScript(configurationId)
         {
             thisConfiguration = {};
         }
+        console.log("id", thisConfiguration.id);
         chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
+            console.log(scriptData)
             document.getElementById("popup-current-configuration-id").value = thisConfiguration.id;
             document.getElementById("popupViewModal").style.display = "block";
             document.getElementById("popupViewModalContent").value = scriptData;

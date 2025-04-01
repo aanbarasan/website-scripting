@@ -1,6 +1,8 @@
+import { ChromeFunctionalities } from "./js/ChromeFunctionalities.js";
+
 var chromeFunctions = new ChromeFunctionalities();
 
- chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
      if(changeInfo.status == "complete") {
         chromeFunctions.getActiveConfigurations(tab.url, function(configurationList){
             var isJqueryEnabled = false;
@@ -35,14 +37,16 @@ var chromeFunctions = new ChromeFunctionalities();
 
  function executeScript(configurationId, tabId, tabURL)
  {
+    
     var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
     chromeFunctions.getStorageVariables([scriptId], function(result){
         var scriptData = result[scriptId];
-        chrome.tabs.executeScript(tabId, {code: scriptData}, function() {});
+        // chrome.scripting.executeScript(tabId, {code: scriptData}, function() {});
+        // chromeFunctions.executeScript(tabId, scriptData, function(){console.error("Done");});
     });
  }
 
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.action.onClicked.addListener(function(tab) {
     chrome.tabs.create({url : "popup.html"});
 });
 
@@ -50,6 +54,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 function init()
 {
     chromeFunctions.updateDataOneTime(function(){});
+    chromeFunctions.registerAllScripts();
 }
 
 init();

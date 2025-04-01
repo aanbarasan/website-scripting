@@ -1,3 +1,6 @@
+import { CommonFunctionalities } from "./js/CommonFunctionalities.js";
+import { ChromeFunctionalities } from "./js/ChromeFunctionalities.js";
+import { EditorFunctionalities } from "./js/EditorFunctionalities.js";
 var commonFunctions = new CommonFunctionalities();
 var chromeFunctions = new ChromeFunctionalities();
 var editorFunctions = new EditorFunctionalities();

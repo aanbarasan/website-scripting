@@ -1,4 +1,4 @@
-function CommonFunctionalities()
+export function CommonFunctionalities()
 {
     this.isMatchRegex = function(regex, text)
     {

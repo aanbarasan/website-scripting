@@ -9,7 +9,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "sample-multiple-files-download.js",
-      "urlRegEx": "https://file-examples.com/(.*)"
+      "urlRegEx": "https://file-examples.com/*"
     },
     {
       "id": "hotstar-website-quality-change",
@@ -20,7 +20,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-high.js",
-      "urlRegEx": "https:(.*).hotstar.com(.*)*"
+      "urlRegEx": "https://www.hotstar.com/*"
     },
     {
       "id": "hotstar-website-video-fullscreen-automatically",
@@ -31,7 +31,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-fullscreen.js",
-      "urlRegEx": "https:(.*).hotstar.com(.*)*"
+      "urlRegEx": "https://www.hotstar.com/*"
     },
     {
       "id": "hotstar-website-auto-subtitle-english",
@@ -42,18 +42,7 @@
       "customizedByOwn": false,
       "jqueryEnabled": false,
       "fileName": "hotstar.com-auto-english-subtitle.js",
-      "urlRegEx": "https:(.*).hotstar.com(.*)*"
-    },
-    {
-      "id": "thewatchcartoononline-remove-outline",
-      "name": "TheWatchCartoonOnline",
-      "purpose": "Disable default popups and remove outline of video",
-      "nature": true,
-      "enable": false,
-      "customizedByOwn": false,
-      "jqueryEnabled": false,
-      "fileName": "thewatchcartoononline-tv.js",
-      "urlRegEx": "https:(.*).thewatchcartoononline.tv(.*)"
+      "urlRegEx": "https://www.hotstar.com/*"
     }
   ]
 }
