@@ -98,7 +98,6 @@ export function CommonFunctionalities()
         return false;
     }
 
-
     this.showToast = function(text, severity, timeout){
         if(typeof timeout != "number")
         {

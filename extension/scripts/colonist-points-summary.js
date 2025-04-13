@@ -27,8 +27,6 @@ function processMutation(nodes)
     var imageReplaced = recursiveReplaceImage(cloneNode);
     para.appendChild(imageReplaced);
   }
-  // console.log("changes", nodes);
-  // console.log("changes para", para);
   return para.textContent;
 }
 

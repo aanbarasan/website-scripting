@@ -1,5 +1,6 @@
 import { CommonFunctionalities } from "./js/CommonFunctionalities.js";
 import { ChromeFunctionalities } from "./js/ChromeFunctionalities.js";
+import { EditorFunctionalities } from "./js/EditorFunctionalities.js";
 var commonFunctions = new CommonFunctionalities();
 var chromeFunctions = new ChromeFunctionalities();
 
@@ -38,12 +39,6 @@ function checkPromotionBanners()
 
 function chromeInternationalization()
 {
-    chrome.i18n.getAcceptLanguages(function(languageList) {
-      var languages = languageList.join(",");
-      console.log("Accepted languages: " + languages);
-      console.log("UI language: " + chrome.i18n.getUILanguage());
-    });
-
     updateLocalizationById("add-new-script-button", "addNewScript");
     updateLocalizationClassElements("setting-span-class", "settings");
     updateLocalizationClassElements("import-span-class", "import");
@@ -238,7 +233,6 @@ function changeDisablePromotions()
 
 function disablePromotions()
 {
-    console.log("disable");
     var elements = document.getElementsByClassName("hide-to-disable-promotions");
     if(elements && elements.length > 0)
     {
@@ -392,9 +386,7 @@ function previewScript(configurationId)
         {
             thisConfiguration = {};
         }
-        console.log("id", thisConfiguration.id);
         chromeFunctions.getScriptDataFromConfigurationId(thisConfiguration.id, function(scriptData){
-            console.log(scriptData)
             document.getElementById("popup-current-configuration-id").value = thisConfiguration.id;
             document.getElementById("popupViewModal").style.display = "block";
             document.getElementById("popupViewModalContent").value = scriptData;
@@ -487,13 +479,13 @@ function deleteConfiguration(event)
                             chromeFunctions.addToDeletedConfiguration(configurationId);
                             commonFunctions.showToast(getLocalizeText("successfullyDeleted", "Successfully deleted"));
                         });
+                        var scriptId = chromeFunctions.scriptIdFromConfigId(configurationId);
+                        chromeFunctions.unRegisterUserScript(scriptId, function(){});
                         break;
                     }
                 }
             }
         });
-    } else {
-      txt = "You pressed Cancel!";
     }
 }
 
@@ -541,7 +533,7 @@ function addNewScriptButton(){
     }
     editorFunctions.init();
     let title = "New script";
-    let regexURL = "https://example.com";
+    let regexURL = "https://example.com/*";
     editorFunctions.loadNewConfiguration(title, regexURL, 0);
 }
 
@@ -619,10 +611,9 @@ function parseImportConfiguration(textContent)
     }
     catch(e)
     {
-        console.log(e);
+        console.error(e);
         commonFunctions.showToast(getLocalizeText("parsingFailed", "File parsing failed"), "danger");
     }
-    console.log(thisConfiguration);
     return thisConfiguration;
 }
 

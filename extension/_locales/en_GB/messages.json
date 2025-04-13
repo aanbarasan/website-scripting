@@ -112,8 +112,8 @@
     "description": "Restore deleted scripts"
   },
   "disablePromotions":{
-    "message": "Disable promotions",
-    "description": "Disable promotions"
+    "message": "View Full Content",
+    "description": "View Full Content"
   },
   "configurationPage":{
     "message": "Configuration Page",

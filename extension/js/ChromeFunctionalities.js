@@ -77,9 +77,7 @@ export function ChromeFunctionalities()
                     list.push(configurationId);
                     var data = {};
                     data[_this.deletedScriptText] = list;
-                    _this.saveInStorage(data, function(response){
-                        // console.log(response, data);
-                    });
+                    _this.saveInStorage(data, function(response){});
                 })
             }
         })
@@ -153,7 +151,7 @@ export function ChromeFunctionalities()
                     }
                     catch(ex)
                     {
-                        console.log(ex);
+                        console.error(ex);
                     }
                 }
             }
@@ -187,7 +185,7 @@ export function ChromeFunctionalities()
             }
             else
             {
-                thisTab.url = "https://example.com";
+                thisTab.url = "https://example.com/*";
             }
             _this.urlAllMatchConfigurations(thisTab.url, function(configurationResultList){
                 callback(configurationResultList, thisTab);
@@ -238,7 +236,7 @@ export function ChromeFunctionalities()
         if(fileName)
         {
             fetch(chrome.runtime.getURL("./scripts/" + fileName))
-                .then(response => response)
+                .then(response => response.text())
                 .then(data => callback(data));
         }
         else
@@ -296,6 +294,8 @@ export function ChromeFunctionalities()
 
            var scriptId = _this.scriptIdFromConfigId(thisConfigurationToSave.scriptDataID);
            scriptDataToStore[scriptId] = thisConfigurationToSave.scriptData;
+           var isConfigurationEnabled = thisConfigurationToSave.configurationEnabled;
+           var isJqueryEnabled = thisConfigurationToSave.jqueryEnabled;
 
            _this.getScriptDataFromLocalFile(thisConfigurationToSave.scriptDataID, function(existingScriptDataForScriptId){
                var scriptFound = false;
@@ -345,67 +345,115 @@ export function ChromeFunctionalities()
                     webList.push(thisWebConfiguration);
                }
                 scriptDataToStore[_this.websiteConfigurationString] = websiteConfiguration;
+                _this.saveInStorage(scriptDataToStore, callback);
 
-                var jsCode = [{code: thisConfigurationToSave.scriptData}];
-                var callbackFun = ()=>{
-                    if(chrome.runtime.lastError) {
-                        callback("Failed", chrome.runtime.lastError);
-                    } else {
-                        _this.saveInStorage(scriptDataToStore, callback);
-                        _this.registerAllScripts(scriptId);
-                    }                    
-                };
-                if(scriptFound)
-                {
-                    chrome.userScripts.unregister(()=>{
-                        _this.registerUserScript(scriptId, thisConfigurationToSave.configurationUrlRegex, 
-                            jsCode, callbackFun);
-                    });
-                }
-                else
-                {
-                    _this.registerUserScript(scriptId, thisConfigurationToSave.configurationUrlRegex, 
-                        jsCode, callbackFun);
-                }
-           });
-       });
+                _this.isUserScriptAvailable(scriptId, function(isAvailable){
+                    let jsCode = [{code: thisConfigurationToSave.scriptData}];
+                    if(isJqueryEnabled)
+                    {
+                        jsCode = [{file: "js/plugins/jquery-3.6.0.min.js"},
+                                    {code: thisConfigurationToSave.scriptData}];
+                    }
+                    if(isAvailable)
+                    {
+                        if(isConfigurationEnabled)
+                        {
+                            _this.reRegisterUserScript(scriptId, thisConfigurationToSave.configurationUrlRegex, jsCode, function(){});
+                        }
+                        else
+                        {
+                            _this.unRegisterUserScript(scriptId, function(){});
+                        }
+                    }
+                    else if(isConfigurationEnabled)
+                    {
+                        _this.registerUserScript(scriptId, thisConfigurationToSave.configurationUrlRegex, jsCode, function(){});
+                    }
+                });
+            });
+        });
     }
 
-    this.registerAllScripts = function(exceptSriptId)
+    this.registerAllScripts = function()
     {
         this.getConfigurationVariable(function(websiteConfiguration){
             if(websiteConfiguration && websiteConfiguration.webList)
             {
                 for(var i=0;i<websiteConfiguration.webList.length;i++)
                 {
-                    var thisWebConfiguration = websiteConfiguration.webList[i];
-                    var scriptId = _this.scriptIdFromConfigId(thisWebConfiguration.id);
-                    if(scriptId == exceptSriptId)
-                    {
-                        continue;
-                    }
-                    var jsCode;
-                    if(thisWebConfiguration.fileName)
-                    {
-                        jsCode = [{file: "./scripts/"+thisWebConfiguration.fileName}];
-                        _this.registerUserScript(thisWebConfiguration.id, thisWebConfiguration.urlRegEx, jsCode);
-                    }
-                    else
-                    {
-                        _this.getStorageVariables([scriptId], function(result){
-                            var scriptData = result[scriptId];
-                            jsCode = [{code: scriptData}];
-                            _this.registerUserScript(scriptId, thisWebConfiguration.urlRegEx, jsCode,
-                                function(){
-                                    if (chrome.runtime.lastError)
-                                    {
-                                        console.error("Error:", id, urlRegEx, JSON.stringify(jsCode), chrome.runtime.lastError.message);
-                                    }
-                                });
+                    let thisWebConfiguration = websiteConfiguration.webList[i];
+                    let isConfigurationEnabled = thisWebConfiguration.enabled;
+                    let scriptId = _this.scriptIdFromConfigId(thisWebConfiguration.id);
+                    _this.getStorageVariables([scriptId], function(result){
+                        let scriptData = result[scriptId];
+                        _this.isUserScriptAvailable(scriptId, function(isAvailable){
+                            let jsCode = [{code: scriptData}];
+                            if(thisWebConfiguration.jqueryEnabled)
+                            {
+                                jsCode = [{file: "js/plugins/jquery-3.6.0.min.js"},
+                                            {code: scriptData}];
+                            }
+                            if(isAvailable)
+                            {
+                                if(isConfigurationEnabled)
+                                {
+                                    _this.reRegisterUserScript(scriptId, thisWebConfiguration.urlRegEx, jsCode, function(){});
+                                }
+                                else
+                                {
+                                    _this.unRegisterUserScript(scriptId, function(){});
+                                }
+                            }
+                            else if(isConfigurationEnabled)
+                            {
+                                _this.registerUserScript(scriptId, thisWebConfiguration.urlRegEx, jsCode, function(){});
+                            }
                         });
-                    }
+                    });
                 }
             }
+        });
+    }
+
+    this.isUserScriptAvailable = function(id, callback)
+    {
+        chrome.userScripts.getScripts({ ids: [id] }, (scripts) => {
+            var isAvailable = false;
+            if(scripts && scripts.length > 0)
+            {
+                isAvailable = true;
+            }
+            callback(isAvailable);
+        });
+    }
+
+    this.reRegisterUserScript = function(id, urlRegEx, jsCode, callback)
+    {
+        chrome.userScripts.unregister({ ids: [id] }, () => {
+            if(chrome.runtime.lastError) {
+                console.error("Failed", chrome.runtime.lastError);
+            }
+            chrome.userScripts.register([{
+                id: id,
+                matches: [urlRegEx],
+                js: jsCode,
+                runAt: "document_end"
+            }], function(){
+                if(chrome.runtime.lastError) {
+                    console.error("Failed", chrome.runtime.lastError);
+                }
+                callback();
+            });
+        });
+    }
+
+    this.unRegisterUserScript = function(id, callback)
+    {
+        chrome.userScripts.unregister({ ids: [id] }, () => {
+            if(chrome.runtime.lastError) {
+                console.error("Failed", chrome.runtime.lastError);
+            }
+            callback();
         });
     }
 
@@ -416,14 +464,14 @@ export function ChromeFunctionalities()
             matches: [urlRegEx],
             js: jsCode,
             runAt: "document_end"
-        }], callback);
-
+        }], function(){
+            callback();
+        });
     }
 
     this.updateDataOneTime = function(callback)
     {
         this.getConfigurationVariableFromFile(function(localFileData){
-            console.log("localFileData", JSON.stringify(localFileData));
             _this.getConfigurationVariable(function(websiteConfiguration){
                 var localFileDataList = localFileData.webList;
                 for(var i=0;i<localFileDataList.length;i++)
@@ -459,7 +507,6 @@ export function ChromeFunctionalities()
                 }
                 var data = {};
                 data[_this.websiteConfigurationString] = localFileData;
-                console.log("Saving onetime data", JSON.stringify(data));
                 _this.saveInStorage(data, callback);
             });
         });
@@ -482,44 +529,6 @@ export function ChromeFunctionalities()
             setTimeout(function(){
                 callback();
             }, 100);
-        });
-     }
-
-     this.executeScript = function(tabId, scriptData, callback)
-     {
-        // var funcCode = new Function(scriptData);
-        // chrome.scripting.executeScript(tabId, {code: scriptData}, callback);
-        chrome.scripting.executeScript({
-            target: { tabId: tabId },
-            func: (code) => {
-                //alert("test");
-                // funcCode();  // Execute the string as JavaScript
-                // Use DOM methods instead of eval()
-                const script = document.createElement("script");
-                script.nounce="scriptexecution";
-                script.textContent = code;
-                document.documentElement.appendChild(script);
-                script.remove();
-            },
-            args: [scriptData]  // Pass the JavaScript string,
-        },
-        (injectionResults) => {
-            if (chrome.runtime.lastError) {
-                console.error("Error:", chrome.runtime.lastError.message);
-                return;
-            }
-            console.log("Execution Results:", injectionResults);
-            if (injectionResults && injectionResults.length > 0) {
-                console.log("Page Title:", injectionResults[0].result);
-            }
-            callback();
-        });
-     }
-
-     this.executeScriptWithJquery = function(tabId, scriptData, callback)
-     {
-        chrome.scripting.executeScript(tabId, {file: "js/plugins/jquery-3.6.0.min.js"}, function() {
-            chrome.scripting.executeScript(tabId, {code: scriptData}, callback);
         });
      }
 }

@@ -20,7 +20,6 @@ function initDownloadButton() {
 
 function downloadButtonClick() {
     var links = document.querySelectorAll(cssTagSelector);
-    console.log(links);
     if (links.length > 0) {
         for (var i = 0; i < links.length; i++) {
             var linkhref = links[i].href;
