@@ -49,9 +49,17 @@ export function EditorFunctionalities()
         thisConfiguration.scriptDataID = _this.configurationId;
         thisConfiguration.configurationName = _this.inputNameTag.value;
         thisConfiguration.configurationPurpose = null;
-        thisConfiguration.configurationUrlRegex = _this.inputURLTag.value;
+        var urlRegEx = _this.inputURLTag.value;
         thisConfiguration.configurationEnabled = _this.inputEnabledTag.checked;
         thisConfiguration.jqueryEnabled = _this.inputJqueryTag.checked;
+
+        // TODO: remove this code after a while -- start
+        if(urlRegEx.indexOf("(.*)") >= 0)
+        {
+            urlRegEx = urlRegEx.replaceAll("(.*)", "/*");
+        }
+        thisConfiguration.configurationUrlRegex = urlRegEx;
+        // TODO: remove this code after a while -- end
 
         chromeFunctions.saveThisConfiguration(thisConfiguration, function(response, errorLog){
             if(typeof _this.saveButtonCallback == "function")

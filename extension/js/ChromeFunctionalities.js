@@ -433,12 +433,7 @@ export function ChromeFunctionalities()
             if(chrome.runtime.lastError) {
                 console.error("Failed", chrome.runtime.lastError);
             }
-            chrome.userScripts.register([{
-                id: id,
-                matches: [urlRegEx],
-                js: jsCode,
-                runAt: "document_end"
-            }], function(){
+            _this.registerUserScript(id, urlRegEx, jsCode, function(){
                 if(chrome.runtime.lastError) {
                     console.error("Failed", chrome.runtime.lastError);
                 }
@@ -459,6 +454,12 @@ export function ChromeFunctionalities()
 
     this.registerUserScript = function(id, urlRegEx, jsCode, callback)
     {
+        // TODO: remove this code after a while -- start
+        if(urlRegEx.indexOf("(.*)") >= 0)
+        {
+            urlRegEx = urlRegEx.replaceAll("(.*)", "/*");
+        }
+        // TODO: remove this code after a while -- end
         chrome.userScripts.register([{
             id: id,
             matches: [urlRegEx],
