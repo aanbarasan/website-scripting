@@ -2,6 +2,10 @@ export function CommonFunctionalities()
 {
     this.isMatchRegex = function(regex, text)
     {
+        if (regex.endsWith("*")) {
+            regex = regex.slice(0, -1);
+            regex = regex + ".*";
+        }
         var parsedRegex = "^(" + regex + "(/)?)$";
         var pattern = new RegExp(parsedRegex);
         return pattern.test(text);

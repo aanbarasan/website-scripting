@@ -509,6 +509,7 @@ function updateActiveStatusFromCheckBox(event)
                 var disabledText = getLocalizeText("disabled", "disabled");
                 message = "'" + configurationName + "' " + scriptText + " " + (checkBoxCheckedStatus ? enabledText : disabledText)
                 commonFunctions.showToast(message);
+                chromeFunctions.registerAllScripts();
             });
         }
     });
